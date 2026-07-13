@@ -1,13 +1,13 @@
 /**
  * @file app.js
- * @description Mise en place du module express
+ * @description Setting Express module
  */
 
 const express = require("express");
 const cors = require("cors");
 
 /**
- * Initialisation d'Express
+ * Express initialisation
  * @module app
  */
 const app = express();

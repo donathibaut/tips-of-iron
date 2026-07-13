@@ -1,13 +1,13 @@
 /**
  * @file index.js
- * @description Connexion de l'API avec Sequelize
+ * @description API connection with Sequelize
  */
 
 const app = require("./app");
 const sequelize = require("./config/config");
 
 /**
- * Lancement de l'API
+ * Start API
  * @async
  * @returns {Promise<void>}
  */

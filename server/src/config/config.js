@@ -1,6 +1,6 @@
 /**
  * @file config.js
- * @description Initialisation de sequelize
+ * @description Sequelize initialisation
  */
 
 const { Sequelize } = require("sequelize");
@@ -8,7 +8,7 @@ const { Sequelize } = require("sequelize");
 const isEnvProduction = process.env.NODE_ENV === "production";
 
 /**
- * Mise en place de sequelize ('database', 'user', 'password', {})
+ * Set Sequelize ('database', 'user', 'password', {})
  * @type {Sequelize}
  */
 const sequelize = new Sequelize(
