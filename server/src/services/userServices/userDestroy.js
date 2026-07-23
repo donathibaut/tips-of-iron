@@ -3,22 +3,25 @@
  * @description userDestroy function
  */
 
+const { destroy } = require("../basicService");
+const { userFindOne } = require("../userService");
+
 /**
  * @async
  * @function userDestroy
- * @param {string} username
- * @param {string} email
+ * @param {object} User - User Model
+ * @param {object} target - Targeted User Account
  * @returns {Promise<Object|null>}
  * @description Destroy user account || null
  */
-const userDestroy = async (username, email) => {
-  const isUser = await userFindByKey(username, email);
+const userDestroy = async (User, target) => {
+  const isUser = await userFindOne(target);
 
-  if (isUser && isUser.email === email) {
+  if (isUser && isUser.email === target.email) {
     try {
-      await User.destroy({
+      await destroy(User, {
         // Take email value and not isUser.email -> Data Consistency Verification
-        where: { email: email },
+        where: { email: target.email },
       });
 
       return {

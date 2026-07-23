@@ -3,19 +3,36 @@
  * @description basic functions for the Service files
  */
 
-// Necessary to use Op.or ("OR" for Sequelize filters)
-const { Op } = require("sequelize");
-
 /**
  * @async
  * @function findAll
- * @param {string} modelName
+ * @param {object} model
  * @returns {Promise<Object|null>}
- * @description Return all data from the table || null
+ * @description Find All data from the table || null
  */
-const findAll = async (modelName) => {
-  if (modelName) {
-    return await modelName.findAll();
+const findAll = async (model) => {
+  if (model) {
+    return await model.findAll();
+  } else {
+    throw new Error("Not Provided : Model Missing");
+  }
+};
+
+/**
+ * @async
+ * @function findOne
+ * @param {object} model
+ * @param {object} target
+ * @returns {Promise<Object|null>}
+ * @description Find One data from the table || null
+ */
+const findOne = async (model, target) => {
+  if (model) {
+    if (target) {
+      return await model.findOne(target);
+    } else {
+      throw new Error("Invalid Target");
+    }
   } else {
     throw new Error("Not Provided : Model Missing");
   }
@@ -24,15 +41,15 @@ const findAll = async (modelName) => {
 /**
  * @async
  * @function findByPk
- * @param {string} modelName
+ * @param {object} model
  * @param {number} id
  * @returns {Promise<Object|null>}
- * @description Find data by id || null
+ * @description Find data by ID || null
  */
-const findByPk = async (modelName, id) => {
-  if (modelName) {
+const findByPk = async (model, id) => {
+  if (model) {
     if (id) {
-      return await modelName.findByPk(id);
+      return await model.findByPk(id);
     } else {
       throw new Error("User Not Found");
     }
@@ -41,7 +58,76 @@ const findByPk = async (modelName, id) => {
   }
 };
 
+/**
+ * @async
+ * @function create
+ * @param {object} model
+ * @param {object} form
+ * @returns {Promise<Object|null>}
+ * @description Create new data in database || null
+ */
+const create = async (model, form) => {
+  if (model) {
+    if (form) {
+      return await model.create(form);
+    } else {
+      throw new Error("Invalid Form");
+    }
+  } else {
+    throw new Error("Not Provided : Model Missing");
+  }
+};
+
+/**
+ * @async
+ * @function update
+ * @param {object} model
+ * @param {object} form
+ * @param {object} target
+ * @returns {Promise<Object|null>}
+ * @description Update data in database || null
+ */
+const update = async (model, form, target) => {
+  if (model) {
+    if (form) {
+      if (target) {
+        return await model.update(form, target);
+      } else {
+        throw new Error("No Specified Target");
+      }
+    } else {
+      throw new Error("Invalid Form");
+    }
+  } else {
+    throw new Error("Not Provided : Model Missing");
+  }
+};
+
+/**
+ * @async
+ * @function destroy
+ * @param {object} model
+ * @param {object} target
+ * @returns {Promise<Object|null>}
+ * @description Delete data in database || null
+ */
+const destroy = async (model, target) => {
+  if (model) {
+    if (target) {
+      return await model.destroy(target);
+    } else {
+      throw new Error("Invalid Target");
+    }
+  } else {
+    throw new Error("Not Provided : Model Missing");
+  }
+};
+
 module.exports = {
   findAll,
+  findOne,
   findByPk,
+  create,
+  update,
+  destroy,
 };
