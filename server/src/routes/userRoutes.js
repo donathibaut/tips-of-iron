@@ -1,6 +1,6 @@
 /**
  * @file userRoutes.js
- * @description Routes about User data
+ * @description User Routes
  */
 const express = require("express");
 const router = express.Router();

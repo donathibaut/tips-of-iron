@@ -10,9 +10,9 @@
  * @returns {Promise<Object|null>}
  * @description Find All data from the table || null
  */
-const findAll = async (model) => {
+const findAll = async (model, options = {}) => {
   if (model) {
-    return await model.findAll();
+    return await model.findAll(options);
   } else {
     throw new Error("Not Provided : Model Missing");
   }
@@ -22,7 +22,7 @@ const findAll = async (model) => {
  * @async
  * @function findOne
  * @param {object} model
- * @param {object} target
+ * @param {object} target - Entity Value
  * @returns {Promise<Object|null>}
  * @description Find One data from the table || null
  */
@@ -46,10 +46,10 @@ const findOne = async (model, target) => {
  * @returns {Promise<Object|null>}
  * @description Find data by ID || null
  */
-const findByPk = async (model, id) => {
+const findByPk = async (model, id, options = {}) => {
   if (model) {
     if (id) {
-      return await model.findByPk(id);
+      return await model.findByPk(id, options);
     } else {
       throw new Error("User Not Found");
     }
