@@ -51,12 +51,27 @@ const successCreated = (res, message) => {
  * @function unauthorized
  * @description UNAUTHORIZED ERROR
  * @param {object} res
+ * @param {string} message - Error Message
  * @returns {Object} Status 401
  */
-const unauthorized = (res) => {
+const unauthorized = (res, message) => {
   return res.status(401).json({
     success: false,
-    message: "Wrong Password... Try Again :|",
+    message: `${message}`,
+  });
+};
+
+/**
+ * @function forbidden
+ * @description FORBIDDEN ERROR
+ * @param {object} res
+ * @param {string} message - Error Message
+ * @returns {Object} Status 403
+ */
+const forbidden = (res, message) => {
+  return res.status(403).json({
+    success: false,
+    message: `Forbidden : ${message}`,
   });
 };
 
@@ -64,13 +79,13 @@ const unauthorized = (res) => {
  * @function notFound
  * @description NOT FOUND ERROR
  * @param {object} res
- * @param {string} tableName - Table name -> "User", "Topic", etc...
+ * @param {string} resource - Resource name -> example : Table "User", "Topic", etc...
  * @returns {Object} Status 404
  */
-const notFound = (res, tableName) => {
+const notFound = (res, resource) => {
   return res.status(404).json({
     success: false,
-    message: `Unknown ${tableName}`,
+    message: `Unknown ${resource}`,
   });
 };
 
@@ -88,11 +103,30 @@ const servError = (res, e) => {
   });
 };
 
+/*============================================================================*/
+/**
+ * @function errorBlock
+ * @description Error Block for Controller
+ * @param {Object} res
+ * @param {string} e - (e.message -> error message)
+ * @param {string} tableName
+ * @returns {object} Status 404 || 500
+ */
+const errorBlock = (res, e, tableName) => {
+  if (e.message === `${tableName} Not Found`) {
+    return notFound(res, tableName);
+  }
+  servError(res, e);
+};
+/*============================================================================*/
+
 module.exports = {
   success,
   successOk,
   successCreated,
   unauthorized,
+  forbidden,
   notFound,
   servError,
+  errorBlock,
 };

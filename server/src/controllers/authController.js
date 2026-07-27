@@ -15,7 +15,7 @@ const {
   unauthorized,
   notFound,
   servError,
-} = require("./utils/status");
+} = require("../utils/status");
 
 const tableName = "User";
 
@@ -39,9 +39,13 @@ const auth = async (req, res) => {
 
     if (isPassword) {
       // signing the TOKEN
-      const token = jwt.sign({ email: user.email }, process.env.SECRET_KEY, {
-        expiresIn: "7d",
-      });
+      const token = jwt.sign(
+        { id: user.id, email: user.email, role: user.role },
+        process.env.SECRET_KEY,
+        {
+          expiresIn: "7d",
+        },
+      );
 
       // SPECIFIC res.status
       return res.status(200).json({
@@ -50,7 +54,8 @@ const auth = async (req, res) => {
         message: "You are connected ! :D",
       });
     } else {
-      return unauthorized(res);
+      const errorMessage = "Wrong Password... Try Again :|";
+      return unauthorized(res, errorMessage);
     }
   } catch (e) {
     servError(res, e);

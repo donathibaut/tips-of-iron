@@ -111,10 +111,11 @@ const userCreate = async (User, form) => {
  * @description Update user personal data || null
  * @param {object} User - User Model
  * @param {object} form - update form
+ * @param {object} targetID - user account ID
  * @returns {Promise<Object|null>}
  */
-const userUpdate = async (User, form) => {
-  const isUser = await userFindByPk(User, form.id);
+const userUpdate = async (User, form, targetID) => {
+  const isUser = await userFindByPk(User, targetID);
 
   if (!isUser) {
     throw new Error("User Not Found");
@@ -129,7 +130,7 @@ const userUpdate = async (User, form) => {
         password: form.password,
       },
       {
-        where: { id: form.id },
+        where: { id: targetID },
       },
     );
 
@@ -151,16 +152,16 @@ const userUpdate = async (User, form) => {
  * @function userDestroy
  * @description Destroy user account || null
  * @param {object} User - User Model
- * @param {object} id - Targeted User ID
+ * @param {object} targetID - Targeted User ID
  * @returns {Promise<Object|null>}
  */
-const userDestroy = async (User, id) => {
-  const isUser = await userFindByPk(User, id);
+const userDestroy = async (User, targetID) => {
+  const isUser = await userFindByPk(User, targetID);
 
   if (isUser) {
     try {
       await destroy(User, {
-        where: { id: id },
+        where: { id: targetID },
       });
 
       return {
@@ -174,7 +175,7 @@ const userDestroy = async (User, id) => {
       };
     }
   } else {
-    throw new Error("User Not Found : ID Issue");
+    throw new Error("User Not Found");
   }
 };
 

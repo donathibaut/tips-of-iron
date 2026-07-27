@@ -16,9 +16,11 @@ const {
   success,
   successOk,
   successCreated,
+  forbidden,
   notFound,
   servError,
-} = require("./utils/status");
+  errorBlock,
+} = require("../utils/status");
 
 /*============================================================================*/
 /**
@@ -41,7 +43,7 @@ const getUserById = async (req, res) => {
 
     return successOk(res, tableName, user);
   } catch (e) {
-    servError(res, e);
+    errorBlock(res, e, tableName);
   }
 };
 
@@ -60,7 +62,7 @@ const postUser = async (req, res) => {
 
     return successCreated(res, user.message);
   } catch (e) {
-    servError(res, e);
+    errorBlock(res, e, tableName);
   }
 };
 
@@ -75,11 +77,15 @@ const postUser = async (req, res) => {
  */
 const patchUser = async (req, res) => {
   try {
-    const user = await userUpdate(User, req.body);
-
-    return success(res, user.message);
+    if (req.token.id === req.params.id || req.token.role === 1) {
+      const user = await userUpdate(User, req.body, req.params.id);
+      return success(res, user.message);
+    } else {
+      const forbiddenMessage = "You don't have the right !";
+      return forbidden(res, forbiddenMessage);
+    }
   } catch (e) {
-    servError(res, e);
+    errorBlock(res, e, tableName);
   }
 };
 
@@ -94,13 +100,15 @@ const patchUser = async (req, res) => {
  */
 const deleteUser = async (req, res) => {
   try {
-    const id = req.params.id;
-
-    const user = await userDestroy(User, id);
-
-    return success(res, user.message);
+    if (req.token.id === req.params.id || req.token.role === 1) {
+      const user = await userDestroy(User, req.params.id);
+      return success(res, user.message);
+    } else {
+      const forbiddenMessage = "You don't have the right !";
+      return forbidden(res, forbiddenMessage);
+    }
   } catch (e) {
-    servError(res, e);
+    errorBlock(res, e, tableName);
   }
 };
 

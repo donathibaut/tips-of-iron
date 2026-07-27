@@ -1,3 +1,8 @@
+const app = require("../src/app");
+
+const supertest = require("supertest");
+const reqTest = supertest(app);
+
 const assert = require("node:assert");
 
 describe("Array", function () {
