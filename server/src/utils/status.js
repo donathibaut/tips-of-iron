@@ -48,6 +48,20 @@ const successCreated = (res, message) => {
 };
 
 /**
+ * @function badRequest
+ * @description BAD REQUEST ERROR
+ * @param {object} res
+ * @param {string} message - Error Message
+ * @returns {Object} Status 400
+ */
+const badRequest = (res, message) => {
+  return res.status(400).json({
+    success: false,
+    message: message,
+  });
+};
+
+/**
  * @function unauthorized
  * @description UNAUTHORIZED ERROR
  * @param {object} res
@@ -124,6 +138,7 @@ module.exports = {
   success,
   successOk,
   successCreated,
+  badRequest,
   unauthorized,
   forbidden,
   notFound,

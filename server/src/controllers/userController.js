@@ -20,6 +20,7 @@ const {
   notFound,
   servError,
   errorBlock,
+  badRequest,
 } = require("../utils/status");
 
 /*============================================================================*/
@@ -62,7 +63,10 @@ const postUser = async (req, res) => {
 
     return successCreated(res, user.message);
   } catch (e) {
-    errorBlock(res, e, tableName);
+    if (e.message === "Form Field Empty") {
+      badRequest(res, e.message);
+    }
+    servError(res, e);
   }
 };
 
@@ -85,6 +89,9 @@ const patchUser = async (req, res) => {
       return forbidden(res, forbiddenMessage);
     }
   } catch (e) {
+    if (e.message === "Form Field Empty") {
+      badRequest(res, e.message);
+    }
     errorBlock(res, e, tableName);
   }
 };

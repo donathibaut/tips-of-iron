@@ -80,6 +80,18 @@ const userFindByPk = async (User, id) => {
 const userCreate = async (User, form) => {
   const isUser = await userFindOne(User, form);
 
+  // is it empty ?
+  if (
+    !username ||
+    !email ||
+    !password ||
+    username === "" ||
+    email === "" ||
+    password === ""
+  ) {
+    throw new Error("Form Field Empty");
+  }
+
   if (isUser) {
     throw new Error("User Already Exists");
   }
@@ -119,6 +131,18 @@ const userUpdate = async (User, form, targetID) => {
 
   if (!isUser) {
     throw new Error("User Not Found");
+  }
+
+  // is it empty ?
+  if (
+    !username ||
+    !email ||
+    !password ||
+    username === "" ||
+    email === "" ||
+    password === ""
+  ) {
+    throw new Error("Form Field Empty");
   }
 
   try {
