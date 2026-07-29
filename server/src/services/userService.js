@@ -78,19 +78,19 @@ const userFindByPk = async (User, id) => {
  * @returns {Promise<Object|null>}
  */
 const userCreate = async (User, form) => {
-  const isUser = await userFindOne(User, form);
-
   // is it empty ?
   if (
-    !username ||
-    !email ||
-    !password ||
-    username === "" ||
-    email === "" ||
-    password === ""
+    !form.username ||
+    !form.email ||
+    !form.password ||
+    form.username === "" ||
+    form.email === "" ||
+    form.password === ""
   ) {
     throw new Error("Form Field Empty");
   }
+
+  const isUser = await userFindOne(User, form);
 
   if (isUser) {
     throw new Error("User Already Exists");
@@ -127,31 +127,33 @@ const userCreate = async (User, form) => {
  * @returns {Promise<Object|null>}
  */
 const userUpdate = async (User, form, targetID) => {
+  // is it empty ?
+  if (
+    !form.username ||
+    !form.email ||
+    !form.password ||
+    form.username === "" ||
+    form.email === "" ||
+    form.password === ""
+  ) {
+    throw new Error("Form Field Empty");
+  }
+
   const isUser = await userFindByPk(User, targetID);
 
   if (!isUser) {
     throw new Error("User Not Found");
   }
 
-  // is it empty ?
-  if (
-    !username ||
-    !email ||
-    !password ||
-    username === "" ||
-    email === "" ||
-    password === ""
-  ) {
-    throw new Error("Form Field Empty");
-  }
-
   try {
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(form.password, saltRounds);
     await update(
       User,
       {
         username: form.username,
         email: form.email,
-        password: form.password,
+        password: hashedPassword,
       },
       {
         where: { id: targetID },

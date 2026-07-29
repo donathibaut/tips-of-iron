@@ -7,12 +7,14 @@ const router = express.Router();
 
 // Controller import
 const userController = require("../controllers/userController");
-const authController = require("../controllers/authController");
+
+// Middleware import
+const authMiddleware = require("../middlewares/authMiddleware");
 
 // Controller call
-router.get("/users/:id", userController.getUserById);
-router.post("/users", userController.postUser);
-router.patch("/users/:id", authMiddleware, userController.patchUser);
-router.delete("/users/:id", authMiddleware, userController.deleteUser);
+router.get("/:id", userController.getUserById);
+router.post("/", userController.postUser);
+router.patch("/:id", authMiddleware, userController.patchUser);
+router.delete("/:id", authMiddleware, userController.deleteUser);
 
 module.exports = router;

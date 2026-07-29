@@ -38,7 +38,7 @@ const auth = async (req, res) => {
     const isPassword = await bcrypt.compare(req.body.password, user.password);
 
     if (isPassword) {
-      // signing the TOKEN
+      // sign TOKEN
       const token = jwt.sign(
         { id: user.id, email: user.email, role: user.role },
         process.env.SECRET_KEY,
@@ -61,3 +61,5 @@ const auth = async (req, res) => {
     servError(res, e);
   }
 };
+
+module.exports = { auth };

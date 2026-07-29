@@ -3,7 +3,8 @@
  * @description Authentification Service
  */
 
-/*============================================================================*/
+const { findOne } = require("./basicService");
+
 /**
  * @async
  * @function authFindOne
