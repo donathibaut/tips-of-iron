@@ -10,12 +10,7 @@ const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const authFindOne = require("../services/authService");
 
-const {
-  success,
-  unauthorized,
-  notFound,
-  servError,
-} = require("../utils/status");
+const { unauthorized, servError, badRequest } = require("../utils/status");
 
 const tableName = "User";
 
@@ -29,15 +24,23 @@ const tableName = "User";
  */
 const auth = async (req, res) => {
   try {
+    if (!req.body.email || !req.body.password) {
+      return badRequest(res, "Email and Password required !");
+    }
+
     const user = await authFindOne(User, req.body.email);
 
     if (user === null) {
-      return notFound(res, tableName);
+      const errorMessage = "Incorrect Email or Password...";
+      return unauthorized(res, errorMessage);
     }
 
-    const isPassword = await bcrypt.compare(req.body.password, user.password);
+    const verifPassword = await bcrypt.compare(
+      req.body.password,
+      user.password,
+    );
 
-    if (isPassword) {
+    if (verifPassword) {
       // sign TOKEN
       const token = jwt.sign(
         { id: user.id, email: user.email, role: user.role },
@@ -54,11 +57,11 @@ const auth = async (req, res) => {
         message: "You are connected ! :D",
       });
     } else {
-      const errorMessage = "Wrong Password... Try Again :|";
+      const errorMessage = "Incorrect Email or Password...";
       return unauthorized(res, errorMessage);
     }
   } catch (e) {
-    servError(res, e);
+    return servError(res, e);
   }
 };
 

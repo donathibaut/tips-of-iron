@@ -41,17 +41,28 @@ const userFindAll = async (User) => {
  * @returns {Promise<Object|null>}
  */
 const userFindOne = async (User, target) => {
-  if (target.username || target.email) {
+  if (!target) {
+    return null;
+  }
+
+  if (
+    (target.username && target.username !== "") ||
+    (target.email && target.email !== "")
+  ) {
+    const opOr = [];
+    if (target.username) opOr.push({ username: target.username });
+    if (target.email) opOr.push({ email: target.email });
+
     return await findOne(User, {
       where: {
-        [Op.or]: [{ username: target.username }, { email: target.email }],
+        [Op.or]: opOr,
       },
       attributes: {
         exclude: ["password"],
       },
     });
   } else {
-    throw new Error("User Not Found");
+    return null;
   }
 };
 

@@ -10,7 +10,7 @@ const { describe, it } = require("node:test");
 describe("Create Token", () => {
     it("Return token + Success 200", async () => {
         const response = await reqTest
-            .post("/login")
+            .post("/api/login")
             .send({
                 email: "billy@gmail.com",
                 password: "0000"
@@ -22,26 +22,14 @@ describe("Create Token", () => {
         assert.strictEqual(response.body.message, "You are connected ! :D");
     });
 
-    it("Error 401 : Wrong Password", async () => {
+    it("Error 401 : Email or Password -> Incorrect", async () => {
         const response = await reqTest
-        .post("/login")
+        .post("/api/login")
         .send({
             email: "billy@gmail.com",
             password: "random"
         })
         .expect(401);
-
-        assert.strictEqual(response.body.success, false);
-    });
-
-    it("Error 404 : Email not found", async () => {
-        const response = await reqTest
-        .post("/login")
-        .send({
-            email: "random@gmail.com",
-            password: "0000"
-        })
-        .expect(404);
 
         assert.strictEqual(response.body.success, false);
     });

@@ -21,7 +21,7 @@ const authFindOne = async (User, email) => {
       },
     });
   } else {
-    throw new Error("Email Not Matching");
+    return null;
   }
 };
 

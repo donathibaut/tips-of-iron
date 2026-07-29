@@ -44,7 +44,7 @@ const getUserById = async (req, res) => {
 
     return successOk(res, tableName, user);
   } catch (e) {
-    errorBlock(res, e, tableName);
+    return errorBlock(res, e, tableName);
   }
 };
 
@@ -63,10 +63,13 @@ const postUser = async (req, res) => {
 
     return successCreated(res, user.message);
   } catch (e) {
-    if (e.message === "Form Field Empty") {
-      badRequest(res, e.message);
+    if (
+      e.message === "Form Field Empty" ||
+      e.message === "User Already Exists"
+    ) {
+      return badRequest(res, e.message);
     }
-    servError(res, e);
+    return servError(res, e);
   }
 };
 
@@ -81,7 +84,10 @@ const postUser = async (req, res) => {
  */
 const patchUser = async (req, res) => {
   try {
-    if (req.token.id === req.params.id || req.token.role === 1) {
+    if (
+      Number(req.token.id) === Number(req.params.id) ||
+      req.token.role === 1
+    ) {
       const user = await userUpdate(User, req.body, req.params.id);
       return success(res, user.message);
     } else {
@@ -90,9 +96,9 @@ const patchUser = async (req, res) => {
     }
   } catch (e) {
     if (e.message === "Form Field Empty") {
-      badRequest(res, e.message);
+      return badRequest(res, e.message);
     }
-    errorBlock(res, e, tableName);
+    return errorBlock(res, e, tableName);
   }
 };
 
@@ -107,7 +113,10 @@ const patchUser = async (req, res) => {
  */
 const deleteUser = async (req, res) => {
   try {
-    if (req.token.id === req.params.id || req.token.role === 1) {
+    if (
+      Number(req.token.id) === Number(req.params.id) ||
+      req.token.role === 1
+    ) {
       const user = await userDestroy(User, req.params.id);
       return success(res, user.message);
     } else {
@@ -115,7 +124,7 @@ const deleteUser = async (req, res) => {
       return forbidden(res, forbiddenMessage);
     }
   } catch (e) {
-    errorBlock(res, e, tableName);
+    return errorBlock(res, e, tableName);
   }
 };
 

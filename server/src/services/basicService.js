@@ -31,7 +31,7 @@ const findOne = async (model, target) => {
     if (target) {
       return await model.findOne(target);
     } else {
-      throw new Error("Invalid Target");
+      return null;
     }
   } else {
     throw new Error("Not Provided : Model Missing");
@@ -51,7 +51,7 @@ const findByPk = async (model, id, options = {}) => {
     if (id) {
       return await model.findByPk(id, options);
     } else {
-      throw new Error("User Not Found");
+      return null;
     }
   } else {
     throw new Error("Not Provided : Model Missing");
@@ -71,7 +71,7 @@ const create = async (model, form) => {
     if (form) {
       return await model.create(form);
     } else {
-      throw new Error("Invalid Form");
+      return null;
     }
   } else {
     throw new Error("Not Provided : Model Missing");
@@ -93,7 +93,7 @@ const update = async (model, form, target) => {
       if (target) {
         return await model.update(form, target);
       } else {
-        throw new Error("No Specified Target");
+        return null;
       }
     } else {
       throw new Error("Invalid Form");
@@ -116,7 +116,7 @@ const destroy = async (model, target) => {
     if (target) {
       return await model.destroy(target);
     } else {
-      throw new Error("Invalid Target");
+      return null;
     }
   } else {
     throw new Error("Not Provided : Model Missing");

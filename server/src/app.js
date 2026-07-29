@@ -20,9 +20,11 @@ const corsSettings = {
 
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+/*
 const categoryRoutes = require("./routes/categoryRoutes");
 const sectionRoutes = require("./routes/sectionRoutes");
 const topicRoutes = require("./routes/topicRoutes");
+*/
 
 app.use(cors(corsSettings));
 app.use(express.json());
@@ -31,8 +33,10 @@ app.use(express.urlencoded({ extended: false }));
 // routes
 app.use("/api/login", authRoutes); // auth
 app.use("/api/user", userRoutes);
+/*
 app.use("/api/category", categoryRoutes);
 app.use("/api/section", sectionRoutes);
 app.use("/api/topic", topicRoutes);
+*/
 
 module.exports = app;

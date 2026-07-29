@@ -34,3 +34,5 @@ const authMiddleware = async (req, res, next) => {
     return unauthorized(res, errorMessage);
   }
 };
+
+module.exports = authMiddleware;
