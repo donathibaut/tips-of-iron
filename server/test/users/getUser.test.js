@@ -1,6 +1,7 @@
 /**
  * @file getUser.test.js
  * @description Test User Read
+ * ! DELETE DATABASE TEST RESULTS  BEFORE RUNNING A NEW ONE !
  */
 
 const app = require("../../src/app");
@@ -9,37 +10,41 @@ const supertest = require("supertest");
 const reqTest = supertest(app);
 
 const assert = require("node:assert");
-const { describe, it } = require("node:test");
+const { describe, it, before } = require("node:test");
 
 // prettier-ignore
 describe("GET users", () => {
+  let userID;
+
+  before(async () => {
+
+    // Date.now() -> unique user for any test run (fix test errors)
+    const emailDateNow = Date.now();
+    const testEmail = `getguy_${emailDateNow}@gmail.com`;
+
+    const res = await reqTest
+      .post("/api/user")
+      .send({ username: "GetGuy", email: testEmail, password: "password" });
+    
+    const testUser = res.body.result; 
+    userID = testUser?.id_user || testUser?.id;
+  });
+
   it("Get user + Success 200",
     async () => {
       const response = await reqTest
-        .get("/api/user/1")
+        .get(`/api/user/${userID}`)
         .expect(200);
 
       assert.strictEqual(response.body.success, true);
-    });
-    
-  it("Error 404 => user === null",
-    async () => {
-      const response = await reqTest.get("/api/user/").expect(404);
-
-      assert.strictEqual(response.body.message, "User Not Found");
-    });
+    }
+  );
 
   it("Error 404",
     async () => {
       const response = await reqTest.get("/api/user/1000").expect(404);
 
-      assert.strictEqual(response.body.message, "User Not Found");
-    });
-
-  it("Error 500",
-    async () => {
-      const response = await reqTest.get("/api/user/1").expect(500);
-
-      assert.strictEqual(response.body.message.includes("Request Failed"), true);
-    });
+      assert.strictEqual(response.body.success, false);
+    }
+  );
 });

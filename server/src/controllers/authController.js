@@ -43,7 +43,7 @@ const auth = async (req, res) => {
     if (verifPassword) {
       // sign TOKEN
       const token = jwt.sign(
-        { id: user.id, email: user.email, role: user.role },
+        { id_user: user.id_user, email: user.email, role: user.role },
         process.env.SECRET_KEY,
         {
           expiresIn: "7d",

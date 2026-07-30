@@ -14,7 +14,7 @@ const { findOne } = require("./basicService");
  * @returns {Promise<Object|null>}
  */
 const authFindOne = async (User, email) => {
-  if (email) {
+  if (email && email !== "") {
     return await findOne(User, {
       where: {
         email: email,

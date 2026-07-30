@@ -34,9 +34,9 @@ const {
  */
 const getUserById = async (req, res) => {
   try {
-    const id = req.params.id;
+    const id_user = req.params.id_user;
 
-    const user = await userFindByPk(User, id);
+    const user = await userFindByPk(User, id_user);
 
     if (user === null) {
       return notFound(res, tableName);
@@ -53,15 +53,15 @@ const getUserById = async (req, res) => {
  * @async
  * @function postUser
  * @description Controller : Create User
- * @param {Object} req - req.body -> creation form
+ * @param {Object} req
  * @param {Object} res
  * @returns {Promise<void>} null
  */
 const postUser = async (req, res) => {
   try {
-    const user = await userCreate(User, req.body);
+    const result = await userCreate(User, req.body);
 
-    return successCreated(res, user.message);
+    return successCreated(res, result.message, result.user);
   } catch (e) {
     if (
       e.message === "Form Field Empty" ||
@@ -78,17 +78,22 @@ const postUser = async (req, res) => {
  * @async
  * @function patchUser
  * @description Controller : Update User
- * @param {Object} req - req.body -> update form
+ * @param {Object} req
  * @param {Object} res
  * @returns {Promise<void>} null
  */
 const patchUser = async (req, res) => {
   try {
+    const isUser = await userFindByPk(User, req.params.id_user);
+    if (!isUser) {
+      return notFound(res, tableName);
+    }
+
     if (
-      Number(req.token.id) === Number(req.params.id) ||
+      Number(req.token.id_user) === Number(req.params.id_user) ||
       req.token.role === 1
     ) {
-      const user = await userUpdate(User, req.body, req.params.id);
+      const user = await userUpdate(User, req.body, req.params.id_user);
       return success(res, user.message);
     } else {
       const forbiddenMessage = "You don't have the right !";
@@ -107,17 +112,22 @@ const patchUser = async (req, res) => {
  * @async
  * @function deleteUser
  * @description Controller : Destroy User
- * @param {Object} req - Targeted user ID
+ * @param {Object} req
  * @param {Object} res
  * @returns {Promise<void>} null
  */
 const deleteUser = async (req, res) => {
   try {
+    const isUser = await userFindByPk(User, req.params.id_user);
+    if (!isUser) {
+      return notFound(res, tableName);
+    }
+
     if (
-      Number(req.token.id) === Number(req.params.id) ||
+      Number(req.token.id_user) === Number(req.params.id_user) ||
       req.token.role === 1
     ) {
-      const user = await userDestroy(User, req.params.id);
+      const user = await userDestroy(User, req.params.id_user);
       return success(res, user.message);
     } else {
       const forbiddenMessage = "You don't have the right !";

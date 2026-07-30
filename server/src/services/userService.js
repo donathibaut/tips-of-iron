@@ -72,11 +72,13 @@ const userFindOne = async (User, target) => {
  * @function userFindByPk
  * @description Find User By ID || null
  * @param {object} User - User Model
- * @param {number} id
+ * @param {number} id_user
  * @returns {Promise<Object|null>}
  */
-const userFindByPk = async (User, id) => {
-  return await findByPk(User, id, { attributes: { exclude: ["password"] } });
+const userFindByPk = async (User, id_user) => {
+  return await findByPk(User, id_user, {
+    attributes: { exclude: ["password"] },
+  });
 };
 
 /*============================================================================*/
@@ -110,7 +112,7 @@ const userCreate = async (User, form) => {
   try {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(form.password, saltRounds);
-    await create(User, {
+    const newUser = await create(User, {
       username: form.username,
       email: form.email,
       password: hashedPassword,
@@ -118,12 +120,10 @@ const userCreate = async (User, form) => {
     return {
       success: true,
       message: "User successfully created !",
+      user: newUser,
     };
   } catch (e) {
-    return {
-      success: false,
-      message: `Creation Failed : ${e.message} :(`,
-    };
+    throw new Error(`Creation Failed : ${e.message}`);
   }
 };
 
@@ -167,7 +167,7 @@ const userUpdate = async (User, form, targetID) => {
         password: hashedPassword,
       },
       {
-        where: { id: targetID },
+        where: { id_user: targetID },
       },
     );
 
@@ -176,10 +176,7 @@ const userUpdate = async (User, form, targetID) => {
       message: "Information successfully updated !",
     };
   } catch (e) {
-    return {
-      success: false,
-      message: `Update Failed : ${e.message} :(`,
-    };
+    throw new Error(`Update Failed : ${e.message}`);
   }
 };
 
@@ -198,7 +195,7 @@ const userDestroy = async (User, targetID) => {
   if (isUser) {
     try {
       await destroy(User, {
-        where: { id: targetID },
+        where: { id_user: targetID },
       });
 
       return {
@@ -206,10 +203,7 @@ const userDestroy = async (User, targetID) => {
         message: "User successfully deleted !",
       };
     } catch (e) {
-      return {
-        success: false,
-        message: `Deletion Failed : ${e.message} :(`,
-      };
+      throw new Error(`Deletion Failed : ${e.message}`);
     }
   } else {
     throw new Error("User Not Found");

@@ -12,9 +12,9 @@ const userController = require("../controllers/userController");
 const authMiddleware = require("../middlewares/authMiddleware");
 
 // Controller call
-router.get("/:id", userController.getUserById);
+router.get("/:id_user", userController.getUserById);
 router.post("/", userController.postUser);
-router.patch("/:id", authMiddleware, userController.patchUser);
-router.delete("/:id", authMiddleware, userController.deleteUser);
+router.patch("/:id_user", authMiddleware, userController.patchUser);
+router.delete("/:id_user", authMiddleware, userController.deleteUser);
 
 module.exports = router;

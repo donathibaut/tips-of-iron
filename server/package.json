@@ -7,7 +7,7 @@
     "dev": "env-cmd -f ./src/env/.env nodemon ./src/index.js",
     "start": "env-cmd -f ./src/env/.env node ./src/index.js",
     "prod": "env-cmd -f ./src/env/.env.prod node ./src/index.js",
-    "test": "env-cmd -f ./src/env/.env node --test",
+    "test": "env-cmd -f ./src/env/.env node --test --test-concurrency=1",
     "doc": "jsdoc -c jsdoc.json"
   },
   "keywords": [],

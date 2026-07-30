@@ -40,10 +40,11 @@ const successOk = (res, tableName, tableObject) => {
  * @param {string} message - Success Message
  * @returns {Object} Status 201
  */
-const successCreated = (res, message) => {
+const successCreated = (res, message, result) => {
   return res.status(201).json({
     success: true,
     message: message,
+    result: result,
   });
 };
 
