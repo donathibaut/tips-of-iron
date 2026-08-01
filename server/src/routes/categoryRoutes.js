@@ -1,6 +1,6 @@
 /**
  * @file categoryRoutes.js
- * @description Routes about Category data
+ * @description Category Routes
  */
 const express = require("express");
 const router = express.Router();
@@ -9,6 +9,6 @@ const router = express.Router();
 const categoryController = require("../controllers/categoryController");
 
 // Controller call
-router.get("/", categoryController /*.fonction */);
+router.get("/:id_category", categoryController.getCategoryById);
 
 module.exports = router;
