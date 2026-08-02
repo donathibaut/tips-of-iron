@@ -6,34 +6,32 @@
 const Category = require("../models/Category");
 const tableName = "Category";
 
-const { categoryFindByPk } = require("../services/categoryService");
+const { categoryFindAll } = require("../services/categoryService");
 const { successOk, notFound, errorBlock } = require("../utils/status");
 
 /*============================================================================*/
 /**
  * @async
- * @function getCategoryById
- * @description Controller : Read Category
- * @param {Object} req - Targeted category ID
+ * @function getCategories
+ * @description Controller : Read All Categories
+ * @param {Object} req
  * @param {Object} res
- * @returns {Promise<void>} Category Data || null
+ * @returns {Promise<void>} Categories Data || null
  */
-const getCategoryById = async (req, res) => {
+const getCategories = async (req, res) => {
   try {
-    const id_category = req.params.id_category;
+    const categories = await categoryFindAll(Category);
 
-    const category = await categoryFindByPk(Category, id_category);
-
-    if (category === null) {
+    if (categories === null) {
       return notFound(res, tableName);
     }
 
-    return successOk(res, tableName, category);
+    return successOk(res, tableName, categories);
   } catch (e) {
     return errorBlock(res, e, tableName);
   }
 };
 
 module.exports = {
-  getCategoryById,
+  getCategories,
 };

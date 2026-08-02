@@ -7,6 +7,7 @@
  * @async
  * @function findAll
  * @param {object} model
+ * @param {object} options - filters (default = {})
  * @returns {Promise<Object|null>}
  * @description Find All data from the table || null
  */
@@ -22,14 +23,14 @@ const findAll = async (model, options = {}) => {
  * @async
  * @function findOne
  * @param {object} model
- * @param {object} target - Entity Value
+ * @param {object} options - filters (default = {})
  * @returns {Promise<Object|null>}
  * @description Find One data from the table || null
  */
-const findOne = async (model, target) => {
+const findOne = async (model, options = {}) => {
   if (model) {
-    if (target) {
-      return await model.findOne(target);
+    if (options) {
+      return await model.findOne(options);
     } else {
       return null;
     }
@@ -43,6 +44,7 @@ const findOne = async (model, target) => {
  * @function findByPk
  * @param {object} model
  * @param {number} id
+ * @param {object} options - filters (default = {})
  * @returns {Promise<Object|null>}
  * @description Find data by ID || null
  */

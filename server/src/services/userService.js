@@ -55,6 +55,7 @@ const userFindOne = async (User, target) => {
 
     return await findOne(User, {
       where: {
+        // username OR email
         [Op.or]: opOr,
       },
       attributes: {

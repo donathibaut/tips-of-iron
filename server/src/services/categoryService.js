@@ -3,19 +3,7 @@
  * @description Category CRUD
  */
 
-// Necessary to use Op.or ("OR" for Sequelize filters)
-const { Op } = require("sequelize");
-
-const bcrypt = require("bcrypt");
-
-const {
-  findAll,
-  findOne,
-  findByPk,
-  create,
-  update,
-  destroy,
-} = require("./basicService");
+const { findAll, findOne, findByPk } = require("./basicService");
 
 /*============================================================================*/
 /**
@@ -26,9 +14,7 @@ const {
  * @returns {Promise<Object|null>}
  */
 const categoryFindAll = async (Category) => {
-  return await findAll(Category, {
-    attributes: { exclude: ["password"] },
-  });
+  return await findAll(Category);
 };
 
 /*============================================================================*/
@@ -45,22 +31,8 @@ const categoryFindOne = async (Category, target) => {
     return null;
   }
 
-  if (
-    (target.categoryname && target.categoryname !== "") ||
-    (target.email && target.email !== "")
-  ) {
-    const opOr = [];
-    if (target.categoryname) opOr.push({ categoryname: target.categoryname });
-    if (target.email) opOr.push({ email: target.email });
-
-    return await findOne(Category, {
-      where: {
-        [Op.or]: opOr,
-      },
-      attributes: {
-        exclude: ["password"],
-      },
-    });
+  if (target.name && target.name !== "") {
+    return await findOne(Category, { where: { name: target.name } });
   } else {
     return null;
   }
@@ -76,9 +48,7 @@ const categoryFindOne = async (Category, target) => {
  * @returns {Promise<Object|null>}
  */
 const categoryFindByPk = async (Category, id_category) => {
-  return await findByPk(Category, id_category, {
-    attributes: { exclude: ["password"] },
-  });
+  return await findByPk(Category, id_category);
 };
 
 module.exports = {
