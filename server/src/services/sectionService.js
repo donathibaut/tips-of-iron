@@ -3,11 +3,6 @@
  * @description Section CRUD
  */
 
-// Necessary to use Op.or ("OR" for Sequelize filters)
-const { Op } = require("sequelize");
-
-const bcrypt = require("bcrypt");
-
 const {
   findAll,
   findOne,
@@ -26,9 +21,7 @@ const {
  * @returns {Promise<Object|null>}
  */
 const sectionFindAll = async (Section) => {
-  return await findAll(Section, {
-    attributes: { exclude: ["password"] },
-  });
+  return await findAll(Section);
 };
 
 /*============================================================================*/
@@ -45,22 +38,8 @@ const sectionFindOne = async (Section, target) => {
     return null;
   }
 
-  if (
-    (target.sectionname && target.sectionname !== "") ||
-    (target.email && target.email !== "")
-  ) {
-    const opOr = [];
-    if (target.sectionname) opOr.push({ sectionname: target.sectionname });
-    if (target.email) opOr.push({ email: target.email });
-
-    return await findOne(Section, {
-      where: {
-        [Op.or]: opOr,
-      },
-      attributes: {
-        exclude: ["password"],
-      },
-    });
+  if (target.sectionname && target.title !== "") {
+    return await findOne(Section, { where: { title: target.title } });
   } else {
     return null;
   }
@@ -76,9 +55,7 @@ const sectionFindOne = async (Section, target) => {
  * @returns {Promise<Object|null>}
  */
 const sectionFindByPk = async (Section, id_section) => {
-  return await findByPk(Section, id_section, {
-    attributes: { exclude: ["password"] },
-  });
+  return await findByPk(Section, id_section);
 };
 
 /*============================================================================*/

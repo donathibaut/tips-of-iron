@@ -7,7 +7,7 @@
  * @async
  * @function findAll
  * @param {object} model
- * @param {object} options - filters (default = {})
+ * @param {object} options - filters
  * @returns {Promise<Object|null>}
  * @description Find All data from the table || null
  */
@@ -23,7 +23,7 @@ const findAll = async (model, options = {}) => {
  * @async
  * @function findOne
  * @param {object} model
- * @param {object} options - filters (default = {})
+ * @param {object} options - filters
  * @returns {Promise<Object|null>}
  * @description Find One data from the table || null
  */

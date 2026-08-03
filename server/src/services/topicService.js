@@ -3,10 +3,8 @@
  * @description Topic CRUD
  */
 
-// Necessary to use Op.or ("OR" for Sequelize filters)
-const { Op } = require("sequelize");
-
-const bcrypt = require("bcrypt");
+/* Imported Models for FK */
+const { Section } = require("../models");
 
 const {
   findAll,
@@ -26,9 +24,29 @@ const {
  * @returns {Promise<Object|null>}
  */
 const topicFindAll = async (Topic) => {
-  return await findAll(Topic, {
-    attributes: { exclude: ["password"] },
+  return await findAll(Topic);
+};
+
+/*============================================================================*/
+/**
+ * @async
+ * @function topicFindByUser
+ * @description Find All User Topics || null
+ * @param {object} Topic - Topic Model
+ * @param {object} userID
+ * @returns {Promise<Object|null>}
+ */
+const topicFindByUser = async (Topic, userID) => {
+  const array = await findAll(Topic, {
+    where: { id_user: userID },
+    include: [{ model: Section }],
   });
+
+  if (array.length !== 0) {
+    return array;
+  } else {
+    return null;
+  }
 };
 
 /*============================================================================*/
@@ -45,22 +63,8 @@ const topicFindOne = async (Topic, target) => {
     return null;
   }
 
-  if (
-    (target.topicname && target.topicname !== "") ||
-    (target.email && target.email !== "")
-  ) {
-    const opOr = [];
-    if (target.topicname) opOr.push({ topicname: target.topicname });
-    if (target.email) opOr.push({ email: target.email });
-
-    return await findOne(Topic, {
-      where: {
-        [Op.or]: opOr,
-      },
-      attributes: {
-        exclude: ["password"],
-      },
-    });
+  if (target.title && target.title !== "") {
+    return await findOne(Topic, { where: { title: target.title } });
   } else {
     return null;
   }
@@ -76,9 +80,7 @@ const topicFindOne = async (Topic, target) => {
  * @returns {Promise<Object|null>}
  */
 const topicFindByPk = async (Topic, id_topic) => {
-  return await findByPk(Topic, id_topic, {
-    attributes: { exclude: ["password"] },
-  });
+  return await findByPk(Topic, id_topic);
 };
 
 /*============================================================================*/
@@ -93,12 +95,10 @@ const topicFindByPk = async (Topic, id_topic) => {
 const topicCreate = async (Topic, form) => {
   // is it empty ?
   if (
-    !form.topicname ||
-    !form.email ||
-    !form.password ||
-    form.topicname === "" ||
-    form.email === "" ||
-    form.password === ""
+    !form.title ||
+    !form.description ||
+    form.title === "" ||
+    form.description === ""
   ) {
     throw new Error("Form Field Empty");
   }
@@ -110,12 +110,9 @@ const topicCreate = async (Topic, form) => {
   }
 
   try {
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(form.password, saltRounds);
     const newTopic = await create(Topic, {
       topicname: form.topicname,
       email: form.email,
-      password: hashedPassword,
     });
     return {
       success: true,
@@ -140,12 +137,10 @@ const topicCreate = async (Topic, form) => {
 const topicUpdate = async (Topic, form, targetID) => {
   // is it empty ?
   if (
-    !form.topicname ||
-    !form.email ||
-    !form.password ||
-    form.topicname === "" ||
-    form.email === "" ||
-    form.password === ""
+    !form.title ||
+    !form.description ||
+    form.title === "" ||
+    form.description === ""
   ) {
     throw new Error("Form Field Empty");
   }
@@ -157,14 +152,11 @@ const topicUpdate = async (Topic, form, targetID) => {
   }
 
   try {
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(form.password, saltRounds);
     await update(
       Topic,
       {
         topicname: form.topicname,
         email: form.email,
-        password: hashedPassword,
       },
       {
         where: { id_topic: targetID },
@@ -212,6 +204,7 @@ const topicDestroy = async (Topic, targetID) => {
 
 module.exports = {
   topicFindAll,
+  topicFindByUser,
   topicFindOne,
   topicFindByPk,
   topicCreate,

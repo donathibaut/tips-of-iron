@@ -20,20 +20,6 @@ const {
 /*============================================================================*/
 /**
  * @async
- * @function userFindAll
- * @description Find All Users || null
- * @param {object} User - User Model
- * @returns {Promise<Object|null>}
- */
-const userFindAll = async (User) => {
-  return await findAll(User, {
-    attributes: { exclude: ["password"] },
-  });
-};
-
-/*============================================================================*/
-/**
- * @async
  * @function userFindOne
  * @description Find One User || null
  * @param {object} User - User Model
@@ -212,7 +198,6 @@ const userDestroy = async (User, targetID) => {
 };
 
 module.exports = {
-  userFindAll,
   userFindOne,
   userFindByPk,
   userCreate,

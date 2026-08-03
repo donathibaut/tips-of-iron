@@ -13,9 +13,6 @@ const sequelize = require("../config/config");
  * title :
  * - index: true -> necessary for a reliable search bar
  *
- * id_section :
- * - link the topic with its sections
- *
  * id_category :
  * - link the topic with its category
  *
@@ -37,16 +34,12 @@ const Topic = sequelize.define(
       allowNull: false,
       index: true,
     },
-    descirption: {
-      type: DataTypes.STRING,
+    description: {
+      type: DataTypes.TEXT,
       allowNull: false,
     },
 
     // Foreign Keys
-    id_section: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     id_category: {
       type: DataTypes.INTEGER,
       allowNull: false,
