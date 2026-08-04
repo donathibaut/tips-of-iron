@@ -3,7 +3,7 @@
  * @description Topic CRUD
  */
 
-/* Imported Models for FK */
+/* Imported Models for FOREIGN KEYS */
 const { Section } = require("../models");
 
 const {
@@ -18,23 +18,11 @@ const {
 /*============================================================================*/
 /**
  * @async
- * @function topicFindAll
- * @description Find All Topics || null
- * @param {object} Topic - Topic Model
- * @returns {Promise<Object|null>}
- */
-const topicFindAll = async (Topic) => {
-  return await findAll(Topic);
-};
-
-/*============================================================================*/
-/**
- * @async
  * @function topicFindByUser
  * @description Find All User Topics || null
  * @param {object} Topic - Topic Model
  * @param {object} userID
- * @returns {Promise<Object|null>}
+ * @returns {Promise<Array|null>} Topic + Section
  */
 const topicFindByUser = async (Topic, userID) => {
   const array = await findAll(Topic, {
@@ -56,7 +44,7 @@ const topicFindByUser = async (Topic, userID) => {
  * @description Find One Topic || null
  * @param {object} Topic - Topic Model
  * @param {object} target - searched topic
- * @returns {Promise<Object|null>}
+ * @returns {Promise<Object|null>} Topic + Section
  */
 const topicFindOne = async (Topic, target) => {
   if (!target) {
@@ -64,7 +52,10 @@ const topicFindOne = async (Topic, target) => {
   }
 
   if (target.title && target.title !== "") {
-    return await findOne(Topic, { where: { title: target.title } });
+    return await findOne(Topic, {
+      where: { title: target.title },
+      include: [{ model: Section }],
+    });
   } else {
     return null;
   }
@@ -77,10 +68,10 @@ const topicFindOne = async (Topic, target) => {
  * @description Find Topic By ID || null
  * @param {object} Topic - Topic Model
  * @param {number} id_topic
- * @returns {Promise<Object|null>}
+ * @returns {Promise<Object|null>} Topic + Section
  */
 const topicFindByPk = async (Topic, id_topic) => {
-  return await findByPk(Topic, id_topic);
+  return await findByPk(Topic, id_topic, { include: [{ model: Section }] });
 };
 
 /*============================================================================*/

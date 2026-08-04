@@ -8,7 +8,7 @@
  * @function findAll
  * @param {object} model
  * @param {object} options - filters
- * @returns {Promise<Object|null>}
+ * @returns {Promise<Array|null>}
  * @description Find All data from the table || null
  */
 const findAll = async (model, options = {}) => {
