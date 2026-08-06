@@ -136,7 +136,7 @@ const topicCreate = async (Topic, form) => {
  * @description Update topic personal data || null
  * @param {object} Topic - Topic Model
  * @param {object} form - update form
- * @param {object} targetID - topic account ID
+ * @param {object} targetID - topic ID
  * @returns {Promise<Object|null>} update TOPIC + SECTIONS
  */
 const topicUpdate = async (Topic, form, targetID) => {
@@ -183,6 +183,8 @@ const topicUpdate = async (Topic, form, targetID) => {
       })),
       { transaction: transaction },
     );
+
+    await transaction.commit();
 
     return {
       success: true,

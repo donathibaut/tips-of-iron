@@ -7,11 +7,14 @@ const Topic = require("../models/Topic");
 const tableName = "Topic";
 
 const {
+  topicFindByUser,
+  topicFindOne,
   topicFindByPk,
   topicCreate,
   topicUpdate,
   topicDestroy,
 } = require("../services/topicService");
+
 const {
   success,
   successOk,
@@ -26,17 +29,40 @@ const {
 /*============================================================================*/
 /**
  * @async
- * @function getTopicById
+ * @function getUserTopics
+ * @description Controller : Read Topics from one single user
+ * @param {Object} req - Targeted user ID
+ * @param {Object} res
+ * @returns {Promise<void>} All Topics from ONE User || null
+ */
+const getUserTopics = async (req, res) => {
+  try {
+    const id_user = req.params.id_user;
+
+    const topic = await topicFindByUser(Topic, id_user);
+
+    if (topic === null) {
+      return notFound(res, tableName);
+    }
+
+    return successOk(res, tableName, topic);
+  } catch (e) {
+    return errorBlock(res, e, tableName);
+  }
+};
+
+/*============================================================================*/
+/**
+ * @async
+ * @function getTopic
  * @description Controller : Read Topic
  * @param {Object} req - Targeted topic ID
  * @param {Object} res
  * @returns {Promise<void>} Topic Data || null
  */
-const getTopicById = async (req, res) => {
+const getTopic = async (req, res) => {
   try {
-    const id_topic = req.params.id_topic;
-
-    const topic = await topicFindByPk(Topic, id_topic);
+    const topic = await topicFindOne(Topic, req.params);
 
     if (topic === null) {
       return notFound(res, tableName);
@@ -84,16 +110,19 @@ const postTopic = async (req, res) => {
  */
 const patchTopic = async (req, res) => {
   try {
-    const isTopic = await topicFindByPk(Topic, req.params.id_topic);
+    const id_topic = req.params.id_topic;
+
+    const isTopic = await topicFindByPk(Topic, id_topic);
     if (!isTopic) {
       return notFound(res, tableName);
     }
 
     if (
-      Number(req.token.id_topic) === Number(req.params.id_topic) ||
+      (isTopic.id_user &&
+        Number(isTopic.id_user) === Number(req.token.id_user)) ||
       req.token.role === 1
     ) {
-      const topic = await topicUpdate(Topic, req.body, req.params.id_topic);
+      const topic = await topicUpdate(Topic, req.body, id_topic);
       return success(res, topic.message);
     } else {
       const forbiddenMessage = "You don't have the right !";
@@ -118,16 +147,19 @@ const patchTopic = async (req, res) => {
  */
 const deleteTopic = async (req, res) => {
   try {
-    const isTopic = await topicFindByPk(Topic, req.params.id_topic);
+    const id_topic = req.params.id_topic;
+
+    const isTopic = await topicFindByPk(Topic, id_topic);
     if (!isTopic) {
       return notFound(res, tableName);
     }
 
     if (
-      Number(req.token.id_topic) === Number(req.params.id_topic) ||
+      (isTopic.id_user &&
+        Number(isTopic.id_user) === Number(req.token.id_user)) ||
       req.token.role === 1
     ) {
-      const topic = await topicDestroy(Topic, req.params.id_topic);
+      const topic = await topicDestroy(Topic, id_topic);
       return success(res, topic.message);
     } else {
       const forbiddenMessage = "You don't have the right !";
@@ -139,7 +171,8 @@ const deleteTopic = async (req, res) => {
 };
 
 module.exports = {
-  getTopicById,
+  getUserTopics,
+  getTopic,
   postTopic,
   patchTopic,
   deleteTopic,

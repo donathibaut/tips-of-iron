@@ -12,6 +12,7 @@ const {
   userUpdate,
   userDestroy,
 } = require("../services/userService");
+
 const {
   success,
   successOk,
@@ -84,16 +85,15 @@ const postUser = async (req, res) => {
  */
 const patchUser = async (req, res) => {
   try {
-    const isUser = await userFindByPk(User, req.params.id_user);
+    const id_user = req.params.id_user;
+
+    const isUser = await userFindByPk(User, id_user);
     if (!isUser) {
       return notFound(res, tableName);
     }
 
-    if (
-      Number(req.token.id_user) === Number(req.params.id_user) ||
-      req.token.role === 1
-    ) {
-      const user = await userUpdate(User, req.body, req.params.id_user);
+    if (Number(req.token.id_user) === Number(id_user) || req.token.role === 1) {
+      const user = await userUpdate(User, req.body, id_user);
       return success(res, user.message);
     } else {
       const forbiddenMessage = "You don't have the right !";
@@ -118,16 +118,15 @@ const patchUser = async (req, res) => {
  */
 const deleteUser = async (req, res) => {
   try {
-    const isUser = await userFindByPk(User, req.params.id_user);
+    const id_user = req.params.id_user;
+
+    const isUser = await userFindByPk(User, id_user);
     if (!isUser) {
       return notFound(res, tableName);
     }
 
-    if (
-      Number(req.token.id_user) === Number(req.params.id_user) ||
-      req.token.role === 1
-    ) {
-      const user = await userDestroy(User, req.params.id_user);
+    if (Number(req.token.id_user) === Number(id_user) || req.token.role === 1) {
+      const user = await userDestroy(User, id_user);
       return success(res, user.message);
     } else {
       const forbiddenMessage = "You don't have the right !";
