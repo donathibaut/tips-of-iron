@@ -1,7 +1,7 @@
 /**
- * @file deleteUser.test.js
- * @description Test User Deletion
- * ! DELETE DATABASE TEST RESULTS  BEFORE RUNNING A NEW ONE !
+ * @file deleteTopic.test.js
+ * @description Test Topic Deletion
+ * ! DELETE DATABASE TEST RESULTS BEFORE RUNNING A NEW ONE !
  */
 
 const app = require("../../src/app");
@@ -15,8 +15,8 @@ const { describe, it, before } = require("node:test");
 const jwt = require("jsonwebtoken");
 
 // prettier-ignore
-describe("DELETE users", () => {
-  let userID;
+describe("DELETE topics", () => {
+  let topicID;
   let tokenTest;
   let wrongToken;
 
@@ -25,25 +25,25 @@ describe("DELETE users", () => {
   
   before(async () => {
 
-    // Date.now() -> unique user for any test run (fix test errors)
+    // Date.now() -> unique topic for any test run (fix test errors)
     const emailDateNow = Date.now();
     testEmail = `deleteguy_${emailDateNow}@gmail.com`;
 
     const res = await reqTest
-      .post("/api/user")
-      .send({ username: "DeleteGuy", email: testEmail, password: "password" });
+      .post("/api/topic")
+      .send({ topicname: "DeleteGuy", email: testEmail, password: "password" });
     
-    const testUser = res.body.result; 
-    userID = testUser?.id_user || testUser?.id;
+    const testTopic = res.body.result; 
+    topicID = testTopic?.id_topic || testTopic?.id;
 
     tokenTest = jwt.sign(
-      { id_user: userID, email: testEmail, role: 0 },
+      { id_topic: topicID, email: testEmail, role: 0 },
       process.env.SECRET_KEY,
       { expiresIn: "1h" },
     );
 
     wrongToken = jwt.sign(
-      { id_user: 999, email: testEmail, role: 999 },
+      { id_topic: 999, email: testEmail, role: 999 },
       process.env.SECRET_KEY,
       { expiresIn: "1h" },
     );
@@ -53,7 +53,7 @@ describe("DELETE users", () => {
     async () => {
 
       const response = await reqTest
-        .delete(`/api/user/${userID}`)
+        .delete(`/api/topic/${topicID}`)
         .set("Authorization", `Bearer ${wrongToken}`)
         .expect(403);
 
@@ -65,7 +65,7 @@ describe("DELETE users", () => {
     async () => {
 
       const response = await reqTest
-        .delete("/api/user/1000")
+        .delete("/api/topic/1000")
         .set("Authorization", `Bearer ${tokenTest}`)
         .expect(404);
 
@@ -73,11 +73,11 @@ describe("DELETE users", () => {
     }
   );
 
-  it("Delete user + Success 200",
+  it("Delete topic + Success 200",
     async () => {
 
       const response = await reqTest
-        .delete(`/api/user/${userID}`)
+        .delete(`/api/topic/${topicID}`)
         .set("Authorization", `Bearer ${tokenTest}`)
         .expect(200);
 

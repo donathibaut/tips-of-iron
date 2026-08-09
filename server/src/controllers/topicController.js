@@ -7,7 +7,7 @@ const Topic = require("../models/Topic");
 const tableName = "Topic";
 
 const {
-  topicFindByUser,
+  topicFindByFK,
   topicFindOne,
   topicFindByPk,
   topicCreate,
@@ -29,19 +29,30 @@ const {
 /*============================================================================*/
 /**
  * @async
- * @function getUserTopics
- * @description Controller : Read Topics from one single user
+ * @function getFKTopics
+ * @description Controller : Read Topics from Foreign Key
  * @param {Object} req - Targeted user ID
  * @param {Object} res
- * @returns {Promise<void>} All Topics from ONE User || null
+ * @returns {Promise<void>} All Topics from FK || null
  */
-const getUserTopics = async (req, res) => {
+const getFKTopics = async (req, res) => {
+  let fkTable;
+  let fk;
   try {
-    const id_user = req.params.id_user;
+    if (req.params.id_user) {
+      fkTable = "id_user";
+      fk = req.params.id_user;
+    } else if (req.params.id_category) {
+      fkTable = "id_category";
+      fk = req.params.id_category;
+    } else {
+      const fkMissing = "Foreign Key";
+      return notFound(res, fkMissing);
+    }
 
-    const topic = await topicFindByUser(Topic, id_user);
+    const topic = await topicFindByFK(Topic, fkTable, fk);
 
-    if (topic === null) {
+    if (topic.length === 0) {
       return notFound(res, tableName);
     }
 
@@ -56,7 +67,7 @@ const getUserTopics = async (req, res) => {
  * @async
  * @function getTopic
  * @description Controller : Read Topic
- * @param {Object} req - Targeted topic ID
+ * @param {Object} req - req.params
  * @param {Object} res
  * @returns {Promise<void>} Topic Data || null
  */
@@ -84,10 +95,17 @@ const getTopic = async (req, res) => {
  * @returns {Promise<void>} null
  */
 const postTopic = async (req, res) => {
-  try {
-    const result = await topicCreate(Topic, req.body);
+  const token = req.token;
 
-    return successCreated(res, result.message, result.topic);
+  try {
+    if (token.id_user) {
+      const result = await topicCreate(Topic, req.body, token);
+
+      return successCreated(res, result.message, result.topic);
+    } else {
+      const forbiddenMessage = "You don't have the right !";
+      return forbidden(res, forbiddenMessage);
+    }
   } catch (e) {
     if (
       e.message === "Form Field Empty" ||
@@ -171,7 +189,7 @@ const deleteTopic = async (req, res) => {
 };
 
 module.exports = {
-  getUserTopics,
+  getFKTopics,
   getTopic,
   postTopic,
   patchTopic,

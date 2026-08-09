@@ -23,7 +23,7 @@ const getCategories = async (req, res) => {
   try {
     const categories = await categoryFindAll(Category);
 
-    if (categories === null) {
+    if (categories.length === 0) {
       return notFound(res, tableName);
     }
 

@@ -1,6 +1,6 @@
 /**
  * @file authController.js
- * @description User Authentification Controller
+ * @description User Authentication Controller
  */
 
 const jwt = require("jsonwebtoken");
@@ -17,7 +17,7 @@ const tableName = "User";
 /**
  * @async
  * @function auth
- * @description Controller : Authentification
+ * @description Controller : Authentication
  * @param {Object} req - Connection Form (email + password)
  * @param {Object} res - Token + Status
  * @returns {Promise<void>} Token || null

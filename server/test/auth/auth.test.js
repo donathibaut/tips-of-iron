@@ -1,7 +1,7 @@
 /**
  * @file auth.test.js
  * @description Test Login & Token Creation
- * ! DELETE DATABASE TEST RESULTS  BEFORE RUNNING A NEW ONE !
+ * ! DELETE DATABASE TEST RESULTS BEFORE RUNNING A NEW ONE !
  */
 
 const app = require("../../src/app");

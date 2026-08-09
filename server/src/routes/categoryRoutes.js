@@ -9,6 +9,6 @@ const router = express.Router();
 const categoryController = require("../controllers/categoryController");
 
 // Controller call
-router.get("/:id_category", categoryController.getCategoryById);
+router.get("/", categoryController.getCategories);
 
 module.exports = router;

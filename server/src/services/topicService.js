@@ -18,15 +18,16 @@ const {
 /*============================================================================*/
 /**
  * @async
- * @function topicFindByUser
- * @description Find All User Topics || null
+ * @function topicFindByFK
+ * @description Find All Topics BY FOREIGN KEY || null
  * @param {object} Topic - Topic Model
- * @param {object} userID
+ * @param {object} fkTable - foreign key TABLE
+ * @param {object} fk - foreign key
  * @returns {Promise<Array|null>} Topic + Section
  */
-const topicFindByUser = async (Topic, userID) => {
+const topicFindByFK = async (Topic, fkTable, fk) => {
   const array = await findAll(Topic, {
-    where: { id_user: userID },
+    where: { [fkTable]: fk },
     include: [{ model: Section }],
   });
 
@@ -43,7 +44,7 @@ const topicFindByUser = async (Topic, userID) => {
  * @function topicFindOne
  * @description Find One Topic || null
  * @param {object} Topic - Topic Model
- * @param {object} target - searched topic
+ * @param {object} target - searched topic title
  * @returns {Promise<Object|null>} Topic + Section
  */
 const topicFindOne = async (Topic, target) => {
@@ -81,9 +82,10 @@ const topicFindByPk = async (Topic, id_topic) => {
  * @description Create a new topic || null
  * @param {object} Topic - Topic Model
  * @param {object} form - creation form
+ * @param {object} token - authentication token
  * @returns {Promise<Object|null>} new TOPIC + SECTIONS
  */
-const topicCreate = async (Topic, form) => {
+const topicCreate = async (Topic, form, token) => {
   // is it empty ?
   if (
     !form.title ||
@@ -106,6 +108,8 @@ const topicCreate = async (Topic, form) => {
       {
         title: form.title,
         description: form.description,
+        id_category: form.category,
+        id_user: token.id_user,
 
         // Section inserts
         Sections: form.sections.map((section) => ({
@@ -113,6 +117,7 @@ const topicCreate = async (Topic, form) => {
           image_path: section.image_path,
           text: section.text,
           list_nb: section.list_nb,
+          id_user: token.id_user,
         })),
       },
       {
@@ -238,7 +243,7 @@ const topicDestroy = async (Topic, targetID) => {
 };
 
 module.exports = {
-  topicFindByUser,
+  topicFindByFK,
   topicFindOne,
   topicFindByPk,
   topicCreate,

@@ -1,6 +1,6 @@
 /**
  * @file authService.js
- * @description Authentification Service
+ * @description Authentication Service
  */
 
 const { findOne } = require("./basicService");

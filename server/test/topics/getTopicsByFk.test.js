@@ -1,6 +1,6 @@
 /**
- * @file getTopic.test.js
- * @description Test Topic Read
+ * @file getTopicsByFK.test.js
+ * @description Test Topic Read (Foreign Keys)
  * ! DELETE DATABASE TEST RESULTS BEFORE RUNNING A NEW ONE !
  */
 

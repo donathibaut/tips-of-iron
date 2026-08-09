@@ -1,5 +1,5 @@
 /**
- * @file getUser.test.js
+ * @file getUserById.test.js
  * @description Test User Read
  * ! DELETE DATABASE TEST RESULTS  BEFORE RUNNING A NEW ONE !
  */
@@ -16,6 +16,7 @@ const { describe, it, before } = require("node:test");
 describe("GET users", () => {
   let userID;
 
+  // create user before GET request
   before(async () => {
 
     // Date.now() -> unique user for any test run (fix test errors)

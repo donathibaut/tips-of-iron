@@ -1,6 +1,6 @@
 /**
  * @file authMiddleware.js
- * @description Authentification Middleware
+ * @description Authentication Middleware
  */
 
 const jwt = require("jsonwebtoken");
@@ -10,7 +10,7 @@ const { unauthorized } = require("../utils/status");
 /**
  * @async
  * @function authMiddleware
- * @description Middleware : Authentification (Token Verification)
+ * @description Middleware : Authentication (Token Verification)
  * @param {Object} req - (Token -> req.headers.authorization)
  * @param {Object} res - HTTP Response
  * @param {Function} next - next() process
