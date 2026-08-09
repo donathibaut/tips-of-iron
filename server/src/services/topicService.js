@@ -99,7 +99,7 @@ const topicCreate = async (Topic, form, token) => {
   }
   const category = await findOne(Category, { where: { name: form.category } });
   if (category === null) {
-    const e = new Error("Unknown Category");
+    const e = new Error("Category Not Found");
     e.table = "Category";
     throw e;
   }
@@ -158,9 +158,18 @@ const topicUpdate = async (Topic, form, targetID) => {
     !form.title ||
     !form.description ||
     form.title === "" ||
-    form.description === ""
+    form.description === "" ||
+    !form.category ||
+    form.category === ""
   ) {
     throw new Error("Form Field Empty");
+  }
+
+  const category = await findOne(Category, { where: { name: form.category } });
+  if (category === null) {
+    const e = new Error("Category Not Found");
+    e.table = "Category";
+    throw e;
   }
 
   const isTopic = await topicFindByPk(Topic, targetID);
@@ -177,6 +186,8 @@ const topicUpdate = async (Topic, form, targetID) => {
       {
         title: form.title,
         description: form.description,
+        id_category: category.id_category,
+        id_user: token.id_user,
       },
       { where: { id_topic: targetID }, transaction: transaction },
     );

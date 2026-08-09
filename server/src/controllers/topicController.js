@@ -151,6 +151,8 @@ const patchTopic = async (req, res) => {
   } catch (e) {
     if (e.message === "Form Field Empty") {
       return badRequest(res, e.message);
+    } else if (e.message === "Category Not Found" && e.table) {
+      return notFound(res, e.table);
     }
     return errorBlock(res, e, tableName);
   }
