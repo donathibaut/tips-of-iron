@@ -112,6 +112,8 @@ const postTopic = async (req, res) => {
       e.message === "Topic Already Exists"
     ) {
       return badRequest(res, e.message);
+    } else if (e.message === "Unknown Category" && e.table) {
+      return notFound(res, e.table);
     }
     return servError(res, e);
   }

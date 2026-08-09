@@ -5,7 +5,7 @@
  */
 
 const app = require("../../src/app");
-const { Topic, User, Category } = require("../../src/models");
+const { Topic, User, Category, Section } = require("../../src/models");
 
 const supertest = require("supertest");
 const reqTest = supertest(app);
@@ -17,9 +17,10 @@ const { describe, it, before } = require("node:test");
 describe("GET topics", () => {
   it("Error 404",
     async () => {
+      await Section.destroy({ where: {} });
+      await Topic.destroy({ where: {} });
       await User.destroy({ where: {} });
       await Category.destroy({ where: {} });
-      await Topic.destroy({ where: {} });
 
       const response = await reqTest.get("/api/topic/category/1").expect(404);
 

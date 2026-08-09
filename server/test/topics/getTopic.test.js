@@ -5,7 +5,7 @@
  */
 
 const app = require("../../src/app");
-const { Topic, User, Category } = require("../../src/models");
+const { Topic, User, Category, Section } = require("../../src/models");
 
 const supertest = require("supertest");
 const reqTest = supertest(app);
@@ -17,11 +17,12 @@ const { describe, it, before } = require("node:test");
 describe("GET topics", () => {
   it("Error 404",
     async () => {
+      await Section.destroy({ where: {} });
+      await Topic.destroy({ where: {} });
       await User.destroy({ where: {} });
       await Category.destroy({ where: {} });
-      await Topic.destroy({ where: {} });
 
-      const response = await reqTest.get("/api/topic/category/1").expect(404);
+      const response = await reqTest.get("/api/topic/category/testTitle").expect(404);
 
       assert.strictEqual(response.body.success, false);
     }
@@ -41,9 +42,9 @@ describe("GET topics", () => {
       await Category.create(
         { id_category: 1, name: 'Interface' },
       );
-      await Topic.bulkCreate([
+      await Topic.create(
         { 
-          title: "test1",
+          title: "testTitle",
           description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
           id_category: 1,
           id_user: 1,
@@ -54,25 +55,11 @@ describe("GET topics", () => {
               id_user: 1,
             }
           ]
-        },
-        { 
-          title: "test2",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-          id_category: 1,
-          id_user: 1, 
-          Sections: [
-            {
-              title: "Titre de la section",
-              text: "Contenu de la section...",
-              id_user: 1,
-            }
-          ]
-        }, 
-        ], {include: [Section]},
+        }, {include: [Section]},
       );
       
       const response = await reqTest
-        .get(`/api/topic/category/1`)
+        .get(`/api/topic/category/testTitle`)
         .expect(200);
 
       assert.strictEqual(response.body.success, true);

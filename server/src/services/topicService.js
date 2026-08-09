@@ -4,7 +4,7 @@
  */
 
 /* Imported Models for FOREIGN KEYS */
-const { Section } = require("../models");
+const { Section, Category } = require("../models");
 
 const {
   findAll,
@@ -91,12 +91,20 @@ const topicCreate = async (Topic, form, token) => {
     !form.title ||
     !form.description ||
     form.title === "" ||
-    form.description === ""
+    form.description === "" ||
+    !form.category ||
+    form.category === ""
   ) {
     throw new Error("Form Field Empty");
   }
+  const category = await findOne(Category, { where: { name: form.category } });
+  if (category === null) {
+    const e = new Error("Unknown Category");
+    e.table = "Category";
+    throw e;
+  }
 
-  const isTopic = await topicFindOne(Topic, form);
+  const isTopic = await topicFindOne(Topic, form.title);
 
   if (isTopic) {
     throw new Error("Topic Already Exists");
@@ -108,7 +116,7 @@ const topicCreate = async (Topic, form, token) => {
       {
         title: form.title,
         description: form.description,
-        id_category: form.category,
+        id_category: category.id_category,
         id_user: token.id_user,
 
         // Section inserts

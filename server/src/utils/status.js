@@ -72,7 +72,7 @@ const badRequest = (res, message) => {
 const unauthorized = (res, message) => {
   return res.status(401).json({
     success: false,
-    message: `${message}`,
+    message: message,
   });
 };
 
