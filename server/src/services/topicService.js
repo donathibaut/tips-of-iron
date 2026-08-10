@@ -6,6 +6,9 @@
 /* Imported Models for FOREIGN KEYS */
 const { Section, Category } = require("../models");
 
+// Import config for .transaction()
+const sequelize = require("../config/config");
+
 const {
   findAll,
   findOne,
@@ -18,14 +21,14 @@ const {
 /*============================================================================*/
 /**
  * @async
- * @function topicFindByFK
+ * @function topicsFindByFK
  * @description Find All Topics BY FOREIGN KEY || null
  * @param {object} Topic - Topic Model
  * @param {object} fkTable - foreign key TABLE
  * @param {object} fk - foreign key
  * @returns {Promise<Array|null>} Topic + Section
  */
-const topicFindByFK = async (Topic, fkTable, fk) => {
+const topicsFindByFK = async (Topic, fkTable, fk) => {
   const array = await findAll(Topic, {
     where: { [fkTable]: fk },
     include: [{ model: Section }],
@@ -104,7 +107,7 @@ const topicCreate = async (Topic, form, token) => {
     throw e;
   }
 
-  const isTopic = await topicFindOne(Topic, form.title);
+  const isTopic = await topicFindOne(Topic, form);
 
   if (isTopic) {
     throw new Error("Topic Already Exists");
@@ -187,7 +190,6 @@ const topicUpdate = async (Topic, form, targetID) => {
         title: form.title,
         description: form.description,
         id_category: category.id_category,
-        id_user: token.id_user,
       },
       { where: { id_topic: targetID }, transaction: transaction },
     );
@@ -204,6 +206,7 @@ const topicUpdate = async (Topic, form, targetID) => {
         text: section.text,
         list_nb: section.list_nb,
         id_topic: targetID,
+        id_user: isTopic.id_user,
       })),
       { transaction: transaction },
     );
@@ -262,7 +265,7 @@ const topicDestroy = async (Topic, targetID) => {
 };
 
 module.exports = {
-  topicFindByFK,
+  topicsFindByFK,
   topicFindOne,
   topicFindByPk,
   topicCreate,

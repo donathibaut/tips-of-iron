@@ -7,7 +7,7 @@ const Topic = require("../models/Topic");
 const tableName = "Topic";
 
 const {
-  topicFindByFK,
+  topicsFindByFK,
   topicFindOne,
   topicFindByPk,
   topicCreate,
@@ -36,23 +36,26 @@ const {
  * @returns {Promise<void>} All Topics from FK || null
  */
 const getFKTopics = async (req, res) => {
+  let id_user = req.params.id_user;
+  let id_category = req.params.id_category;
+
   let fkTable;
   let fk;
   try {
-    if (req.params.id_user) {
+    if (id_user && id_user !== "") {
       fkTable = "id_user";
-      fk = req.params.id_user;
-    } else if (req.params.id_category) {
+      fk = id_user;
+    } else if (id_category && id_category !== "") {
       fkTable = "id_category";
-      fk = req.params.id_category;
+      fk = id_category;
     } else {
-      const fkMissing = "Foreign Key";
-      return notFound(res, fkMissing);
+      const err = "Foreign Key Missing";
+      return badRequest(res, err);
     }
 
-    const topic = await topicFindByFK(Topic, fkTable, fk);
+    const topic = await topicsFindByFK(Topic, fkTable, fk);
 
-    if (topic.length === 0) {
+    if (topic === null) {
       return notFound(res, tableName);
     }
 
@@ -98,13 +101,10 @@ const postTopic = async (req, res) => {
   const token = req.token;
 
   try {
-    if (token.id_user) {
+    if (token) {
       const result = await topicCreate(Topic, req.body, token);
 
       return successCreated(res, result.message, result.topic);
-    } else {
-      const forbiddenMessage = "You don't have the right !";
-      return forbidden(res, forbiddenMessage);
     }
   } catch (e) {
     if (
@@ -112,7 +112,7 @@ const postTopic = async (req, res) => {
       e.message === "Topic Already Exists"
     ) {
       return badRequest(res, e.message);
-    } else if (e.message === "Unknown Category" && e.table) {
+    } else if (e.message === "Category Not Found" && e.table) {
       return notFound(res, e.table);
     }
     return servError(res, e);

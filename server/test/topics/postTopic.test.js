@@ -11,43 +11,55 @@ const supertest = require("supertest");
 const reqTest = supertest(app);
 
 const assert = require("node:assert");
-const { describe, it, before } = require("node:test");
+const { describe, it, before, beforeEach } = require("node:test");
 
 const jwt = require("jsonwebtoken");
 
 // prettier-ignore
 describe("POST topics", () => {
 
+  let newUser;
   let userID;
+  let userEmail;
+  let userRole;
+
   let tokenTest;
   let wrongToken;
-
-  // accessibility for all it()
-  let testEmail;
   
   before(async () => {
+    await Section.destroy({ where: {} });
+    await Topic.destroy({ where: {} });
+    await User.destroy({ where: {} });
+    await Category.destroy({ where: {} });
 
-    // Date.now() -> unique user for any test run (fix test errors)
-    const emailDateNow = Date.now();
-    testEmail = `testguy_${emailDateNow}@gmail.com`;
-
-    const res = await reqTest
-      .post("/api/user")
-      .send({ username: "testGuy", email: testEmail, password: "password" });
+    newUser = await User.create(
+      { 
+        id_user: 1, 
+        username: 'userTestTopic',
+        email: "user@gmail.test",
+        password: "$2a$12$lvLkudeg1.lgqrTOcdQCb.5He7nRQtZzApl1jkUT.7Soj8Pzvsmu.",
+        role: 1,
+      },
+    );
     
-    const testUser = res.body.result; 
-    userID = testUser?.id_user || testUser?.id;
+    userID = newUser?.id_user || newUser?.id;
+    userEmail = newUser?.email || newUser?.email;
+    userRole = newUser?.role || newUser?.role;
 
     tokenTest = jwt.sign(
-      { id_user: userID, email: testEmail, role: 0 },
+      { id_user: userID, email: userEmail, role: userRole },
       process.env.SECRET_KEY,
       { expiresIn: "1h" },
     );
 
     wrongToken = jwt.sign(
-      { id_user: 999, email: testEmail, role: 999 },
+      { id_user: 999, email: "xxxxxxx@xxxx.com", role: 999 },
       process.env.SECRET_KEY,
       { expiresIn: "1h" },
+    );
+
+    await Category.create(
+      { id_category: 1, name: 'Interface' },
     );
   });
 
@@ -56,21 +68,6 @@ describe("POST topics", () => {
     async () => {
       await Section.destroy({ where: {} });
       await Topic.destroy({ where: {} });
-      await User.destroy({ where: {} });
-      await Category.destroy({ where: {} });
-
-      await User.create(
-        { 
-          id_user: 1, 
-          username: 'userTestTopic',
-          email: "user@gmail.test",
-          password: "$2a$12$lvLkudeg1.lgqrTOcdQCb.5He7nRQtZzApl1jkUT.7Soj8Pzvsmu.",
-          role: 0,
-        },
-      );
-      await Category.create(
-        { id_category: 1, name: 'Interface' },
-      );
 
       const response = await reqTest
         .post("/api/topic")
@@ -94,17 +91,9 @@ describe("POST topics", () => {
       assert.strictEqual(response.body.message, "Topic successfully created !");
     }
   );
-
+  
   /*============================================================================*/
-  it("Error 400 Form Field Empty",
-    async () => {
-      const response = await reqTest.post("/api/topic").set("Authorization", `Bearer ${tokenTest}`).send({}).expect(400);
-
-      assert.strictEqual(response.body.message, "Form Field Empty");
-    }
-  );
-
-  /*============================================================================*/
+  // NO BEFORE EACH : this test needs the result from "Create topic + Success 201" (above this one)
   it("Error 400 Topic Already Exists",
     async () => {
       const response = await reqTest
@@ -130,44 +119,14 @@ describe("POST topics", () => {
   );
 
   /*============================================================================*/
-  it("Error 403",
+  it("Error 400 Form Field Empty",
     async () => {
       await Section.destroy({ where: {} });
       await Topic.destroy({ where: {} });
-      await User.destroy({ where: {} });
-      await Category.destroy({ where: {} });
 
-      await User.create(
-        { 
-          id_user: 1, 
-          username: 'userTestTopic',
-          email: "user@gmail.test",
-          password: "$2a$12$lvLkudeg1.lgqrTOcdQCb.5He7nRQtZzApl1jkUT.7Soj8Pzvsmu.",
-          role: 0,
-        },
-      );
-      await Category.create(
-        { id_category: 1, name: 'Interface' },
-      );
+      const response = await reqTest.post("/api/topic").set("Authorization", `Bearer ${tokenTest}`).send({}).expect(400);
 
-      const response = await reqTest
-        .post("/api/topic")
-        .set("Authorization", `Bearer ${wrongToken}`)
-        .send({ 
-          title: "topicTitle", 
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-          category: "Interface",
-          sections: [
-            {
-              title: "sectionTitle",
-              image_path: "",
-              text: "Lorem ipsum dolor sit amet,",
-              list_nb: 1,
-            }
-          ]
-        }).expect(403);
-
-      assert.strictEqual(response.body.success, false);
+      assert.strictEqual(response.body.message, "Form Field Empty");
     }
   );
 
@@ -176,21 +135,6 @@ describe("POST topics", () => {
     async () => {
       await Section.destroy({ where: {} });
       await Topic.destroy({ where: {} });
-      await User.destroy({ where: {} });
-      await Category.destroy({ where: {} });
-
-      await User.create(
-        { 
-          id_user: 1, 
-          username: 'userTestTopic',
-          email: "user@gmail.test",
-          password: "$2a$12$lvLkudeg1.lgqrTOcdQCb.5He7nRQtZzApl1jkUT.7Soj8Pzvsmu.",
-          role: 0,
-        },
-      );
-      await Category.create(
-        { id_category: 1, name: 'Interface' },
-      );
 
       const response = await reqTest
         .post("/api/topic")

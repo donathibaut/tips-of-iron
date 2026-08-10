@@ -19,7 +19,7 @@ const { unauthorized } = require("../utils/status");
 const authMiddleware = async (req, res, next) => {
   try {
     /*
-     * .split(" ") creates an array from 'type : string' where '" " = index separator'
+     * .split(" ") creates an array from 'type : string' (" " = index separator)
      * [0] => "Bearer"
      * [1] => "token"
      */

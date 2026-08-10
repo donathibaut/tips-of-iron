@@ -9,14 +9,24 @@ const router = express.Router();
 const topicController = require("../controllers/topicController");
 
 // Middleware import
-const authMiddleware = require("../middlewares/authMiddleware");
+const authRoleMiddleware = require("../middlewares/authRoleMiddleware");
 
 // Controller call
 router.get("/user/:id_user", topicController.getFKTopics);
+router.get("/user", topicController.getFKTopics); // ERROR 400 -> NO ID PROVIDED
 router.get("/category/:id_category", topicController.getFKTopics);
+router.get("/category", topicController.getFKTopics); // ERROR 400 -> NO ID PROVIDED
 router.get("/:title", topicController.getTopic);
-router.post("/", authMiddleware, topicController.postTopic);
-router.patch("/:id_topic", authMiddleware, topicController.patchTopic);
-router.delete("/:id_topic", authMiddleware, topicController.deleteTopic);
+router.post("/", authRoleMiddleware([1, 2]), topicController.postTopic);
+router.patch(
+  "/:id_topic",
+  authRoleMiddleware([1, 2]),
+  topicController.patchTopic,
+);
+router.delete(
+  "/:id_topic",
+  authRoleMiddleware([1, 2]),
+  topicController.deleteTopic,
+);
 
 module.exports = router;

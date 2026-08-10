@@ -11,17 +11,27 @@ const supertest = require("supertest");
 const reqTest = supertest(app);
 
 const assert = require("node:assert");
-const { describe, it, before } = require("node:test");
+const { describe, it, before, beforeEach } = require("node:test");
 
 // prettier-ignore
-describe("GET topics", () => {
-  it("Error 404",
-    async () => {
+describe("GET topics BY Foreign Key", () => {
+  beforeEach(async () => {
       await Section.destroy({ where: {} });
       await Topic.destroy({ where: {} });
       await User.destroy({ where: {} });
       await Category.destroy({ where: {} });
+  });
 
+  it("Error 400 Foreign Key Missing",
+    async () => {
+      const response = await reqTest.get("/api/topic/category/").expect(400);
+
+      assert.strictEqual(response.body.success, false);
+    }
+  );
+
+  it("Error 404",
+    async () => {
       const response = await reqTest.get("/api/topic/category/1").expect(404);
 
       assert.strictEqual(response.body.success, false);

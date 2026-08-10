@@ -14,7 +14,7 @@ const assert = require("node:assert");
 const { describe, it, before } = require("node:test");
 
 // prettier-ignore
-describe("GET topics", () => {
+describe("GET topic", () => {
   it("Error 404",
     async () => {
       await Section.destroy({ where: {} });
@@ -22,7 +22,7 @@ describe("GET topics", () => {
       await User.destroy({ where: {} });
       await Category.destroy({ where: {} });
 
-      const response = await reqTest.get("/api/topic/category/testTitle").expect(404);
+      const response = await reqTest.get("/api/topic/testTitle").expect(404);
 
       assert.strictEqual(response.body.success, false);
     }
@@ -59,7 +59,7 @@ describe("GET topics", () => {
       );
       
       const response = await reqTest
-        .get(`/api/topic/category/testTitle`)
+        .get(`/api/topic/testTitle`)
         .expect(200);
 
       assert.strictEqual(response.body.success, true);
