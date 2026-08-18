@@ -10,7 +10,7 @@ import Login from "./pages/Login/Login";
 
 // CRUD TOPIC
 import Topic from "./pages/Topic/Topic";
-import CreateTopic from "./pages/TopicEditor/CreateTopic";
+import CreateTopic from "./pages/TopicEditor/CreateTopic/CreateTopic";
 
 // NORMS
 import Accessibility from "./pages/Norms/Accessibility/Accessibility";

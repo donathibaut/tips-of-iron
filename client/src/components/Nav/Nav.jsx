@@ -1,23 +1,28 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Nav() {
   return (
-    <ul>
-      <li>
-        <button>
-          <img src="" alt="Search Button" />
-        </button>
-      </li>
-      <li>
-        <button>
-          <img src="" alt="Connection Button" />
-        </button>
-      </li>
-      <li>
-        <button>
-          <img src="" alt="Nav Button" />
-        </button>
-      </li>
-    </ul>
+    <div>
+      <ul>
+        <li>
+          <button>
+            <img src="" alt="Search Button" />
+          </button>
+        </li>
+        <li>
+          <Link to="/login">
+            <img src="" alt="Connection Button" />
+          </Link>
+        </li>
+        <li>
+          <button>
+            <img src="" alt="Nav Button" />
+          </button>
+        </li>
+      </ul>
+      <ul>
+        <li>Nav Elements</li>
+      </ul>
+    </div>
   );
 }
