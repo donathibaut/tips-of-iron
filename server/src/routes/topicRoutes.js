@@ -12,10 +12,8 @@ const topicController = require("../controllers/topicController");
 const authRoleMiddleware = require("../middlewares/authRoleMiddleware");
 
 // Controller call
-router.get("/user/:id_user", topicController.getFKTopics);
-router.get("/user", topicController.getFKTopics); // ERROR 400 -> NO ID PROVIDED
-router.get("/category/:id_category", topicController.getFKTopics);
-router.get("/category", topicController.getFKTopics); // ERROR 400 -> NO ID PROVIDED
+router.get("/user/:id_user", topicController.getTopicsByFK);
+router.get("/category/:id_category", topicController.getTopicsByFK);
 router.get("/:title", topicController.getTopic);
 router.post("/", authRoleMiddleware([1, 2]), topicController.postTopic);
 router.patch(

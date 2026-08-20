@@ -29,13 +29,13 @@ const {
 /*============================================================================*/
 /**
  * @async
- * @function getFKTopics
+ * @function getTopicsByFK
  * @description Controller : Read Topics from Foreign Key
  * @param {Object} req - Targeted user ID
  * @param {Object} res
  * @returns {Promise<void>} All Topics from FK || null
  */
-const getFKTopics = async (req, res) => {
+const getTopicsByFK = async (req, res) => {
   let id_user = req.params.id_user;
   let id_category = req.params.id_category;
 
@@ -193,7 +193,7 @@ const deleteTopic = async (req, res) => {
 };
 
 module.exports = {
-  getFKTopics,
+  getTopicsByFK,
   getTopic,
   postTopic,
   patchTopic,
