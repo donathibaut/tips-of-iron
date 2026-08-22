@@ -45,12 +45,13 @@ export const fetchTopic = async (title) => {
 /**
  * @async
  * @function postTopic
- * @param {Object} token - connected user token
  * @param {Object} form - contain data to post
  * @returns {Promise<Object>}
  * @description Create Topic
  */
-export const postTopic = async (token, form) => {
+export const postTopic = async (form) => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(`${apiURL}/topic`, {
     method: "POST",
     headers: {
@@ -67,12 +68,13 @@ export const postTopic = async (token, form) => {
  * @async
  * @function patchTopic
  * @param {String} id - topicID
- * @param {Object} token - connected user token
  * @param {Object} form - contain data to post
  * @returns {Promise<Object>}
  * @description Update Topic
  */
-export const patchTopic = async (id, token, form) => {
+export const patchTopic = async (id, form) => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(`${apiURL}/topic/${id}`, {
     method: "PATCH",
     headers: {
@@ -89,11 +91,12 @@ export const patchTopic = async (id, token, form) => {
  * @async
  * @function deleteTopic
  * @param {String} id - topicID
- * @param {Object} token - connected user token
  * @returns {Promise<Object>}
  * @description Delete Topic
  */
-export const deleteTopic = async (id, token) => {
+export const deleteTopic = async (id) => {
+  const token = localStorage.getItem("token");
+
   const res = await fetch(`${apiURL}/topic/${id}`, {
     method: "DELETE",
     headers: {

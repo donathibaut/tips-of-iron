@@ -18,5 +18,9 @@ export const postAuth = async (form) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(form),
   });
-  return await res.json();
+  const auth = await res.json();
+
+  if (auth.success) {
+    localStorage.setItem("token", auth.token);
+  }
 };
