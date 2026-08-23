@@ -11,5 +11,5 @@ const isProd = window.location.hostname !== "localhost";
  * @description Define API URL
  */
 export const apiURL = isProd
-  ? "https://https://tips-of-iron.astalg.com/api"
+  ? "https://tips-of-iron.astalg.com/api"
   : "http://localhost:3001/api";

@@ -1,6 +1,10 @@
 import { Helmet } from "react-helmet-async";
+import { useLocation } from "react-router-dom";
 
 export default function Home() {
+  // GET success message WHEN redirect to Home
+  const location = useLocation();
+  const successMessage = location.state?.successMessage;
   return (
     <>
       <Helmet>
@@ -13,10 +17,15 @@ export default function Home() {
       <main>
         <section className="searchSection">
           <h1>We make Hearts of Iron IV understandable!</h1>
+
+          {successMessage && (
+            <div className="successMessage">{successMessage}</div>
+          )}
+
           {/* Search Bar */}
           <form class="form-inline">
             <input
-              class="form-control mr-sm-2"
+              className="form-control mr-sm-2"
               type="search"
               placeholder="Search"
               aria-label="Search"

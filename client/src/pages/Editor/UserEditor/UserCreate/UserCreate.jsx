@@ -1,30 +1,42 @@
 import { Helmet } from "react-helmet-async";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { authSubmitHandler } from "../../utils/handlers/authSubmitHandler";
 
-export default function Login() {
+import { userCreateHandler } from "../../../../utils/handlers/userSubmitHandler";
+
+export default function CreateUser() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   return (
     <>
       <Helmet>
-        <title>Sign in</title>
-        <meta name="description" content="Tips of Iron connection page" />
+        <title>Sign up</title>
+        <meta
+          name="description"
+          content="Create your account on Tips of Iron"
+        />
       </Helmet>
       <main>
         <section>
-          <h1>Sign in</h1>
+          <h1>Sign up</h1>
 
           {error && <div className="errorMessage">{error}</div>}
 
           <form
             onSubmit={(event) => {
-              authSubmitHandler(event, setError, navigate);
+              userCreateHandler(event, setError, navigate);
             }}
           >
-            <label htmlFor="email">Login ID (email address):</label>
+            <label htmlFor="username">Username:</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              maxLength="50"
+              required
+            />
+            <label htmlFor="email">Email:</label>
             <input
               type="email"
               id="email"
@@ -32,13 +44,20 @@ export default function Login() {
               maxLength="150"
               required
             />
+
             <label htmlFor="password">Password:</label>
             <input type="password" id="password" name="password" required />
+            <label htmlFor="confirmPassword">Confirm Password:</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              required
+            />
+
             <button type="submit">Submit</button>
             <Link to="/">Cancel</Link>
           </form>
-
-          <Link to="/create-user">Create a new account</Link>
         </section>
       </main>
     </>

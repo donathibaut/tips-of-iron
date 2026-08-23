@@ -8,9 +8,12 @@ import Footer from "./components/Footer/Footer";
 // LOGIN
 import Login from "./pages/Login/Login";
 
+// CRUD USER
+import CreateUser from "./pages/Editor/UserEditor/UserCreate/UserCreate";
+
 // CRUD TOPIC
 import Topic from "./pages/Topic/Topic";
-import CreateTopic from "./pages/TopicEditor/CreateTopic/CreateTopic";
+import CreateTopic from "./pages/Editor/TopicEditor/TopicCreate/TopicCreate";
 
 // NORMS
 import Accessibility from "./pages/Norms/Accessibility/Accessibility";
@@ -27,6 +30,9 @@ export default function App() {
 
         {/* LOGIN */}
         <Route path="/login" element={<Login />}></Route>
+
+        {/* CRUD USER */}
+        <Route path="/create-user" element={<CreateUser />}></Route>
 
         {/* CRUD TOPIC */}
         <Route path="/topic" element={<Topic />}></Route>

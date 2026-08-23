@@ -11,7 +11,7 @@ export default function Nav() {
         </li>
         <li>
           <Link to="/login">
-            <img src="" alt="Connection Button" />
+            <img src="" alt="Sign in" />
           </Link>
         </li>
         <li>
