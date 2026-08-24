@@ -1,10 +1,17 @@
 import { Helmet } from "react-helmet-async";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  // GET success message WHEN redirect to Home
-  const location = useLocation();
-  const successMessage = location.state?.successMessage;
+  // Is SUCCESS MESSAGE ?
+  const [successMessage, setSuccessMessage] = useState(null);
+  useEffect(() => {
+    const txt = localStorage.getItem("successMessage");
+    if (txt) {
+      setSuccessMessage(txt);
+      localStorage.removeItem("successMessage");
+    }
+  }, []); // Reliable success message value
+
   return (
     <>
       <Helmet>
@@ -18,6 +25,7 @@ export default function Home() {
         <section className="searchSection">
           <h1>We make Hearts of Iron IV understandable!</h1>
 
+          {/* SUCCESS Message Banner */}
           {successMessage && (
             <div className="successMessage">{successMessage}</div>
           )}

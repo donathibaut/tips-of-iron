@@ -1,12 +1,11 @@
 import { Helmet } from "react-helmet-async";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import { userCreateHandler } from "../../../../utils/handlers/userSubmitHandler";
+import userCreateHandler from "../../../../utils/handlers/userSubmitHandler/userCreateHandler";
 
 export default function CreateUser() {
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   return (
     <>
@@ -25,7 +24,7 @@ export default function CreateUser() {
 
           <form
             onSubmit={(event) => {
-              userCreateHandler(event, setError, navigate);
+              userCreateHandler(event, setError);
             }}
           >
             <label htmlFor="username">Username:</label>

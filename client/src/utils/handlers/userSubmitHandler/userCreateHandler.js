@@ -1,10 +1,10 @@
 /**
- * @file userSubmitHandler.js
- * @description Handle User
+ * @file userCreateHandler.js
+ * @description Handle Create User
  */
 
-import { postUser } from "../../services/userAPI";
-import { postAuth } from "../../services/authAPI";
+import { postUser } from "../../../services/userAPI";
+import { postAuth } from "../../../services/authAPI";
 
 /**
  * @async
@@ -12,10 +12,9 @@ import { postAuth } from "../../services/authAPI";
  * @description Handle Create User Form and Create Session with it
  * @param {Event} event - form submission
  * @param {String} setError - set error message
- * @param {useNavigate} navigate - useNavigate
  * @returns {Promise<void>} Token || null
  */
-export async function userCreateHandler(event, setError, navigate) {
+export default async function userCreateHandler(event, setError) {
   // reset message
   setError(null);
 
@@ -46,13 +45,13 @@ export async function userCreateHandler(event, setError, navigate) {
     };
     await postAuth(authFields);
 
-    /* 
-        redirect to Home page with SUCCESS message
-        redirection -> DESTROY useState
+    // store SUCCESS message
+    localStorage.setItem("successMessage", "Welcome to Tips of Iron !");
+    /*
+        REFRESH page
+        redirection -> DESTROY useState 
     */
-    navigate("/", {
-      state: { successMessage: "Welcome to Tips of Iron !" },
-    });
+    window.location.href = "/";
   } catch (e) {
     console.log("Form Submission Error:", e);
     setError(e.message);

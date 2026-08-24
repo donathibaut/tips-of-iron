@@ -1,20 +1,19 @@
 /**
- * @file authSubmitHandler.js
- * @description Handle Authentication
+ * @file loginSubmitHandler.js
+ * @description Handle Login
  */
 
-import { postAuth } from "../../services/authAPI";
+import { postAuth } from "../../../services/authAPI";
 
 /**
  * @async
- * @function authSubmitHandler
- * @description Handle Authentication Form
+ * @function loginSubmitHandler
+ * @description Handle LOGIN Form
  * @param {Event} event - form submission
  * @param {String} setError - set error message
- * @param {useNavigate} navigate - useNavigate
  * @returns {Promise<void>} Token || null
  */
-export async function authSubmitHandler(event, setError, navigate) {
+export default async function loginSubmitHandler(event, setError) {
   // reset message
   setError(null);
 
@@ -29,11 +28,13 @@ export async function authSubmitHandler(event, setError, navigate) {
   try {
     await postAuth(data);
 
-    /* 
-        redirect to Home page with SUCCESS message
-        redirection -> DESTROY useState
+    // store SUCCESS message
+    localStorage.setItem("successMessage", "You are connected !");
+    /*
+        REFRESH page
+        redirection -> DESTROY useState 
     */
-    navigate("/", { state: { successMessage: "You are connected !" } });
+    window.location.href = "/";
   } catch (e) {
     console.log("Authentication Error:", e);
     setError(e.message);

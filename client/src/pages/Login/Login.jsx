@@ -1,11 +1,11 @@
 import { Helmet } from "react-helmet-async";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { authSubmitHandler } from "../../utils/handlers/authSubmitHandler";
+import { Link } from "react-router-dom";
+
+import loginSubmitHandler from "../../utils/handlers/authSubmitHandler/loginSubmitHandler";
 
 export default function Login() {
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   return (
     <>
@@ -21,7 +21,7 @@ export default function Login() {
 
           <form
             onSubmit={(event) => {
-              authSubmitHandler(event, setError, navigate);
+              loginSubmitHandler(event, setError);
             }}
           >
             <label htmlFor="email">Login ID (email address):</label>
