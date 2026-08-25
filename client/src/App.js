@@ -32,11 +32,11 @@ export default function App() {
         <Route path="/login" element={<Login />}></Route>
 
         {/* CRUD USER */}
-        <Route path="/create-user" element={<CreateUser />}></Route>
+        <Route path="/new-user" element={<CreateUser />}></Route>
 
         {/* CRUD TOPIC */}
         <Route path="/topic" element={<Topic />}></Route>
-        <Route path="/create-topic" element={<CreateTopic />}></Route>
+        <Route path="/new-topic" element={<CreateTopic />}></Route>
 
         {/* NORMS */}
         <Route path="/accessibility" element={<Accessibility />}></Route>

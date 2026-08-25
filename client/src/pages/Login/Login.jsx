@@ -38,7 +38,7 @@ export default function Login() {
             <Link to="/">Cancel</Link>
           </form>
 
-          <Link to="/create-user">Create a new account</Link>
+          <Link to="/new-user">Create a new account</Link>
         </section>
       </main>
     </>

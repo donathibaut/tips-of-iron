@@ -2,7 +2,10 @@ import { Helmet } from "react-helmet-async";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  // Is SUCCESS MESSAGE ?
+  /* 
+    Is SUCCESS MESSAGE ?
+    Message DELETED by refresh
+  */
   const [successMessage, setSuccessMessage] = useState(null);
   useEffect(() => {
     const txt = localStorage.getItem("successMessage");
@@ -10,7 +13,7 @@ export default function Home() {
       setSuccessMessage(txt);
       localStorage.removeItem("successMessage");
     }
-  }, []); // Reliable success message value
+  }, []);
 
   return (
     <>
@@ -27,7 +30,7 @@ export default function Home() {
 
           {/* SUCCESS Message Banner */}
           {successMessage && (
-            <div className="successMessage">{successMessage}</div>
+            <div className="success-message">{successMessage}</div>
           )}
 
           {/* Search Bar */}
