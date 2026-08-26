@@ -28,10 +28,12 @@ export default function Home() {
         <section className="searchSection">
           <h1>We make Hearts of Iron IV understandable!</h1>
 
-          {/* SUCCESS Message Banner */}
-          {successMessage && (
-            <div className="success-message">{successMessage}</div>
-          )}
+          {
+            // SUCCESS MESSAGE
+            successMessage && (
+              <p className="success-message">{successMessage}</p>
+            )
+          }
 
           {/* Search Bar */}
           <form class="form-inline">

@@ -7,8 +7,9 @@ import { Link } from "react-router-dom";
 
 /**
  * @function ListCategories
- * @param {Array} array
- * @param {Boolean} loading - is loading ?
+ * @param {Object} props
+ * @prop {Array} props.array
+ * @prop {Boolean} props.loading - is loading ?
  * @returns {JSX.Element}
  * @description List Categories with <Link> markups
  */
@@ -28,20 +29,23 @@ export function ListCategories({ array, loading }) {
 
 /**
  * @function SelectCategories
- * @param {Array} array
- * @param {Boolean} loading - is loading ?
+ * @param {Object} props
+ * @param {Array} props.array
+ * @param {Boolean} props.loading - is loading ?
  * @returns {JSX.Element}
  * @description List Categories for <option> markups
  */
 export function SelectCategories({ array, loading }) {
   return loading ? (
-    <li className="loading">Loading...</li>
+    <option value="" className="loading">
+      Loading...
+    </option>
   ) : (
     array.map((category) => {
       return (
-        <li key={category.id_category}>
-          <Link to={`/${category.name}`}>{category.name}</Link>
-        </li>
+        <option value={category.name} key={category.id_category}>
+          {category.name}
+        </option>
       );
     })
   );

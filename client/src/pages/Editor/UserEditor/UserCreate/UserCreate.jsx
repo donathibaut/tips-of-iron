@@ -20,7 +20,10 @@ export default function CreateUser() {
         <section>
           <h1>Sign up</h1>
 
-          {error && <div className="errorMessage">{error}</div>}
+          {
+            //ERROR MESSAGE
+            error !== null && <p className="error-message">{error}</p>
+          }
 
           <form
             onSubmit={(event) => {

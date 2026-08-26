@@ -27,6 +27,11 @@ export default function Nav() {
   return (
     <div>
       <nav className="navbar">
+        {
+          //ERROR MESSAGE
+          error !== null && <p className="error-message">{error}</p>
+        }
+
         <ul>
           <li>
             <Link to="/">Tips of Iron</Link>
