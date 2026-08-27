@@ -6,32 +6,49 @@
  * @function FieldsetSection
  * @param {Object} props
  * @param {Number} props.index
+ * @param {Function} props.onChange - Listen on input change
  * @param {function} props.remove - (event) => function
  * @returns {JSX.Element}
  * @description Create Section Fieldset
  */
-export default function FieldsetSection({ index, remove }) {
+export default function FieldsetSection({ index, remove, onChange }) {
   return (
     <fieldset>
-      <label htmlFor="title">Section title:</label>
-      <input type="text" id="title" name="title" required />
-      <label htmlFor="image_path">Add a picture (jpg, png):</label>
+      <label htmlFor={`section-title-${index}`}>Section title:</label>
       <input
-        type="file"
-        id="image_path"
-        name="image_path"
-        accept="image/png, image/jpeg, image/jpg"
+        type="text"
+        id={`section-title-${index}`}
+        name="section-title"
+        onChange={(event) => onChange("title", event.target.value)}
+        required
       />
-      <label htmlFor="text">Text:</label>
-      <input type="text" id="text" name="text" required />
+      <label htmlFor={`section-image_path-${index}`}>Add a picture URL:</label>
+      <input
+        type="url"
+        id={`section-image_path-${index}`}
+        name="section-image_path"
+        accept="image/png, image/jpeg, image/jpg"
+        onChange={(event) => onChange("image_path", event.target.value)}
+      />
+      <label htmlFor={`section-text-${index}`}>Text:</label>
+      <input
+        type="text"
+        id={`section-text-${index}`}
+        name="section-text"
+        onChange={(event) => onChange("text", event.target.value)}
+        required
+      />
       <input
         type="number"
-        id="list_nb"
-        name="list_nb"
+        id={`section-list_nb-${index}`}
+        name="section-list_nb"
         value={index + 1}
+        onChange={(event) => onChange("list_nb", event.target.value)}
         readOnly
       />
-      <button onClick={remove}>Cancel</button>
+      <button type="button" onClick={remove}>
+        Cancel
+      </button>
     </fieldset>
   );
 }

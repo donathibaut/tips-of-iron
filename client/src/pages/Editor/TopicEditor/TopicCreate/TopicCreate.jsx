@@ -2,14 +2,30 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { SelectCategories } from "../../../../components/Categories/ListCategories";
 import { useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
 import useCategories from "../../../../hooks/Categories/useCategories";
 import sectionAddHandler from "../../../../utils/handlers/sectionSubmitHandler/sectionAddHandler";
+import topicCreateHandler from "../../../../utils/handlers/topicSubmitHandler/topicCreateHandler";
+import sectionOnChangeHandler from "../../../../utils/handlers/sectionSubmitHandler/sectionOnChangeHandler";
 
 import FieldsetSection from "../../../../components/Sections/FieldsetSection";
 
 export default function CreateTopic() {
   const [error, setError] = useState(null);
+
+  // get token
+  const token = localStorage.getItem("token");
+  // DECODE Base64 token to access token role (for example)
+  let decodedToken = null;
+  if (token) {
+    try {
+      decodedToken = jwtDecode(token);
+    } catch (e) {
+      console.error("Token Issue", e);
+    }
+  }
+  const id_user = decodedToken ? decodedToken.id_user : null;
 
   // LIST CATEGORIES
   const { categories, loading } = useCategories();
@@ -50,13 +66,17 @@ export default function CreateTopic() {
             error !== null && <p className="error-message">{error}</p>
           }
 
-          <form action="">
+          <form
+            onSubmit={(event) => {
+              topicCreateHandler(event, sections, id_user, setError);
+            }}
+          >
             <fieldset>
               <label htmlFor="title">Title:</label>
               <input type="text" id="title" name="title" required />
               <label htmlFor="description">Global Description:</label>
               <input type="text" id="description" name="description" required />
-              <label htmlFor="">Category:</label>
+              <label htmlFor="category">Category:</label>
               <select name="category" id="category" required>
                 <option value="">--Choose a category--</option>
                 {/* Dynamic options */}
@@ -74,6 +94,15 @@ export default function CreateTopic() {
                   key={object.fieldID}
                   index={index}
                   remove={(event) => sectionRemove(event, object.fieldID)}
+                  onChange={(inputName, inputValue) =>
+                    sectionOnChangeHandler(
+                      sections,
+                      setSections,
+                      object.fieldID,
+                      inputName,
+                      inputValue,
+                    )
+                  }
                 ></FieldsetSection>
               );
             })}

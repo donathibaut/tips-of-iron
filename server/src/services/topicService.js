@@ -114,27 +114,27 @@ const topicCreate = async (Topic, form, token) => {
   }
 
   try {
-    const newTopic = await create(
-      Topic,
-      {
-        title: form.title,
-        description: form.description,
-        id_category: category.id_category,
-        id_user: token.id_user,
+    const newTopic = await create(Topic, {
+      title: form.title,
+      description: form.description,
+      id_category: category.id_category,
+      id_user: token.id_user,
+    });
 
-        // Section inserts
-        Sections: form.sections.map((section) => ({
+    // SECTION CREATE
+    if (Array.isArray(form.sections) && form.sections.length > 0) {
+      for (const section of form.sections) {
+        await create(Section, {
           title: section.title,
-          image_path: section.image_path,
+          image_path: section.image_path || "",
           text: section.text,
           list_nb: section.list_nb,
           id_user: token.id_user,
-        })),
-      },
-      {
-        include: [{ model: Section }],
-      },
-    );
+          id_topic: newTopic.id_topic,
+        });
+      }
+    }
+
     return {
       success: true,
       message: "Topic successfully created !",
