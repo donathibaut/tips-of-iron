@@ -66,11 +66,13 @@ export default function Nav() {
                   <img src="" alt="Profile Options" />
                 </button>
                 <ul className="dropdown-menu">
+                  {/* PROFILE */}
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <Link className="dropdown-item" to="/profile">
                       Profile
-                    </a>
+                    </Link>
                   </li>
+                  {/* LOG OUT */}
                   <li>
                     <button
                       className="dropdown-item"

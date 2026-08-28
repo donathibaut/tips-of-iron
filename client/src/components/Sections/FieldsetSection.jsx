@@ -38,14 +38,10 @@ export default function FieldsetSection({ index, remove, onChange }) {
         onChange={(event) => onChange("text", event.target.value)}
         required
       />
-      <input
-        type="number"
-        id={`section-list_nb-${index}`}
-        name="section-list_nb"
-        value={index + 1}
-        onChange={(event) => onChange("list_nb", event.target.value)}
-        readOnly
-      />
+
+      {/* Purely visual data */}
+      <p className="list-position">{index + 1}</p>
+
       <button type="button" onClick={remove}>
         Cancel
       </button>

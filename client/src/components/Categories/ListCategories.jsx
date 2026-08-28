@@ -20,7 +20,7 @@ export function ListCategories({ array, loading }) {
     array.map((category) => {
       return (
         <li key={category.id_category}>
-          <Link to={`/${category.name}`}>{category.name}</Link>
+          <Link to={`/results`}>{category.name}</Link>
         </li>
       );
     })

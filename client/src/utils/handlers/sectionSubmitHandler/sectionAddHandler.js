@@ -23,7 +23,6 @@ export default async function sectionAddHandler(event, setSections, setError) {
     const defaultTitle = "";
     const defaultImage_path = "";
     const defaultText = "";
-    const defaultListNb = 0;
 
     // Add a new section object with setSections
     setSections((section) => [
@@ -34,7 +33,8 @@ export default async function sectionAddHandler(event, setSections, setError) {
         title: defaultTitle,
         image_path: defaultImage_path,
         text: defaultText,
-        list_nb: defaultListNb,
+        // Dynamic Update of list_nb
+        list_nb: section.length + 1,
       },
     ]);
   } catch (e) {

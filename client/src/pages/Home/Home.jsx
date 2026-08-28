@@ -25,7 +25,7 @@ export default function Home() {
         />
       </Helmet>
       <main>
-        <section className="searchSection">
+        <section className="search-section">
           <h1>We make Hearts of Iron IV understandable!</h1>
 
           {
@@ -51,13 +51,13 @@ export default function Home() {
             </button>
           </form>
         </section>
-        <section className="countrySection">
+        <section className="country-section">
           <ul>Countries List</ul>
         </section>
-        <section className="interfaceSection">
+        <section className="interface-section">
           <ul>Interface List</ul>
         </section>
-        <section className="scenarioSection">
+        <section className="scenarios-section">
           <ul>Scenarios List</ul>
         </section>
       </main>

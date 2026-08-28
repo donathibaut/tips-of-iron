@@ -8,6 +8,12 @@ import Footer from "./components/Footer/Footer";
 // LOGIN
 import Login from "./pages/Login/Login";
 
+// PROFILE
+import Profile from "./pages/Profile/Profile";
+
+// RESULTS
+import Results from "./pages/Results/Results";
+
 // CRUD USER
 import CreateUser from "./pages/Editor/UserEditor/UserCreate/UserCreate";
 
@@ -30,6 +36,12 @@ export default function App() {
 
         {/* LOGIN */}
         <Route path="/login" element={<Login />}></Route>
+
+        {/* PROFILE */}
+        <Route path="/profile" element={<Profile />}></Route>
+
+        {/* RESULTS */}
+        <Route path="/results" element={<Results />}></Route>
 
         {/* CRUD USER */}
         <Route path="/new-user" element={<CreateUser />}></Route>

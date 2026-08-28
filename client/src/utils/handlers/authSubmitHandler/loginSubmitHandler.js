@@ -28,13 +28,18 @@ export default async function loginSubmitHandler(event, setError) {
   try {
     await postAuth(data);
 
-    // store SUCCESS message
-    localStorage.setItem("successMessage", "You are connected !");
-    /*
+    const token = localStorage.getItem("token");
+    if (token) {
+      // store SUCCESS message
+      localStorage.setItem("successMessage", "You are connected !");
+      /*
         REFRESH page
         redirection -> DESTROY useState 
     */
-    window.location.href = "/";
+      window.location.href = "/";
+    } else {
+      setError("Incorrect Email or Password");
+    }
   } catch (e) {
     console.log("Authentication Error:", e);
     setError(e.message);
