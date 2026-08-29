@@ -3,8 +3,10 @@
  * @description Topic CRUD Controller
  */
 
-const Topic = require("../models/Topic");
+const { Topic, Category } = require("../models");
 const tableName = "Topic";
+
+const { findOne } = require("../services/basicService");
 
 const {
   topicsFindByFK,
@@ -31,29 +33,39 @@ const {
  * @async
  * @function getTopicsByFK
  * @description Controller : Read Topics from Foreign Key
- * @param {Object} req - Targeted user ID
+ * @param {Object} req - Targeted User ID or Category name
  * @param {Object} res
  * @returns {Promise<void>} All Topics from FK || null
  */
 const getTopicsByFK = async (req, res) => {
   let id_user = req.params.id_user;
-  let id_category = req.params.id_category;
+  let category = req.params.name;
 
-  let fkTable;
+  let fkCol;
   let fk;
   try {
+    // IF USER
     if (id_user && id_user !== "") {
-      fkTable = "id_user";
+      fkCol = "id_user";
       fk = id_user;
-    } else if (id_category && id_category !== "") {
-      fkTable = "id_category";
-      fk = id_category;
+    }
+    // IF CATEGORY
+    else if (category && category !== "") {
+      // category NAME TO ID
+      const findCategory = await findOne(Category, {
+        where: { name: category },
+      });
+      if (findCategory === null) {
+        return notFound(res, "Category");
+      }
+      fkCol = "id_category";
+      fk = findCategory.id_category;
     } else {
       const err = "Foreign Key Missing";
       return badRequest(res, err);
     }
 
-    const topic = await topicsFindByFK(Topic, fkTable, fk);
+    const topic = await topicsFindByFK(Topic, fkCol, fk);
 
     if (topic === null) {
       return notFound(res, tableName);

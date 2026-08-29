@@ -1,25 +1,16 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { jwtDecode } from "jwt-decode";
 
 import logoutSubmitHandler from "../../utils/handlers/authSubmitHandler/logoutSubmitHandler";
 
 import useCategories from "../../hooks/Categories/useCategories";
 import { ListCategories } from "../Categories/ListCategories";
+import decodeToken from "../../utils/decodeToken";
 
 export default function Nav() {
   const [error, setError] = useState(null);
 
-  const token = localStorage.getItem("token");
-  // DECODE Base64 token to access token role (for example)
-  let decodedToken = null;
-  if (token) {
-    try {
-      decodedToken = jwtDecode(token);
-    } catch (e) {
-      console.error("Token Issue", e);
-    }
-  }
+  const decodedToken = decodeToken();
 
   // LIST CATEGORIES
   const { categories, loading } = useCategories();
@@ -55,7 +46,7 @@ export default function Nav() {
 
           {
             // PROFILE || SIGN IN
-            token ? (
+            decodedToken ? (
               <div className="dropdown">
                 <button
                   className="btn btn-secondary dropdown-toggle"
@@ -123,16 +114,17 @@ export default function Nav() {
         </ul>
 
         {/* IS ROLE 1 || 2 ? */}
-        {token && (decodedToken.role === 1 || decodedToken.role === 2) && (
-          <ul className="action-list">
-            <li>
-              <Link to="/my-topics">My topics</Link>
-            </li>
-            <li>
-              <Link to="/new-topic">Create a new topic</Link>
-            </li>
-          </ul>
-        )}
+        {decodedToken &&
+          (decodedToken.role === 1 || decodedToken.role === 2) && (
+            <ul className="action-list">
+              <li>
+                <Link to="/my-topics">My topics</Link>
+              </li>
+              <li>
+                <Link to="/new-topic">Create a new topic</Link>
+              </li>
+            </ul>
+          )}
       </div>
     </div>
   );

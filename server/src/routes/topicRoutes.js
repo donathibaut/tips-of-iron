@@ -13,7 +13,7 @@ const authRoleMiddleware = require("../middlewares/authRoleMiddleware");
 
 // Controller call
 router.get("/user/:id_user", topicController.getTopicsByFK);
-router.get("/category/:id_category", topicController.getTopicsByFK);
+router.get("/category/:name", topicController.getTopicsByFK);
 router.get("/:title", topicController.getTopic);
 router.post("/", authRoleMiddleware([1, 2]), topicController.postTopic);
 router.patch(

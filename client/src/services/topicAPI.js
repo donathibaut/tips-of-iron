@@ -20,12 +20,12 @@ export const fetchTopicByUser = async (id) => {
 /**
  * @async
  * @function fetchTopicByCategory
- * @param {String} id - categoryID
+ * @param {String} name
  * @returns {Promise<Object>}
  * @description Read topic by category
  */
-export const fetchTopicByCategory = async (id) => {
-  const res = await fetch(`${apiURL}/topic/category/${id}`);
+export const fetchTopicByCategory = async (name) => {
+  const res = await fetch(`${apiURL}/topic/category/${name}`);
   return await res.json();
 };
 

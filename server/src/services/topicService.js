@@ -100,6 +100,8 @@ const topicCreate = async (Topic, form, token) => {
   ) {
     throw new Error("Form Field Empty");
   }
+
+  // category NAME TO ID
   const category = await findOne(Category, { where: { name: form.category } });
   if (category === null) {
     const e = new Error("Category Not Found");
