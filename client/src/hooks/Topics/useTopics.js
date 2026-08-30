@@ -4,7 +4,45 @@
  */
 
 import { useState, useEffect } from "react";
-import { fetchTopicByCategory } from "../../services/topicAPI";
+import { fetchTopicByCategory, fetchTopic } from "../../services/topicAPI";
+
+/**
+ * @function useTopic
+ * @returns {Array} topics
+ * @returns {Boolean} loading
+ * @description Get Topics by Category
+ */
+export function useTopic(title) {
+  const [topic, setTopics] = useState([null]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    /**
+     * @async
+     * @function getTopic
+     * @returns {Promise<void>}
+     * @description Call API function to FETCH topics by Category
+     */
+    const getTopic = async (title) => {
+      try {
+        const data = await fetchTopic(title);
+        if (data.result) {
+          setTopics(data.result);
+        } else {
+          setTopics([]);
+        }
+        setLoading(false);
+      } catch (e) {
+        console.error("Request Failed :", e);
+        setLoading(false);
+      }
+    };
+
+    getTopic(title);
+  }, [title]);
+
+  return { topic, loading };
+}
 
 /**
  * @function useTopicsByCategory
@@ -13,7 +51,7 @@ import { fetchTopicByCategory } from "../../services/topicAPI";
  * @description Get Topics by Category
  */
 export function useTopicsByCategory(category) {
-  const [topics, setTopics] = useState([]);
+  const [topics, setTopics] = useState([null]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

@@ -1,29 +1,43 @@
 import { Helmet } from "react-helmet-async";
+import { useParams } from "react-router-dom";
+
+import { useTopic } from "../../hooks/Topics/useTopics";
 
 export default function Topic() {
-  return (
+  // GET search param
+  const { title } = useParams();
+
+  const { topic, loading } = useTopic(title);
+
+  return loading ? (
+    <li className="loading">Loading...</li>
+  ) : (
     <>
       <Helmet>
-        <title>Topic{/* Topic Name */}</title>
+        <title>{topic.title}</title>
         <meta name="description" content="Topic description" />
         {/* Topic Description */}
       </Helmet>
       <main>
-        <section>
-          <h1>Topic Name</h1>
-          {/* Topic Name */}
-
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis
-            aute irure dolor in reprehenderit in voluptate velit esse cillum
-            dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-            non proident, sunt in culpa qui officia deserunt mollit anim id est
-            laborum.
-          </p>
-          {/* Topic Description */}
+        <section className="topic-section">
+          <h1>{topic.title}</h1>
+          <p>{topic.description}</p>
         </section>
-        {/* Topic Sections */}
+        {topic.sections &&
+          topic.sections.map((section) => (
+            <section
+              key={section.id_section}
+              className={`section-${section.id_section}`}
+            >
+              <h2>{section.title}</h2>
+
+              {section.image_path && section.image_path !== "" && (
+                <img src={section.image_path} alt="section illustration" />
+              )}
+
+              <p>{section.text}</p>
+            </section>
+          ))}
       </main>
     </>
   );

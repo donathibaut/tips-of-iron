@@ -22,7 +22,10 @@ export default function FieldsetSection({ index, remove, onChange }) {
         onChange={(event) => onChange("title", event.target.value)}
         required
       />
-      <label htmlFor={`section-image_path-${index}`}>Add a picture URL:</label>
+      <label htmlFor={`section-image_path-${index}`}>
+        Add a picture URL{" "}
+        <span className="label-instruction">(copy the image's address)</span>:
+      </label>
       <input
         type="url"
         id={`section-image_path-${index}`}

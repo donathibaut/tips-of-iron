@@ -13,7 +13,7 @@ import { fetchCategory } from "../../services/categoryAPI";
  * @description Get Categories for REACT Components
  */
 export default function useCategories() {
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([null]);
   const [loading, setLoading] = useState(true);
 
   /**

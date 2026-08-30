@@ -20,7 +20,7 @@ export default function ListTopics({ array, loading }) {
     array.map((topic) => {
       return (
         <li key={topic.id_topic}>
-          <Link to={`/results/${topic.title}`}>{topic.title}</Link>
+          <Link to={`/topic/${topic.title}`}>{topic.title}</Link>
         </li>
       );
     })

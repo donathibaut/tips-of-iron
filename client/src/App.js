@@ -47,7 +47,7 @@ export default function App() {
         <Route path="/new-user" element={<CreateUser />}></Route>
 
         {/* CRUD TOPIC */}
-        <Route path="/topic" element={<Topic />}></Route>
+        <Route path="/topic/:title" element={<Topic />}></Route>
         <Route path="/new-topic" element={<CreateTopic />}></Route>
 
         {/* NORMS */}
