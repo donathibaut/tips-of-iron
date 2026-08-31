@@ -6,12 +6,12 @@ import { jwtDecode } from "jwt-decode";
 
 import useCategories from "../../../../hooks/Categories/useCategories";
 import sectionAddHandler from "../../../../utils/handlers/sectionSubmitHandler/sectionAddHandler";
-import topicCreateHandler from "../../../../utils/handlers/topicSubmitHandler/topicCreateHandler";
+import topicUpdateHandler from "../../../../utils/handlers/topicSubmitHandler/topicUpdateHandler";
 import sectionOnChangeHandler from "../../../../utils/handlers/sectionSubmitHandler/sectionOnChangeHandler";
 
 import FieldsetSection from "../../../../components/Sections/FieldsetSection";
 
-export default function TopicCreate() {
+export default function TopicUpdate() {
   const [error, setError] = useState(null);
 
   // get token
@@ -55,11 +55,11 @@ export default function TopicCreate() {
     <>
       <Helmet>
         <title>Topic Editor</title>
-        <meta name="description" content="Tips of Iron topic edition page" />
+        <meta name="description" content="Tips of Iron topic update page" />
       </Helmet>
       <main>
         <section>
-          <h1>Create a new Topic</h1>
+          <h1>Update Topic</h1>
 
           {
             // ERROR MESSAGE
@@ -68,7 +68,7 @@ export default function TopicCreate() {
 
           <form
             onSubmit={(event) => {
-              topicCreateHandler(event, sections, id_user, setError);
+              topicUpdateHandler(event, sections, id_user, setError);
             }}
           >
             <fieldset>

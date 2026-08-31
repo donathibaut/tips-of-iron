@@ -19,7 +19,9 @@ import CreateUser from "./pages/Editor/UserEditor/UserCreate/UserCreate";
 
 // CRUD TOPIC
 import Topic from "./pages/Topic/Topic";
-import CreateTopic from "./pages/Editor/TopicEditor/TopicCreate/TopicCreate";
+import MyTopics from "./pages/Editor/TopicEditor/MyTopics/MyTopics";
+import TopicCreate from "./pages/Editor/TopicEditor/TopicCreate/TopicCreate";
+import TopicUpdate from "./pages/Editor/TopicEditor/TopicUpdate.jsx/TopicUpdate";
 
 // NORMS
 import Accessibility from "./pages/Norms/Accessibility/Accessibility";
@@ -48,7 +50,9 @@ export default function App() {
 
         {/* CRUD TOPIC */}
         <Route path="/topic/:title" element={<Topic />}></Route>
-        <Route path="/new-topic" element={<CreateTopic />}></Route>
+        <Route path="/my-topics" element={<MyTopics />}></Route>
+        <Route path="/new-topic" element={<TopicCreate />}></Route>
+        <Route path="/update-topic/:title" element={<TopicUpdate />}></Route>
 
         {/* NORMS */}
         <Route path="/accessibility" element={<Accessibility />}></Route>

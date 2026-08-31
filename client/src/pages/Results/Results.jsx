@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { useParams } from "react-router-dom";
 
 import { useTopicsByCategory } from "../../hooks/Topics/useTopics";
-import ListTopics from "../../components/Topics/ListTopics";
+import { ListTopics } from "../../components/Topics/ListTopics";
 
 export default function Results() {
   // GET search param
@@ -39,7 +39,9 @@ export default function Results() {
         </section>
 
         <section className="results-section">
-          <ListTopics array={topics} loading={loading}></ListTopics>
+          <ul>
+            <ListTopics array={topics} loading={loading}></ListTopics>
+          </ul>
         </section>
       </main>
     </>

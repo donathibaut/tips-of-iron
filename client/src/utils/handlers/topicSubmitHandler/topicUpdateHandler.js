@@ -1,21 +1,21 @@
 /**
- * @file topicCreateHandler.js
- * @description Handle Create Topic
+ * @file topicUpdateHandler.js
+ * @description Handle Update Topic
  */
 
 import { postTopic } from "../../../services/topicAPI";
 
 /**
  * @async
- * @function topicCreateHandler
- * @description Handle Create Topic Form
+ * @function topicUpdateHandler
+ * @description Handle Update Topic Form
  * @param {Event} event - form submission
  * @param {Array} sections - sections state
  * @param {Number} id_user
  * @param {Function} setError - set error message
  * @returns {Promise<void>} null
  */
-export default async function topicCreateHandler(
+export default async function topicUpdateHandler(
   event,
   sections,
   id_user,
