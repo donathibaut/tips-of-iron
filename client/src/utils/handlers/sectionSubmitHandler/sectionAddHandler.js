@@ -4,15 +4,14 @@
  */
 
 /**
- * @async
  * @function sectionAddHandler
  * @description Handle Add Section in Form
  * @param {Event} event - button click
- * @param {Object} setSections - set sections
- * @param {String} setError - set error message
+ * @param {Function} setSections - set sections
+ * @param {Function} setError - set error message
  * @returns {Promise<void>} null
  */
-export default async function sectionAddHandler(event, setSections, setError) {
+export default function sectionAddHandler(event, setSections, setError) {
   // reset message
   setError(null);
 
@@ -20,19 +19,15 @@ export default async function sectionAddHandler(event, setSections, setError) {
   event.preventDefault();
 
   try {
-    const defaultTitle = "";
-    const defaultImage_path = "";
-    const defaultText = "";
-
     // Add a new section object with setSections
     setSections((section) => [
       ...section,
       {
         // fieldID -> fixed value for sections management in the form
         fieldID: Date.now(),
-        title: defaultTitle,
-        image_path: defaultImage_path,
-        text: defaultText,
+        title: "",
+        image_path: "",
+        text: "",
         // Dynamic Update of list_nb
         list_nb: section.length + 1,
       },

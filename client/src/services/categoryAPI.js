@@ -7,11 +7,11 @@ import { apiURL } from "./config/config";
 
 /**
  * @async
- * @function fetchCategory
+ * @function fetchCategories
  * @returns {Promise<Object>}
- * @description
+ * @description fetch all categories
  */
-export const fetchCategory = async () => {
+export const fetchCategories = async () => {
   const res = await fetch(`${apiURL}/category`);
   return await res.json();
 };

@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect } from "react";
-import { fetchCategory } from "../../services/categoryAPI";
+import { fetchCategories } from "../../services/categoryAPI";
 
 /**
  * @function useCategories
@@ -24,7 +24,7 @@ export default function useCategories() {
    */
   const getCategories = async () => {
     try {
-      const data = await fetchCategory();
+      const data = await fetchCategories();
       if (data.result) {
         setCategories(data.result);
       } else {

@@ -6,12 +6,18 @@
  * @function FieldsetSection
  * @param {Object} props
  * @param {Number} props.index
+ * @param {Array} props.sections - sections state
  * @param {Function} props.onChange - Listen on input change
  * @param {function} props.remove - (event) => function
  * @returns {JSX.Element}
  * @description Create Section Fieldset
  */
-export default function FieldsetSection({ index, remove, onChange }) {
+export default function FieldsetSection({
+  index,
+  section = "",
+  remove,
+  onChange,
+}) {
   return (
     <fieldset>
       <label htmlFor={`section-title-${index}`}>Section title:</label>
@@ -19,11 +25,12 @@ export default function FieldsetSection({ index, remove, onChange }) {
         type="text"
         id={`section-title-${index}`}
         name="section-title"
+        defaultValue={section.title}
         onChange={(event) => onChange("title", event.target.value)}
         required
       />
       <label htmlFor={`section-image_path-${index}`}>
-        Add a picture URL{" "}
+        Add a picture URL
         <span className="label-instruction">(copy the image's address)</span>:
       </label>
       <input
@@ -31,6 +38,7 @@ export default function FieldsetSection({ index, remove, onChange }) {
         id={`section-image_path-${index}`}
         name="section-image_path"
         accept="image/png, image/jpeg, image/jpg"
+        defaultValue={section.image_path}
         onChange={(event) => onChange("image_path", event.target.value)}
       />
       <label htmlFor={`section-text-${index}`}>Text:</label>
@@ -38,11 +46,12 @@ export default function FieldsetSection({ index, remove, onChange }) {
         type="text"
         id={`section-text-${index}`}
         name="section-text"
+        defaultValue={section.text}
         onChange={(event) => onChange("text", event.target.value)}
         required
       />
 
-      {/* Purely visual data */}
+      {/* Purely visual */}
       <p className="list-position">{index + 1}</p>
 
       <button type="button" onClick={remove}>

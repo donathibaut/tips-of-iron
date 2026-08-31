@@ -37,7 +37,9 @@ export function ListTopics({ array, loading }) {
  */
 export function ListMyTopics({ array, loading }) {
   return loading ? (
-    <li className="loading">Loading...</li>
+    <tr className="loading">
+      <td>Loading...</td>
+    </tr>
   ) : (
     array.map((topic) => {
       return (
@@ -46,7 +48,7 @@ export function ListMyTopics({ array, loading }) {
             <Link to={`/topic/${topic.title}`}>{topic.title}</Link>
           </th>
           <td>
-            <Link to={`/update-topic/${topic.title}`} className="update-link">
+            <Link to={`/topic-editor/${topic.title}`} className="update-link">
               Update
             </Link>
           </td>

@@ -121,7 +121,7 @@ export default function Nav() {
                 <Link to="/my-topics">My topics</Link>
               </li>
               <li>
-                <Link to="/new-topic">Create a new topic</Link>
+                <Link to="/topic-editor">Create a new topic</Link>
               </li>
             </ul>
           )}
