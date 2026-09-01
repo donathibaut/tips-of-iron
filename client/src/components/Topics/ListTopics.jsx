@@ -4,6 +4,10 @@
  */
 
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { jwtDecode } from "jwt-decode";
+
+import topicDeleteHandler from "../../utils/handlers/topicSubmitHandler/topicDeleteHandler";
 
 /**
  * @function ListTopics
@@ -36,6 +40,24 @@ export function ListTopics({ array, loading }) {
  * @description List my Topics with table rows (update & delete options)
  */
 export function ListMyTopics({ array, loading }) {
+  const [error, setError] = useState(null);
+  if (error !== null) {
+    console.error(error);
+  }
+
+  // get token
+  const token = localStorage.getItem("token");
+  // DECODE Base64 token to access token role (for example)
+  let decodedToken = null;
+  if (token) {
+    try {
+      decodedToken = jwtDecode(token);
+    } catch (e) {
+      console.error("Token Issue", e);
+    }
+  }
+  const userID = decodedToken ? decodedToken.id_user : null;
+
   return loading ? (
     <tr className="loading">
       <td>Loading...</td>
@@ -53,9 +75,15 @@ export function ListMyTopics({ array, loading }) {
             </Link>
           </td>
           <td>
-            <button type="submit" className="delete-link">
-              Delete
-            </button>
+            <form
+              onSubmit={(event) => {
+                topicDeleteHandler(event, userID, topic.id_topic, setError);
+              }}
+            >
+              <button type="submit" className="delete-link">
+                Delete
+              </button>
+            </form>
           </td>
         </tr>
       );

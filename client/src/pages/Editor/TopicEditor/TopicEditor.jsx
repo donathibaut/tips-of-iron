@@ -16,6 +16,7 @@ import sectionOnChangeHandler from "../../../utils/handlers/sectionSubmitHandler
 
 import { SelectCategories } from "../../../components/Categories/ListCategories";
 import FieldsetSection from "../../../components/Sections/FieldsetSection";
+import topicUpdateHandler from "../../../utils/handlers/topicSubmitHandler/topicUpdateHandler";
 
 export default function TopicEditor() {
   const { title } = useParams();
@@ -33,7 +34,7 @@ export default function TopicEditor() {
       console.error("Token Issue", e);
     }
   }
-  const id_user = decodedToken ? decodedToken.id_user : null;
+  const userID = decodedToken ? decodedToken.id_user : null;
 
   // LIST CATEGORIES
   const { categories, loading: categoriesLoading } = useCategories();
@@ -43,17 +44,31 @@ export default function TopicEditor() {
 
   // user input for onChange attr
   const [userInput, setUserInput] = useState("");
+  console.log(userInput);
 
   // UPDATE: selected TOPIC
-  const { topic, loading: topicLoading } = useTopic(title);
-  const topicSections = topic.sections;
+  let { topic, loading: topicLoading } = useTopic(title);
+  console.log(topic);
+  const topicID = topic.id_topic;
+  let topicSections = topic.sections;
+  if (!title) {
+    topic = null;
+    topicSections = null;
+  }
 
   // UPDATE: generate sections
   useEffect(() => {
-    if (topic) {
+    if (topicSections) {
       addSectionFromTopic(topicSections, setSections, setError);
     }
-  }, [topic]);
+  }, [topicSections]);
+
+  // Avoid update sections still in creation form
+  useEffect(() => {
+    if (!title) {
+      setSections([]);
+    }
+  }, [title]);
 
   return topicLoading ? (
     <li className="loading">Loading...</li>
@@ -74,7 +89,11 @@ export default function TopicEditor() {
 
           <form
             onSubmit={(event) => {
-              topicCreateHandler(event, sections, id_user, setError);
+              if (!title) {
+                topicCreateHandler(event, sections, userID, setError);
+              } else {
+                topicUpdateHandler(event, sections, userID, topicID, setError);
+              }
             }}
           >
             <fieldset>
@@ -84,7 +103,7 @@ export default function TopicEditor() {
                 id="title"
                 name="title"
                 required
-                value={topic.title ? topic.title : ""}
+                value={topic && topic.title ? topic.title : ""}
                 onChange={(e) => {
                   setUserInput(e.target.value);
                 }}
@@ -95,14 +114,14 @@ export default function TopicEditor() {
                 id="description"
                 name="description"
                 required
-                value={topic.description ? topic.description : ""}
+                value={topic && topic.description ? topic.description : ""}
                 onChange={(e) => {
                   setUserInput(e.target.value);
                 }}
               />
               <label htmlFor="category">Category:</label>
               <select name="category" id="category" required>
-                {topic.id_category ? (
+                {topic && topic.id_category ? (
                   <option value={findCategory(topic.id_category, categories)}>
                     {findCategory(topic.id_category, categories)}
                   </option>

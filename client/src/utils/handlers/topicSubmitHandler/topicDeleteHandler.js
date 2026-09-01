@@ -1,13 +1,13 @@
 /**
- * @file topicUpdateHandler.js
+ * @file topicDeleteHandler.js
  * @description Handle Update Topic
  */
 
-import { patchTopic } from "../../../services/topicAPI";
+import { deleteTopic } from "../../../services/topicAPI";
 
 /**
  * @async
- * @function topicUpdateHandler
+ * @function topicDeleteHandler
  * @description Handle Update Topic Form
  * @param {Event} event - form submission
  * @param {Array} sections - sections state
@@ -16,9 +16,8 @@ import { patchTopic } from "../../../services/topicAPI";
  * @param {Function} setError - set error message
  * @returns {Promise<void>} null
  */
-export default async function topicUpdateHandler(
+export default async function topicDeleteHandler(
   event,
-  sections,
   userID,
   topicID,
   setError,
@@ -41,20 +40,13 @@ export default async function topicUpdateHandler(
     return setError(errorMessage);
   }
 
-  const allData = {
-    title: event.target.title.value,
-    description: event.target.description.value,
-    category: event.target.category.value,
-    sections: sections,
-  };
-
   try {
-    console.log(allData);
-    const updatedTopic = await patchTopic(topicID, allData);
-    console.log(updatedTopic);
+    console.log(topicID);
+    const deletion = await deleteTopic(topicID);
+    console.log(deletion);
 
     // store SUCCESS message
-    localStorage.setItem("successMessage", "Your topic has been updated !");
+    localStorage.setItem("successMessage", "Your topic has been deleted !");
     /*
         REFRESH page
         redirection -> DESTROY useState 
