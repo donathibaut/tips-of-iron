@@ -19,16 +19,16 @@ export default function Profile() {
 
           {/* IS ROLE 1 || 2 ? */}
           {(decodedToken.role === 1 || decodedToken.role === 2) && (
-            <section className="myTopics-section">
-              <Link>My topics</Link>
+            <section className="my-topics-section">
+              <Link to="/my-topics">My topics</Link>
             </section>
           )}
 
-          <section className="modifyAccount-section">
-            <Link>Modify my account</Link>
+          <section className="modify-account-section">
+            <Link to="/update-user">Modify my account</Link>
           </section>
           <section className="deleteAccount-section">
-            <Link>Delete my account</Link>
+            <button className="delete-btn">Delete my account</button>
           </section>
         </main>
       </>

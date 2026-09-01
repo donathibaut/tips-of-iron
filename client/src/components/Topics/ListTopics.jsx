@@ -80,7 +80,7 @@ export function ListMyTopics({ array, loading }) {
                 topicDeleteHandler(event, userID, topic.id_topic, setError);
               }}
             >
-              <button type="submit" className="delete-link">
+              <button type="submit" className="delete-btn">
                 Delete
               </button>
             </form>

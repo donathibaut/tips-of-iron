@@ -118,25 +118,13 @@ const userCreate = async (User, form) => {
 /**
  * @async
  * @function userUpdate
- * @description Update user personal data || null
+ * @description Update user personal data + update token || null
  * @param {object} User - User Model
  * @param {object} form - update form
  * @param {object} targetID - user account ID
  * @returns {Promise<Object|null>}
  */
 const userUpdate = async (User, form, targetID) => {
-  // is it empty ?
-  if (
-    !form.username ||
-    !form.email ||
-    !form.password ||
-    form.username === "" ||
-    form.email === "" ||
-    form.password === ""
-  ) {
-    throw new Error("Form Field Empty");
-  }
-
   const isUser = await userFindByPk(User, targetID);
 
   if (!isUser) {
@@ -144,21 +132,46 @@ const userUpdate = async (User, form, targetID) => {
   }
 
   try {
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(form.password, saltRounds);
-    await update(
-      User,
+    const updateData = {};
+
+    if (form.password) {
+      const saltRounds = 10;
+      updateData.password = await bcrypt.hash(form.password, saltRounds);
+    } else if (form.email) {
+      updateData.email = form.email;
+    } else if (form.username) {
+      updateData.username = form.username;
+    } else {
+      throw new Error("Field Empty");
+    }
+
+    await update(User, updateData, {
+      where: { id_user: targetID },
+    });
+
+    // UPDATE TOKEN
+    const newUser = await userFindByPk(User, targetID);
+
+    if (!newUser) {
+      throw new Error("User Not Found");
+    }
+
+    // sign TOKEN
+    const token = jwt.sign(
       {
-        username: form.username,
-        email: form.email,
-        password: hashedPassword,
+        id_user: newUser.id_user,
+        username: newUser.username,
+        email: newUser.email,
+        role: newUser.role,
       },
+      process.env.SECRET_KEY,
       {
-        where: { id_user: targetID },
+        expiresIn: "7d",
       },
     );
 
     return {
+      token: token,
       success: true,
       message: "Information successfully updated !",
     };

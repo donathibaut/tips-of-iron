@@ -1,6 +1,6 @@
 /**
  * @file topicDeleteHandler.js
- * @description Handle Update Topic
+ * @description Handle Delete Topic
  */
 
 import { deleteTopic } from "../../../services/topicAPI";
@@ -8,9 +8,8 @@ import { deleteTopic } from "../../../services/topicAPI";
 /**
  * @async
  * @function topicDeleteHandler
- * @description Handle Update Topic Form
+ * @description Handle Delete Topic Form
  * @param {Event} event - form submission
- * @param {Array} sections - sections state
  * @param {Number} userID
  * @param {Number} topicID
  * @param {Function} setError - set error message

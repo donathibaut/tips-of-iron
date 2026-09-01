@@ -15,7 +15,8 @@ import Profile from "./pages/Profile/Profile";
 import Results from "./pages/Results/Results";
 
 // CRUD USER
-import CreateUser from "./pages/Editor/UserEditor/UserCreate/UserCreate";
+import UserCreate from "./pages/Editor/UserEditor/UserCreate/UserCreate";
+import UserUpdate from "./pages/Editor/UserEditor/UserUpdate.js/UserUpdate";
 
 // CRUD TOPIC
 import Topic from "./pages/Topic/Topic";
@@ -45,7 +46,8 @@ export default function App() {
         <Route path="/results/:search" element={<Results />}></Route>
 
         {/* CRUD USER */}
-        <Route path="/new-user" element={<CreateUser />}></Route>
+        <Route path="/new-user" element={<UserCreate />}></Route>
+        <Route path="/update-user" element={<UserUpdate />}></Route>
 
         {/* CRUD TOPIC */}
         <Route path="/topic/:title" element={<Topic />}></Route>
