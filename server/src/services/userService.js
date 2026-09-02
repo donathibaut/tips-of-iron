@@ -4,12 +4,13 @@
  */
 
 // Necessary to use Op.or ("OR" for Sequelize filters)
-const { Op } = require("sequelize");
+const { Op, Error } = require("sequelize");
+
+const jwt = require("jsonwebtoken");
 
 const bcrypt = require("bcrypt");
 
 const {
-  findAll,
   findOne,
   findByPk,
   create,
@@ -106,11 +107,11 @@ const userCreate = async (User, form) => {
     });
     return {
       success: true,
-      message: "User successfully created !",
+      message: "User successfully created!",
       user: newUser,
     };
   } catch (e) {
-    throw new Error(`Creation Failed : ${e.message}`);
+    throw new Error(`Creation Issue: ${e.message}`);
   }
 };
 
@@ -134,15 +135,15 @@ const userUpdate = async (User, form, targetID) => {
   try {
     const updateData = {};
 
-    if (form.password) {
+    if (form.password && form.newPassword) {
       const saltRounds = 10;
-      updateData.password = await bcrypt.hash(form.password, saltRounds);
-    } else if (form.email) {
+      updateData.password = await bcrypt.hash(form.newPassword, saltRounds);
+    }
+    if (form.email) {
       updateData.email = form.email;
-    } else if (form.username) {
+    }
+    if (form.username) {
       updateData.username = form.username;
-    } else {
-      throw new Error("Field Empty");
     }
 
     await update(User, updateData, {
@@ -156,7 +157,6 @@ const userUpdate = async (User, form, targetID) => {
       throw new Error("User Not Found");
     }
 
-    // sign TOKEN
     const token = jwt.sign(
       {
         id_user: newUser.id_user,
@@ -173,10 +173,10 @@ const userUpdate = async (User, form, targetID) => {
     return {
       token: token,
       success: true,
-      message: "Information successfully updated !",
+      message: "Information successfully updated!",
     };
   } catch (e) {
-    throw new Error(`Update Failed : ${e.message}`);
+    throw new Error(`Update Issue: ${e.message}`);
   }
 };
 
@@ -200,10 +200,10 @@ const userDestroy = async (User, targetID) => {
 
       return {
         success: true,
-        message: "User successfully deleted !",
+        message: "User successfully deleted!",
       };
     } catch (e) {
-      throw new Error(`Deletion Failed : ${e.message}`);
+      throw new Error(`Deletion Issue: ${e.message}`);
     }
   } else {
     throw new Error("User Not Found");

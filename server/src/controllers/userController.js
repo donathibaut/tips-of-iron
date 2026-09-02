@@ -3,8 +3,12 @@
  * @description User CRUD Controller
  */
 
+const bcrypt = require("bcrypt");
+
 const User = require("../models/User");
 const tableName = "User";
+
+const { findByPk } = require("../services/basicService");
 
 const {
   userFindByPk,
@@ -22,6 +26,7 @@ const {
   servError,
   errorBlock,
   badRequest,
+  unauthorized,
 } = require("../utils/status");
 
 /*============================================================================*/
@@ -92,11 +97,29 @@ const patchUser = async (req, res) => {
       return notFound(res, tableName);
     }
 
+    if (req.body.password && req.body.newPassword) {
+      // /!\ isUser excludes password /!\
+      const userWithHash = await findByPk(User, id_user);
+
+      const verifPassword = await bcrypt.compare(
+        req.body.password,
+        userWithHash.password,
+      );
+      if (!verifPassword) {
+        const errorMessage = "Incorrect Password";
+        return unauthorized(res, errorMessage);
+      }
+    }
+
     if (Number(req.token.id_user) === Number(id_user) || req.token.role === 1) {
       const user = await userUpdate(User, req.body, id_user);
-      return success(res, user.message);
+      return res.status(200).json({
+        token: user.token,
+        success: true,
+        message: user.message,
+      });
     } else {
-      const forbiddenMessage = "You don't have the right !";
+      const forbiddenMessage = "You don't have the right!";
       return forbidden(res, forbiddenMessage);
     }
   } catch (e) {
@@ -129,7 +152,7 @@ const deleteUser = async (req, res) => {
       const user = await userDestroy(User, id_user);
       return success(res, user.message);
     } else {
-      const forbiddenMessage = "You don't have the right !";
+      const forbiddenMessage = "You don't have the right!";
       return forbidden(res, forbiddenMessage);
     }
   } catch (e) {

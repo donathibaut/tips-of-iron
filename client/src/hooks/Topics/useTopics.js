@@ -44,7 +44,7 @@ export function useTopic(title) {
           setLoading(false);
         }
       } catch (e) {
-        console.error("Request Failed :", e);
+        console.error("Request Failed:", e);
         setLoading(false);
       }
     };
@@ -89,7 +89,7 @@ export function useTopicsByCategory(category) {
           setLoading(false);
         }
       } catch (e) {
-        console.error("Request Failed :", e);
+        console.error("Request Failed:", e);
         setLoading(false);
       }
     };
@@ -134,7 +134,7 @@ export function useTopicsByUser(userID) {
           setLoading(false);
         }
       } catch (e) {
-        console.error("Request Failed :", e);
+        console.error("Request Failed:", e);
         setLoading(false);
       }
     };

@@ -32,7 +32,7 @@ export default function useCategories() {
       }
       setLoading(false);
     } catch (e) {
-      console.error("Request Failed :", e);
+      console.error("Request Failed:", e);
       setLoading(false);
     }
   };

@@ -1,13 +1,39 @@
 import { Helmet } from "react-helmet-async";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import userCreateHandler from "../../../../utils/handlers/userSubmitHandler/userCreateHandler";
+import decodeToken from "../../../../utils/decodeToken";
+
+import { useUserByID } from "../../../../hooks/Users/useUsers";
+
+import userUpdateHandler from "../../../../utils/handlers/userSubmitHandler/userUpdateHandler";
 
 export default function UserUpdate() {
   const [error, setError] = useState(null);
 
-  return (
+  /* 
+      Is SUCCESS MESSAGE ?
+      Message DELETED by refresh
+    */
+  const [successMessage, setSuccessMessage] = useState(null);
+  useEffect(() => {
+    const txt = localStorage.getItem("successMessage");
+    if (txt) {
+      setSuccessMessage(txt);
+      localStorage.removeItem("successMessage");
+    }
+  }, []);
+
+  const decodedToken = decodeToken();
+  const userID = decodedToken ? decodedToken.id_user : null;
+
+  // selected User
+  let { user, loading } = useUserByID(userID);
+  console.log(user);
+
+  return loading ? (
+    <li className="loading">Loading...</li>
+  ) : (
     <>
       <Helmet>
         <title>Update my account</title>
@@ -21,6 +47,13 @@ export default function UserUpdate() {
           <h1>Update my account</h1>
 
           {
+            // SUCCESS MESSAGE
+            successMessage && (
+              <p className="success-message">{successMessage}</p>
+            )
+          }
+
+          {
             //ERROR MESSAGE
             error !== null && <p className="error-message">{error}</p>
           }
@@ -28,7 +61,7 @@ export default function UserUpdate() {
           {/* USERNAME UPDATE */}
           <form
             onSubmit={(event) => {
-              userCreateHandler(event, setError);
+              userUpdateHandler(event, userID, setError);
             }}
           >
             <label htmlFor="username">Username:</label>
@@ -37,6 +70,7 @@ export default function UserUpdate() {
               id="username"
               name="username"
               maxLength="50"
+              defaultValue={user && user.username ? user.username : "ERROR"}
               required
             />
             <button type="submit">Submit</button>
@@ -45,7 +79,7 @@ export default function UserUpdate() {
           {/* EMAIL UPDATE */}
           <form
             onSubmit={(event) => {
-              userCreateHandler(event, setError);
+              userUpdateHandler(event, userID, setError);
             }}
           >
             <label htmlFor="email">Email:</label>
@@ -54,6 +88,7 @@ export default function UserUpdate() {
               id="email"
               name="email"
               maxLength="150"
+              defaultValue={user && user.email ? user.email : "ERROR"}
               required
             />
             <button type="submit">Submit</button>
@@ -62,26 +97,26 @@ export default function UserUpdate() {
           {/* PASSWORD UPDATE */}
           <form
             onSubmit={(event) => {
-              userCreateHandler(event, setError);
+              userUpdateHandler(event, userID, setError);
             }}
           >
-            <label htmlFor="password">Current Password:</label>
+            <label htmlFor="password">Password:</label>
             <input type="password" id="password" name="password" required />
 
-            <label htmlFor="new-password">New Password:</label>
+            <label htmlFor="newPassword">New Password:</label>
             <input
               type="password"
-              id="new-password"
-              name="new-password"
+              id="newPassword"
+              name="newPassword"
               required
             />
-            <label htmlFor="confirm-new-password">
-              Confirm the New Password:
+            <label htmlFor="confirmNewPassword">
+              Confirm your New Password:
             </label>
             <input
               type="password"
-              id="confirm-new-password"
-              name="confirm-new-password"
+              id="confirmNewPassword"
+              name="confirmNewPassword"
               required
             />
             <button type="submit">Submit</button>

@@ -1,8 +1,14 @@
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+
 import decodeToken from "../../utils/decodeToken";
 
+import userDeleteHandler from "../../utils/handlers/userSubmitHandler/userDeleteHandler";
+
 export default function Profile() {
+  const [error, setError] = useState(null);
+
   const decodedToken = decodeToken();
 
   return (
@@ -15,6 +21,11 @@ export default function Profile() {
         <main>
           <section className="profile-section">
             <h1>{decodedToken.username}</h1>
+
+            {
+              //ERROR MESSAGE
+              error !== null && <p className="error-message">{error}</p>
+            }
           </section>
 
           {/* IS ROLE 1 || 2 ? */}
@@ -28,7 +39,20 @@ export default function Profile() {
             <Link to="/update-user">Modify my account</Link>
           </section>
           <section className="deleteAccount-section">
-            <button className="delete-btn">Delete my account</button>
+            <form
+              onSubmit={(event) => {
+                userDeleteHandler(
+                  event,
+                  decodedToken.id_user,
+                  decodedToken.username,
+                  setError,
+                );
+              }}
+            >
+              <button type="submit" className="delete-btn">
+                Delete my account
+              </button>
+            </form>
           </section>
         </main>
       </>

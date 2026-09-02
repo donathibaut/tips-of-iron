@@ -157,7 +157,7 @@ const patchTopic = async (req, res) => {
       const topic = await topicUpdate(Topic, req.body, id_topic);
       return success(res, topic.message);
     } else {
-      const forbiddenMessage = "You don't have the right !";
+      const forbiddenMessage = "You don't have the right!";
       return forbidden(res, forbiddenMessage);
     }
   } catch (e) {
@@ -196,7 +196,7 @@ const deleteTopic = async (req, res) => {
       const topic = await topicDestroy(Topic, id_topic);
       return success(res, topic.message);
     } else {
-      const forbiddenMessage = "You don't have the right !";
+      const forbiddenMessage = "You don't have the right!";
       return forbidden(res, forbiddenMessage);
     }
   } catch (e) {

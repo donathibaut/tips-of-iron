@@ -52,7 +52,18 @@ export const patchUser = async (id, token, form) => {
     },
     body: JSON.stringify(form),
   });
-  return await res.json();
+  const response = await res.json();
+
+  if (response.success) {
+    localStorage.setItem("token", response.token);
+  }
+
+  // Error if INCORRECT PASSWORD
+  if(res.status === 401){
+    throw new Error(response.message);
+  }
+
+  return response;
 };
 
 // prettier-ignore

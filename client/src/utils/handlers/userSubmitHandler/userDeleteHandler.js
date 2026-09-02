@@ -4,49 +4,42 @@
  */
 
 import { deleteUser } from "../../../services/userAPI";
-import { postAuth } from "../../../services/authAPI";
+
+import logoutSubmitHandler from "../authSubmitHandler/logoutSubmitHandler";
 
 /**
  * @async
  * @function userDeleteHandler
  * @description Handle Delete User Form and Log out
  * @param {Event} event - form submission
- * @param {String} setError - set error message
- * @returns {Promise<void>} Token || null
+ * @param {Number} userID
+ * @param {String} username
+ * @param {Function} setError - set error message
+ * @returns {Promise<void>} null
  */
-export default async function userDeleteHandler(event, setError) {
+export default async function userDeleteHandler(
+  event,
+  userID,
+  username,
+  setError,
+) {
   // reset message
   setError(null);
 
   // PREVENT page refresh on form submission
   event.preventDefault();
 
-  // XML data format TO FormData
-  const formData = new FormData(event.target);
-  // FormData TO JavaScript Object
-  const data = Object.fromEntries(formData);
-
-  if (data.password !== data.confirmPassword) {
-    const errorMessage = "Passwords do not match...";
-    console.log(errorMessage);
-    return setError(errorMessage);
-  }
-
-  const { confirmPassword, ...userFields } = data;
-
+  const token = localStorage.getItem("token");
   try {
-    const newUser = await postUser(userFields);
-    console.log(newUser);
+    await deleteUser(userID, token);
 
-    // auth with the new user
-    const authFields = {
-      email: userFields.email,
-      password: userFields.password,
-    };
-    await postAuth(authFields);
+    await logoutSubmitHandler(setError);
 
     // store SUCCESS message
-    localStorage.setItem("successMessage", "Account successfully deleted !");
+    localStorage.setItem(
+      "successMessage",
+      `Account "${username}" successfully deleted !`,
+    );
     /*
         REFRESH page
         redirection -> DESTROY useState 

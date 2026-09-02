@@ -25,7 +25,7 @@ const tableName = "User";
 const auth = async (req, res) => {
   try {
     if (!req.body.email || !req.body.password) {
-      return badRequest(res, "Email and Password required !");
+      return badRequest(res, "Email and Password required!");
     }
 
     const user = await authFindOne(User, req.body.email);
@@ -59,7 +59,7 @@ const auth = async (req, res) => {
       return res.status(200).json({
         token: token,
         success: true,
-        message: "You are connected ! :D",
+        message: "You are connected! :D",
       });
     } else {
       const errorMessage = "Incorrect Email or Password...";

@@ -11,7 +11,7 @@ import { postAuth } from "../../../services/authAPI";
  * @function userCreateHandler
  * @description Handle Create User Form and Create Session with it
  * @param {Event} event - form submission
- * @param {String} setError - set error message
+ * @param {Function} setError - set error message
  * @returns {Promise<void>} Token || null
  */
 export default async function userCreateHandler(event, setError) {
@@ -27,6 +27,7 @@ export default async function userCreateHandler(event, setError) {
   const data = Object.fromEntries(formData);
 
   if (data.password !== data.confirmPassword) {
+    console.log(data.password, data.confirmPassword);
     const errorMessage = "Passwords do not match...";
     console.log(errorMessage);
     return setError(errorMessage);

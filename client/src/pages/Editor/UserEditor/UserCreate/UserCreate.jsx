@@ -49,11 +49,11 @@ export default function UserCreate() {
 
             <label htmlFor="password">Password:</label>
             <input type="password" id="password" name="password" required />
-            <label htmlFor="confirm-password">Confirm Password:</label>
+            <label htmlFor="confirmPassword">Confirm Password:</label>
             <input
               type="password"
-              id="confirm-password"
-              name="confirm-password"
+              id="confirmPassword"
+              name="confirmPassword"
               required
             />
 

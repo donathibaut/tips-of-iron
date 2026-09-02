@@ -139,11 +139,11 @@ const topicCreate = async (Topic, form, token) => {
 
     return {
       success: true,
-      message: "Topic successfully created !",
+      message: "Topic successfully created!",
       topic: newTopic,
     };
   } catch (e) {
-    throw new Error(`Creation Failed : ${e.message}`);
+    throw new Error(`Creation Issue: ${e.message}`);
   }
 };
 
@@ -217,11 +217,11 @@ const topicUpdate = async (Topic, form, targetID) => {
 
     return {
       success: true,
-      message: "Information successfully updated !",
+      message: "Information successfully updated!",
     };
   } catch (e) {
     await transaction.rollback();
-    throw new Error(`Update Failed : ${e.message}`);
+    throw new Error(`Update Issue: ${e.message}`);
   }
 };
 
@@ -255,11 +255,11 @@ const topicDestroy = async (Topic, targetID) => {
 
       return {
         success: true,
-        message: "Topic successfully deleted !",
+        message: "Topic successfully deleted!",
       };
     } catch (e) {
       await transaction.rollback();
-      throw new Error(`Deletion Failed : ${e.message}`);
+      throw new Error(`Deletion Issue: ${e.message}`);
     }
   } else {
     throw new Error("Topic Not Found");
