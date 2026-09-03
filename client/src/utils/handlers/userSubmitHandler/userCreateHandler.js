@@ -10,7 +10,7 @@ import { postAuth } from "../../../services/authAPI";
  * @async
  * @function userCreateHandler
  * @description Handle Create User Form and Create Session with it
- * @param {Event} event - form submission
+ * @param {SubmitEvent} event - form submission
  * @param {Function} setError - set error message
  * @returns {Promise<void>} Token || null
  */

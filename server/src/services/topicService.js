@@ -9,6 +9,9 @@ const { Section, Category } = require("../models");
 // Import config for .transaction()
 const sequelize = require("../config/config");
 
+// Op.like
+const { Op } = require("sequelize");
+
 const {
   findAll,
   findOne,
@@ -32,6 +35,31 @@ const topicsFindByFK = async (Topic, fkTable, fk) => {
   const array = await findAll(Topic, {
     where: { [fkTable]: fk },
     include: [{ model: Section }],
+  });
+
+  if (array.length !== 0) {
+    return array;
+  } else {
+    return null;
+  }
+};
+
+/*============================================================================*/
+/**
+ * @async
+ * @function topicsFindByQuery
+ * @description Find All Topics BY TITLE from query || null
+ * @param {object} Topic - Topic Model
+ * @param {object} searchTitle - query
+ * @returns {Promise<Array|null>} Topic
+ */
+const topicsFindByQuery = async (Topic, searchTitle) => {
+  const array = await findAll(Topic, {
+    where: {
+      // similar to searchTitle
+      title: { [Op.like]: `%${searchTitle}%` },
+    },
+    order: [["title", "ASC"]],
   });
 
   if (array.length !== 0) {
@@ -268,6 +296,7 @@ const topicDestroy = async (Topic, targetID) => {
 
 module.exports = {
   topicsFindByFK,
+  topicsFindByQuery,
   topicFindOne,
   topicFindByPk,
   topicCreate,

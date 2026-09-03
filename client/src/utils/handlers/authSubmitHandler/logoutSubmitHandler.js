@@ -7,7 +7,7 @@
  * @async
  * @function logoutSubmitHandler
  * @description Handle LOGOUT Form
- * @param {Event} event - logout submission
+ * @param {SubmitEvent} event - logout submission
  * @param {String} setError - set error message
  * @returns {Promise<void>} null
  */

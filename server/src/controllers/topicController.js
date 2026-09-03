@@ -15,6 +15,7 @@ const {
   topicCreate,
   topicUpdate,
   topicDestroy,
+  topicsFindByQuery,
 } = require("../services/topicService");
 
 const {
@@ -74,6 +75,39 @@ const getTopicsByFK = async (req, res) => {
     return successOk(res, tableName, topic);
   } catch (e) {
     return errorBlock(res, e, tableName);
+  }
+};
+
+/*============================================================================*/
+/**
+ * @async
+ * @function getTopicsByQuery
+ * @description Controller : Read Topics from searched title
+ * @param {Object} req - Targeted topic title
+ * @param {Object} res
+ * @returns {Promise<void>} All Topics from search query || null
+ */
+const getTopicsByQuery = async (req, res) => {
+  try {
+    const searchTitle = req.query.search;
+
+    if (!searchTitle) {
+      const err = "Title Missing";
+      return badRequest(res, err);
+    }
+
+    const research = await topicsFindByQuery(Topic, searchTitle);
+
+    if (research === null || research.length === 0) {
+      return res.status(200).json({
+        message: "No matching topic",
+        research: [],
+      });
+    }
+
+    return successOk(res, tableName, research);
+  } catch (e) {
+    return servError(res, e);
   }
 };
 
@@ -206,6 +240,7 @@ const deleteTopic = async (req, res) => {
 
 module.exports = {
   getTopicsByFK,
+  getTopicsByQuery,
   getTopic,
   postTopic,
   patchTopic,

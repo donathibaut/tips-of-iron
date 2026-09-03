@@ -31,6 +31,18 @@ export const fetchTopicByCategory = async (name) => {
 
 /**
  * @async
+ * @function fetchTopicByQuery
+ * @param {String} query - searched title
+ * @returns {Promise<Object>}
+ * @description Read topic by searched title
+ */
+export const fetchTopicByQuery = async (query) => {
+  const res = await fetch(`${apiURL}/topic/search?search=${query}`);
+  return await res.json();
+};
+
+/**
+ * @async
  * @function fetchTopic
  * @param {String} title - topic title
  * @returns {Promise<Object>}

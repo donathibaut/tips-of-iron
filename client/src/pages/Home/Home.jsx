@@ -1,6 +1,8 @@
 import { Helmet } from "react-helmet-async";
 import { useEffect, useState } from "react";
 
+import SearchBar from "../../components/SearchBar/SearchBar";
+
 export default function Home() {
   /* 
     Is SUCCESS MESSAGE ?
@@ -35,21 +37,7 @@ export default function Home() {
             )
           }
 
-          {/* Search Bar */}
-          <form className="form-inline">
-            <input
-              className="form-control mr-sm-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button
-              className="btn btn-outline-success my-2 my-sm-0"
-              type="submit"
-            >
-              Search
-            </button>
-          </form>
+          <SearchBar></SearchBar>
         </section>
         <section className="country-section">
           <ul>Countries List</ul>

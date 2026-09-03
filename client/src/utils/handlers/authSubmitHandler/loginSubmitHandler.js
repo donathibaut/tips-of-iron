@@ -9,7 +9,7 @@ import { postAuth } from "../../../services/authAPI";
  * @async
  * @function loginSubmitHandler
  * @description Handle LOGIN Form
- * @param {Event} event - form submission
+ * @param {SubmitEvent} event - form submission
  * @param {String} setError - set error message
  * @returns {Promise<void>} Token || null
  */

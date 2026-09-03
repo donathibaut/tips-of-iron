@@ -6,6 +6,7 @@
 import { useState, useEffect } from "react";
 import {
   fetchTopicByCategory,
+  fetchTopicByQuery,
   fetchTopic,
   fetchTopicByUser,
 } from "../../services/topicAPI";
@@ -55,6 +56,53 @@ export function useTopic(title) {
   return { topic, loading };
 }
 
+/*============================================================================*/
+/**
+ * @function useTopicsByQuery
+ * @param {String} query
+ * @returns {Array} topics
+ * @returns {Boolean} loading
+ * @description Get Topics by title from search query
+ */
+export function useTopicsByQuery(query) {
+  const [topicsByQuery, setTopicsByQuery] = useState([]);
+  const [loadingByQuery, setLoadingByQuery] = useState(true);
+
+  useEffect(() => {
+    /**
+     * @async
+     * @function getTopicsByQuery
+     * @param {String} query
+     * @returns {Promise<void>}
+     * @description Call API function to FETCH topics by title from search query
+     */
+    const getTopicsByQuery = async (query) => {
+      try {
+        if (query !== null && query !== undefined && query.trim() !== "") {
+          const data = await fetchTopicByQuery(query);
+          if (data.result) {
+            setTopicsByQuery(data.result);
+          } else {
+            setTopicsByQuery([]);
+          }
+          setLoadingByQuery(false);
+        } else {
+          setTopicsByQuery([]);
+          setLoadingByQuery(false);
+        }
+      } catch (e) {
+        console.error("Request Failed:", e);
+        setLoadingByQuery(false);
+      }
+    };
+
+    getTopicsByQuery(query);
+  }, [query]);
+
+  return { topicsByQuery, loadingByQuery };
+}
+
+/*============================================================================*/
 /**
  * @function useTopicsByCategory
  * @param {String} category
@@ -63,8 +111,8 @@ export function useTopic(title) {
  * @description Get Topics by Category
  */
 export function useTopicsByCategory(category) {
-  const [topics, setTopics] = useState([null]);
-  const [loading, setLoading] = useState(true);
+  const [topicsByCategory, setTopicsByCategory] = useState([null]);
+  const [loadingByCategory, setLoadingByCategory] = useState(true);
 
   useEffect(() => {
     /**
@@ -76,30 +124,31 @@ export function useTopicsByCategory(category) {
      */
     const getTopicsByCategory = async (category) => {
       try {
-        if (category) {
+        if (category !== null && category !== undefined) {
           const data = await fetchTopicByCategory(category);
           if (data.result) {
-            setTopics(data.result);
+            setTopicsByCategory(data.result);
           } else {
-            setTopics([]);
+            setTopicsByCategory([]);
           }
-          setLoading(false);
+          setLoadingByCategory(false);
         } else {
-          setTopics([]);
-          setLoading(false);
+          setTopicsByCategory([]);
+          setLoadingByCategory(false);
         }
       } catch (e) {
         console.error("Request Failed:", e);
-        setLoading(false);
+        setLoadingByCategory(false);
       }
     };
 
     getTopicsByCategory(category);
   }, [category]);
 
-  return { topics, loading };
+  return { topicsByCategory, loadingByCategory };
 }
 
+/*============================================================================*/
 /**
  * @function useTopicsByUser
  * @param {Number} userID

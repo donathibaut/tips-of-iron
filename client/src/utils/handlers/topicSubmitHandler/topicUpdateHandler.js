@@ -9,7 +9,7 @@ import { patchTopic } from "../../../services/topicAPI";
  * @async
  * @function topicUpdateHandler
  * @description Handle Update Topic Form
- * @param {Event} event - form submission
+ * @param {SubmitEvent} event - form submission
  * @param {Array} sections - sections state
  * @param {Number} userID
  * @param {Number} topicID

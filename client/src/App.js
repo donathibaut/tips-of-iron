@@ -43,7 +43,11 @@ export default function App() {
         <Route path="/profile" element={<Profile />}></Route>
 
         {/* RESULTS */}
-        <Route path="/results/:search" element={<Results />}></Route>
+        <Route
+          path="/results/categories/:category"
+          element={<Results />}
+        ></Route>
+        <Route path="/results" element={<Results />}></Route>
 
         {/* CRUD USER */}
         <Route path="/new-user" element={<UserCreate />}></Route>

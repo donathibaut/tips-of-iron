@@ -20,7 +20,7 @@ import topicDeleteHandler from "../../utils/handlers/topicSubmitHandler/topicDel
 export function ListTopics({ array, loading }) {
   return loading ? (
     <li className="loading">Loading...</li>
-  ) : (
+  ) : array.length !== 0 ? (
     array.map((topic) => {
       return (
         <li key={topic.id_topic}>
@@ -28,6 +28,8 @@ export function ListTopics({ array, loading }) {
         </li>
       );
     })
+  ) : (
+    <p className="no-results">"No results..."</p>
   );
 }
 

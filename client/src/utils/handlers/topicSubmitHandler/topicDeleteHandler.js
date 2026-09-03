@@ -9,7 +9,7 @@ import { deleteTopic } from "../../../services/topicAPI";
  * @async
  * @function topicDeleteHandler
  * @description Handle Delete Topic Form
- * @param {Event} event - form submission
+ * @param {SubmitEvent} event - form submission
  * @param {Number} userID
  * @param {Number} topicID
  * @param {Function} setError - set error message

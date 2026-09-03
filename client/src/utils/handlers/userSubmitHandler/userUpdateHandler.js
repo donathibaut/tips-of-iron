@@ -9,7 +9,7 @@ import { patchUser } from "../../../services/userAPI";
  * @async
  * @function userUpdateHandler
  * @description Handle Update User Form and Update token
- * @param {Event} event - form submission
+ * @param {SubmitEvent} event - form submission
  * @param {Number} userID
  * @param {Function} setError - set error message
  * @returns {Promise<void>} Token || null

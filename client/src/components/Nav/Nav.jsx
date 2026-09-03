@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
+import decodeToken from "../../utils/decodeToken";
 import logoutSubmitHandler from "../../utils/handlers/authSubmitHandler/logoutSubmitHandler";
 
 import useCategories from "../../hooks/Categories/useCategories";
 import { ListCategories } from "../Categories/ListCategories";
-import decodeToken from "../../utils/decodeToken";
+import SearchBar from "../SearchBar/SearchBar";
 
 export default function Nav() {
   const [error, setError] = useState(null);
@@ -28,20 +29,7 @@ export default function Nav() {
             <Link to="/">Tips of Iron</Link>
           </li>
           <li>
-            <form className="form-inline my-2 my-lg-0">
-              <input
-                className="form-control mr-sm-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button
-                className="btn btn-outline-success my-2 my-sm-0"
-                type="submit"
-              >
-                Search
-              </button>
-            </form>
+            <SearchBar></SearchBar>
           </li>
 
           {

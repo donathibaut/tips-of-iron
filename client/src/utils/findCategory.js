@@ -1,13 +1,13 @@
 /**
  * @file findCategory.js
- * @description GET category name by id
+ * @description Find category name by id from categories array
  */
 
 /**
  * @function findCategory
- * @description GET category name by id
+ * @description Find category name by id
  * @param {Number} id
- * @param {Array} categories
+ * @param {Array} categories - list of categories
  * @returns {String} category name
  */
 export default function findCategory(id, categories) {

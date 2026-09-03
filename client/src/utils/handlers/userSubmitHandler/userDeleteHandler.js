@@ -11,7 +11,7 @@ import logoutSubmitHandler from "../authSubmitHandler/logoutSubmitHandler";
  * @async
  * @function userDeleteHandler
  * @description Handle Delete User Form and Log out
- * @param {Event} event - form submission
+ * @param {SubmitEvent} event - form submission
  * @param {Number} userID
  * @param {String} username
  * @param {Function} setError - set error message
