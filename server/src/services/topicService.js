@@ -171,7 +171,7 @@ const topicCreate = async (Topic, form, token) => {
       topic: newTopic,
     };
   } catch (e) {
-    throw new Error(`Creation Issue: ${e.message}`);
+    throw new Error(`${e.message}`);
   }
 };
 
@@ -249,7 +249,7 @@ const topicUpdate = async (Topic, form, targetID) => {
     };
   } catch (e) {
     await transaction.rollback();
-    throw new Error(`Update Issue: ${e.message}`);
+    throw new Error(`${e.message}`);
   }
 };
 
@@ -265,32 +265,31 @@ const topicUpdate = async (Topic, form, targetID) => {
 const topicDestroy = async (Topic, targetID) => {
   const isTopic = await topicFindByPk(Topic, targetID);
 
-  if (isTopic) {
-    // TRANSACTION -> Secure "destroy" operations (1. sections; 2. Topic)
-    const transaction = await sequelize.transaction();
-    try {
-      await destroy(Section, {
-        where: { id_topic: targetID },
-        transaction: transaction,
-      });
-
-      await destroy(Topic, {
-        where: { id_topic: targetID },
-        transaction: transaction,
-      });
-
-      await transaction.commit();
-
-      return {
-        success: true,
-        message: "Topic successfully deleted!",
-      };
-    } catch (e) {
-      await transaction.rollback();
-      throw new Error(`Deletion Issue: ${e.message}`);
-    }
-  } else {
+  if (!isTopic) {
     throw new Error("Topic Not Found");
+  }
+  // TRANSACTION -> Secure "destroy" operations (1. sections; 2. Topic)
+  const transaction = await sequelize.transaction();
+  try {
+    await destroy(Section, {
+      where: { id_topic: targetID },
+      transaction: transaction,
+    });
+
+    await destroy(Topic, {
+      where: { id_topic: targetID },
+      transaction: transaction,
+    });
+
+    await transaction.commit();
+
+    return {
+      success: true,
+      message: "Topic successfully deleted!",
+    };
+  } catch (e) {
+    await transaction.rollback();
+    throw new Error(`${e.message}`);
   }
 };
 

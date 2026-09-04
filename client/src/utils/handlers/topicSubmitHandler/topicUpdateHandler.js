@@ -54,7 +54,7 @@ export default async function topicUpdateHandler(
     console.log(updatedTopic);
 
     // store SUCCESS message
-    localStorage.setItem("successMessage", "Your topic has been updated !");
+    localStorage.setItem("successMessage", "Your topic has been updated!");
     /*
         REFRESH page
         redirection -> DESTROY useState 

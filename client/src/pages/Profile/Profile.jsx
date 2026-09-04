@@ -21,11 +21,6 @@ export default function Profile() {
         <main>
           <section className="profile-section">
             <h1>{decodedToken.username}</h1>
-
-            {
-              //ERROR MESSAGE
-              error !== null && <p className="error-message">{error}</p>
-            }
           </section>
 
           {/* IS ROLE 1 || 2 ? */}
@@ -39,20 +34,70 @@ export default function Profile() {
             <Link to="/update-user">Modify my account</Link>
           </section>
           <section className="deleteAccount-section">
-            <form
-              onSubmit={(event) => {
-                userDeleteHandler(
-                  event,
-                  decodedToken.id_user,
-                  decodedToken.username,
-                  setError,
-                );
-              }}
+            <button
+              type="button"
+              class="delete-btn btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#delete-modal"
             >
-              <button type="submit" className="delete-btn">
-                Delete my account
-              </button>
-            </form>
+              Delete my account
+            </button>
+
+            {/* DELETE CONFIRMATION MODAL */}
+            <div
+              class="modal fade"
+              id="delete-modal"
+              tabindex="-1"
+              aria-labelledby="modal-txt"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-body">
+                    <p class="modal-txt fs-5" id="modal-txt">
+                      Confirm deletion
+                    </p>
+
+                    {
+                      //ERROR MESSAGE
+                      error !== null && <p className="error-message">{error}</p>
+                    }
+
+                    <form
+                      className="delete-user-form"
+                      onSubmit={(event) => {
+                        userDeleteHandler(
+                          event,
+                          decodedToken.id_user,
+                          decodedToken.username,
+                          setError,
+                        );
+                      }}
+                    >
+                      <label htmlFor="password">Password:</label>
+                      <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        required
+                      />
+
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Cancel
+                      </button>
+
+                      <button type="submit" class="delete-btn btn btn-primary">
+                        Delete
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
           </section>
         </main>
       </>

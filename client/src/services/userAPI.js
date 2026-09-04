@@ -70,15 +70,28 @@ export const patchUser = async (id, token, form) => {
 /**
  * @async
  * @function deleteUser
- * @param {String} id - userID
+ * @param {Number} id - userID
+ * @param {String} password
  * @param {Object} token - connected user token
  * @returns {Promise<Object>} null
  * @description Delete user
  */
-export const deleteUser = async (id, token) => {
+export const deleteUser = async (id, password, token) => {
   const res = await fetch(`${apiURL}/user/${id}`, {
     method: "DELETE",
-    headers: { "Authorization": `Bearer ${token}` },
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
+    body: JSON.stringify({password}),
   });
-  return await res.json();
+
+  const response = await res.json();
+
+  // Error if INCORRECT PASSWORD
+  if(res.status === 401){
+    throw new Error(response.message);
+  }
+
+  return response;
 };

@@ -43,26 +43,21 @@ export default async function userUpdateHandler(event, userID, setError) {
   }
 
   try {
-    let updateUser;
     // is password update
     if (data.confirmNewPassword) {
       const { confirmNewPassword, ...userFields } = data;
-      updateUser = await patchUser(userID, token, userFields);
+      await patchUser(userID, token, userFields);
     } else {
-      updateUser = await patchUser(userID, token, data);
+      await patchUser(userID, token, data);
     }
 
-    if (updateUser) {
-      // store SUCCESS message
-      localStorage.setItem("successMessage", "Account successfully updated !");
-      /*
+    // store SUCCESS message
+    localStorage.setItem("successMessage", "Account successfully updated!");
+    /*
         REFRESH page
         redirection -> DESTROY useState 
     */
-      window.location.href = "/update-user";
-    } else {
-      setError("Incorrect Password");
-    }
+    window.location.href = "/update-user";
   } catch (e) {
     console.log("Form Submission Error:", e);
     setError(e.message);

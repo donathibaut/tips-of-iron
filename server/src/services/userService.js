@@ -23,8 +23,8 @@ const {
  * @async
  * @function userFindOne
  * @description Find One User || null
- * @param {object} User - User Model
- * @param {object} target - searched user
+ * @param {Object} User - User Model
+ * @param {Object} target - searched user
  * @returns {Promise<Object|null>}
  */
 const userFindOne = async (User, target) => {
@@ -59,7 +59,7 @@ const userFindOne = async (User, target) => {
  * @async
  * @function userFindByPk
  * @description Find User By ID || null
- * @param {object} User - User Model
+ * @param {Object} User - User Model
  * @param {number} id_user
  * @returns {Promise<Object|null>}
  */
@@ -74,8 +74,8 @@ const userFindByPk = async (User, id_user) => {
  * @async
  * @function userCreate
  * @description Create a new user || null
- * @param {object} User - User Model
- * @param {object} form - creation form
+ * @param {Object} User - User Model
+ * @param {Object} form - creation form
  * @returns {Promise<Object|null>}
  */
 const userCreate = async (User, form) => {
@@ -111,7 +111,7 @@ const userCreate = async (User, form) => {
       user: newUser,
     };
   } catch (e) {
-    throw new Error(`Creation Issue: ${e.message}`);
+    throw new Error(`${e.message}`);
   }
 };
 
@@ -120,16 +120,23 @@ const userCreate = async (User, form) => {
  * @async
  * @function userUpdate
  * @description Update user personal data + update token || null
- * @param {object} User - User Model
- * @param {object} form - update form
- * @param {object} targetID - user account ID
+ * @param {Object} User - User Model
+ * @param {Object} form - update form
+ * @param {Object} targetID - user account ID
  * @returns {Promise<Object|null>}
  */
 const userUpdate = async (User, form, targetID) => {
-  const isUser = await userFindByPk(User, targetID);
+  const user = await findByPk(User, targetID);
 
-  if (!isUser) {
+  if (!user) {
     throw new Error("User Not Found");
+  }
+
+  if (form.password && form.newPassword) {
+    const verifPassword = await bcrypt.compare(form.password, user.password);
+    if (!verifPassword) {
+      throw new Error("Incorrect Password...");
+    }
   }
 
   try {
@@ -176,7 +183,7 @@ const userUpdate = async (User, form, targetID) => {
       message: "Information successfully updated!",
     };
   } catch (e) {
-    throw new Error(`Update Issue: ${e.message}`);
+    throw new Error(`${e.message}`);
   }
 };
 
@@ -185,28 +192,35 @@ const userUpdate = async (User, form, targetID) => {
  * @async
  * @function userDestroy
  * @description Destroy user account || null
- * @param {object} User - User Model
- * @param {object} targetID - Targeted User ID
+ * @param {Object} User - User Model
+ * @param {Object} targetID - Targeted User ID
+ * @param {String} password
  * @returns {Promise<Object|null>}
  */
-const userDestroy = async (User, targetID) => {
-  const isUser = await userFindByPk(User, targetID);
+const userDestroy = async (User, targetID, password) => {
+  const user = await findByPk(User, targetID);
 
-  if (isUser) {
-    try {
-      await destroy(User, {
-        where: { id_user: targetID },
-      });
-
-      return {
-        success: true,
-        message: "User successfully deleted!",
-      };
-    } catch (e) {
-      throw new Error(`Deletion Issue: ${e.message}`);
-    }
-  } else {
+  if (!user) {
     throw new Error("User Not Found");
+  }
+
+  const verifPassword = await bcrypt.compare(password, user.password);
+
+  if (!verifPassword) {
+    throw new Error("Incorrect Password...");
+  }
+
+  try {
+    await destroy(User, {
+      where: { id_user: targetID },
+    });
+
+    return {
+      success: true,
+      message: "User successfully deleted!",
+    };
+  } catch (e) {
+    throw new Error(`${e.message}`);
   }
 };
 

@@ -57,7 +57,7 @@ export default function Nav() {
                       className="dropdown-item"
                       type="button"
                       onClick={(event) => {
-                        logoutSubmitHandler(event, setError);
+                        logoutSubmitHandler(setError, event);
                       }}
                     >
                       Log Out

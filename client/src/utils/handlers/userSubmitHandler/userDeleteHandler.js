@@ -29,16 +29,30 @@ export default async function userDeleteHandler(
   // PREVENT page refresh on form submission
   event.preventDefault();
 
+  if (!userID) {
+    const errorMessage = "Undefined User...";
+    console.log(errorMessage);
+    return setError(errorMessage);
+  }
+
+  const password = event.target.password.value;
+
+  if (!password) {
+    const errorMessage = "Passwords needed...";
+    console.log(errorMessage);
+    return setError(errorMessage);
+  }
+
   const token = localStorage.getItem("token");
   try {
-    await deleteUser(userID, token);
+    await deleteUser(userID, password, token);
 
     await logoutSubmitHandler(setError);
 
     // store SUCCESS message
     localStorage.setItem(
       "successMessage",
-      `Account "${username}" successfully deleted !`,
+      `Account "${username}" successfully deleted!`,
     );
     /*
         REFRESH page

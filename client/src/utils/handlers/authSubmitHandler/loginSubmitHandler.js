@@ -31,7 +31,7 @@ export default async function loginSubmitHandler(event, setError) {
     const token = localStorage.getItem("token");
     if (token) {
       // store SUCCESS message
-      localStorage.setItem("successMessage", "You are connected !");
+      localStorage.setItem("successMessage", "You are connected!");
       /*
         REFRESH page
         redirection -> DESTROY useState 

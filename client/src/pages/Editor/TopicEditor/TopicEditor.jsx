@@ -89,22 +89,26 @@ export default function TopicEditor() {
             <fieldset>
               <label htmlFor="title">Title:</label>
               <input
+                key={topic?.title ?? "new-title"}
                 type="text"
                 id="title"
                 name="title"
                 required
-                value={topic && topic.title ? topic.title : ""}
+                defaultValue={topic && topic.title ? topic.title : ""}
                 onChange={(e) => {
                   setUserInput(e.target.value);
                 }}
               />
               <label htmlFor="description">Global Description:</label>
               <input
+                key={topic?.description ?? "new-description"}
                 type="text"
                 id="description"
                 name="description"
                 required
-                value={topic && topic.description ? topic.description : ""}
+                defaultValue={
+                  topic && topic.description ? topic.description : ""
+                }
                 onChange={(e) => {
                   setUserInput(e.target.value);
                 }}
@@ -112,7 +116,9 @@ export default function TopicEditor() {
               <label htmlFor="category">Category:</label>
               <select name="category" id="category" required>
                 {topic && topic.id_category ? (
-                  <option value={findCategory(topic.id_category, categories)}>
+                  <option
+                    defaultValue={findCategory(topic.id_category, categories)}
+                  >
                     {findCategory(topic.id_category, categories)}
                   </option>
                 ) : (

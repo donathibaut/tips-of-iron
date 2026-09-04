@@ -45,12 +45,12 @@ export default async function topicDeleteHandler(
     console.log(deletion);
 
     // store SUCCESS message
-    localStorage.setItem("successMessage", "Your topic has been deleted !");
+    localStorage.setItem("successMessage", "Your topic has been deleted!");
     /*
         REFRESH page
         redirection -> DESTROY useState 
     */
-    window.location.href = "/";
+    window.location.href = "/my-topics";
   } catch (e) {
     console.log("Form Submission Error:", e);
     setError(e.message);

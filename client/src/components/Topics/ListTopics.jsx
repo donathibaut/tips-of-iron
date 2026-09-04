@@ -43,6 +43,8 @@ export function ListTopics({ array, loading }) {
  */
 export function ListMyTopics({ array, loading }) {
   const [error, setError] = useState(null);
+  let [deleteTopicID, setDeleteTopicID] = useState(null);
+
   if (error !== null) {
     console.error(error);
   }
@@ -65,30 +67,70 @@ export function ListMyTopics({ array, loading }) {
       <td>Loading...</td>
     </tr>
   ) : (
-    array.map((topic) => {
-      return (
-        <tr key={topic.id_topic}>
-          <th scope="row">
-            <Link to={`/topic/${topic.title}`}>{topic.title}</Link>
-          </th>
-          <td>
-            <Link to={`/topic-editor/${topic.title}`} className="update-link">
-              Update
-            </Link>
-          </td>
-          <td>
-            <form
-              onSubmit={(event) => {
-                topicDeleteHandler(event, userID, topic.id_topic, setError);
-              }}
-            >
-              <button type="submit" className="delete-btn">
+    <>
+      {array.map((topic) => {
+        return (
+          <tr key={topic.id_topic}>
+            <th scope="row">
+              <Link to={`/topic/${topic.title}`}>{topic.title}</Link>
+            </th>
+            <td>
+              <Link to={`/topic-editor/${topic.title}`} className="update-link">
+                Update
+              </Link>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#delete-modal"
+                onClick={() => {
+                  setDeleteTopicID(topic.id_topic);
+                }}
+              >
                 Delete
               </button>
-            </form>
-          </td>
-        </tr>
-      );
-    })
+            </td>
+          </tr>
+        );
+      })}
+
+      {/* DELETE CONFIRMATION MODAL */}
+      <div
+        class="modal fade"
+        id="delete-modal"
+        tabindex="-1"
+        aria-labelledby="modal-txt"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+              <p class="modal-txt fs-5" id="modal-txt">
+                Confirm deletion
+              </p>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                class="delete-btn btn btn-primary"
+                onClick={(event) => {
+                  deleteTopicID !== null &&
+                    topicDeleteHandler(event, userID, deleteTopicID, setError);
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }

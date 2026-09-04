@@ -3,12 +3,8 @@
  * @description User CRUD Controller
  */
 
-const bcrypt = require("bcrypt");
-
 const User = require("../models/User");
 const tableName = "User";
-
-const { findByPk } = require("../services/basicService");
 
 const {
   userFindByPk,
@@ -97,20 +93,6 @@ const patchUser = async (req, res) => {
       return notFound(res, tableName);
     }
 
-    if (req.body.password && req.body.newPassword) {
-      // /!\ isUser excludes password /!\
-      const userWithHash = await findByPk(User, id_user);
-
-      const verifPassword = await bcrypt.compare(
-        req.body.password,
-        userWithHash.password,
-      );
-      if (!verifPassword) {
-        const errorMessage = "Incorrect Password";
-        return unauthorized(res, errorMessage);
-      }
-    }
-
     if (Number(req.token.id_user) === Number(id_user) || req.token.role === 1) {
       const user = await userUpdate(User, req.body, id_user);
       return res.status(200).json({
@@ -125,6 +107,9 @@ const patchUser = async (req, res) => {
   } catch (e) {
     if (e.message === "Form Field Empty") {
       return badRequest(res, e.message);
+    }
+    if (e.message === "Incorrect Password...") {
+      return unauthorized(res, e.message);
     }
     return errorBlock(res, e, tableName);
   }
@@ -142,6 +127,7 @@ const patchUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const id_user = req.params.id_user;
+    const password = req.body.password;
 
     const isUser = await userFindByPk(User, id_user);
     if (!isUser) {
@@ -149,13 +135,16 @@ const deleteUser = async (req, res) => {
     }
 
     if (Number(req.token.id_user) === Number(id_user) || req.token.role === 1) {
-      const user = await userDestroy(User, id_user);
+      const user = await userDestroy(User, id_user, password);
       return success(res, user.message);
     } else {
       const forbiddenMessage = "You don't have the right!";
       return forbidden(res, forbiddenMessage);
     }
   } catch (e) {
+    if (e.message === "Incorrect Password...") {
+      return unauthorized(res, e.message);
+    }
     return errorBlock(res, e, tableName);
   }
 };

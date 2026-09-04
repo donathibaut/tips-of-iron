@@ -47,7 +47,7 @@ export default async function userCreateHandler(event, setError) {
     await postAuth(authFields);
 
     // store SUCCESS message
-    localStorage.setItem("successMessage", "Welcome to Tips of Iron !");
+    localStorage.setItem("successMessage", "Welcome to Tips of Iron!");
     /*
         REFRESH page
         redirection -> DESTROY useState 

@@ -47,7 +47,7 @@ export default async function topicCreateHandler(
     console.log(newTopic);
 
     // store SUCCESS message
-    localStorage.setItem("successMessage", "Your topic has been created !");
+    localStorage.setItem("successMessage", "Your topic has been created!");
     /*
         REFRESH page
         redirection -> DESTROY useState 
