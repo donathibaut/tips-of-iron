@@ -1,3 +1,14 @@
 /* init bootstrap */
 @import "bootstrap-icons/font/bootstrap-icons.css";
 @import "bootstrap/dist/css/bootstrap.min.css";
+
+/* Fonts */
+@import "./fonts.css";
+
+body {
+  font-family: "Archivo Narrow", sans-serif;
+}
+
+h1 {
+  font-family: "Oswald", sans-serif;
+}
