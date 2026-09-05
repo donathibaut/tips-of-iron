@@ -22,6 +22,7 @@ const {
   servError,
   errorBlock,
   badRequest,
+  unauthorized,
 } = require("../utils/status");
 
 /*============================================================================*/
@@ -94,14 +95,21 @@ const patchUser = async (req, res) => {
 
     if (Number(req.token.id_user) === Number(id_user) || req.token.role === 1) {
       const user = await userUpdate(User, req.body, id_user);
-      return success(res, user.message);
+      return res.status(200).json({
+        token: user.token,
+        success: true,
+        message: user.message,
+      });
     } else {
-      const forbiddenMessage = "You don't have the right !";
+      const forbiddenMessage = "You don't have the right!";
       return forbidden(res, forbiddenMessage);
     }
   } catch (e) {
     if (e.message === "Form Field Empty") {
       return badRequest(res, e.message);
+    }
+    if (e.message === "Incorrect Password...") {
+      return unauthorized(res, e.message);
     }
     return errorBlock(res, e, tableName);
   }
@@ -119,6 +127,7 @@ const patchUser = async (req, res) => {
 const deleteUser = async (req, res) => {
   try {
     const id_user = req.params.id_user;
+    const password = req.body.password;
 
     const isUser = await userFindByPk(User, id_user);
     if (!isUser) {
@@ -126,13 +135,16 @@ const deleteUser = async (req, res) => {
     }
 
     if (Number(req.token.id_user) === Number(id_user) || req.token.role === 1) {
-      const user = await userDestroy(User, id_user);
+      const user = await userDestroy(User, id_user, password);
       return success(res, user.message);
     } else {
-      const forbiddenMessage = "You don't have the right !";
+      const forbiddenMessage = "You don't have the right!";
       return forbidden(res, forbiddenMessage);
     }
   } catch (e) {
+    if (e.message === "Incorrect Password...") {
+      return unauthorized(res, e.message);
+    }
     return errorBlock(res, e, tableName);
   }
 };

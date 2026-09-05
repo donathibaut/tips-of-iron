@@ -13,7 +13,7 @@ const cors = require("cors");
 const app = express();
 
 const corsSettings = {
-  origin: process.env.URL || "http://localhost:3000",
+  origin: "http://localhost:3000" || process.env.URL,
   methods: "GET,POST,PATCH,DELETE",
   optionsSuccessStatus: 200,
 };

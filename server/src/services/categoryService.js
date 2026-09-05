@@ -9,12 +9,12 @@ const { findAll, findOne, findByPk } = require("./basicService");
 /**
  * @async
  * @function categoryFindAll
- * @description Find All Categories || null
+ * @description Find All Categories (id -> ASC order) || null
  * @param {object} Category - Category Model
  * @returns {Promise<Object|null>}
  */
 const categoryFindAll = async (Category) => {
-  return await findAll(Category);
+  return await findAll(Category, { order: [["id_category", "ASC"]] });
 };
 
 /*============================================================================*/

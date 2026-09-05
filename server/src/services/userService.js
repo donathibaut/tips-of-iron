@@ -4,12 +4,13 @@
  */
 
 // Necessary to use Op.or ("OR" for Sequelize filters)
-const { Op } = require("sequelize");
+const { Op, Error } = require("sequelize");
+
+const jwt = require("jsonwebtoken");
 
 const bcrypt = require("bcrypt");
 
 const {
-  findAll,
   findOne,
   findByPk,
   create,
@@ -22,8 +23,8 @@ const {
  * @async
  * @function userFindOne
  * @description Find One User || null
- * @param {object} User - User Model
- * @param {object} target - searched user
+ * @param {Object} User - User Model
+ * @param {Object} target - searched user
  * @returns {Promise<Object|null>}
  */
 const userFindOne = async (User, target) => {
@@ -58,7 +59,7 @@ const userFindOne = async (User, target) => {
  * @async
  * @function userFindByPk
  * @description Find User By ID || null
- * @param {object} User - User Model
+ * @param {Object} User - User Model
  * @param {number} id_user
  * @returns {Promise<Object|null>}
  */
@@ -73,8 +74,8 @@ const userFindByPk = async (User, id_user) => {
  * @async
  * @function userCreate
  * @description Create a new user || null
- * @param {object} User - User Model
- * @param {object} form - creation form
+ * @param {Object} User - User Model
+ * @param {Object} form - creation form
  * @returns {Promise<Object|null>}
  */
 const userCreate = async (User, form) => {
@@ -106,11 +107,11 @@ const userCreate = async (User, form) => {
     });
     return {
       success: true,
-      message: "User successfully created !",
+      message: "User successfully created!",
       user: newUser,
     };
   } catch (e) {
-    throw new Error(`Creation Failed : ${e.message}`);
+    throw new Error(`${e.message}`);
   }
 };
 
@@ -118,52 +119,71 @@ const userCreate = async (User, form) => {
 /**
  * @async
  * @function userUpdate
- * @description Update user personal data || null
- * @param {object} User - User Model
- * @param {object} form - update form
- * @param {object} targetID - user account ID
+ * @description Update user personal data + update token || null
+ * @param {Object} User - User Model
+ * @param {Object} form - update form
+ * @param {Object} targetID - user account ID
  * @returns {Promise<Object|null>}
  */
 const userUpdate = async (User, form, targetID) => {
-  // is it empty ?
-  if (
-    !form.username ||
-    !form.email ||
-    !form.password ||
-    form.username === "" ||
-    form.email === "" ||
-    form.password === ""
-  ) {
-    throw new Error("Form Field Empty");
-  }
+  const user = await findByPk(User, targetID);
 
-  const isUser = await userFindByPk(User, targetID);
-
-  if (!isUser) {
+  if (!user) {
     throw new Error("User Not Found");
   }
 
+  if (form.password && form.newPassword) {
+    const verifPassword = await bcrypt.compare(form.password, user.password);
+    if (!verifPassword) {
+      throw new Error("Incorrect Password...");
+    }
+  }
+
   try {
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(form.password, saltRounds);
-    await update(
-      User,
+    const updateData = {};
+
+    if (form.password && form.newPassword) {
+      const saltRounds = 10;
+      updateData.password = await bcrypt.hash(form.newPassword, saltRounds);
+    }
+    if (form.email) {
+      updateData.email = form.email;
+    }
+    if (form.username) {
+      updateData.username = form.username;
+    }
+
+    await update(User, updateData, {
+      where: { id_user: targetID },
+    });
+
+    // UPDATE TOKEN
+    const newUser = await userFindByPk(User, targetID);
+
+    if (!newUser) {
+      throw new Error("User Not Found");
+    }
+
+    const token = jwt.sign(
       {
-        username: form.username,
-        email: form.email,
-        password: hashedPassword,
+        id_user: newUser.id_user,
+        username: newUser.username,
+        email: newUser.email,
+        role: newUser.role,
       },
+      process.env.SECRET_KEY,
       {
-        where: { id_user: targetID },
+        expiresIn: "7d",
       },
     );
 
     return {
+      token: token,
       success: true,
-      message: "Information successfully updated !",
+      message: "Information successfully updated!",
     };
   } catch (e) {
-    throw new Error(`Update Failed : ${e.message}`);
+    throw new Error(`${e.message}`);
   }
 };
 
@@ -172,28 +192,35 @@ const userUpdate = async (User, form, targetID) => {
  * @async
  * @function userDestroy
  * @description Destroy user account || null
- * @param {object} User - User Model
- * @param {object} targetID - Targeted User ID
+ * @param {Object} User - User Model
+ * @param {Object} targetID - Targeted User ID
+ * @param {String} password
  * @returns {Promise<Object|null>}
  */
-const userDestroy = async (User, targetID) => {
-  const isUser = await userFindByPk(User, targetID);
+const userDestroy = async (User, targetID, password) => {
+  const user = await findByPk(User, targetID);
 
-  if (isUser) {
-    try {
-      await destroy(User, {
-        where: { id_user: targetID },
-      });
-
-      return {
-        success: true,
-        message: "User successfully deleted !",
-      };
-    } catch (e) {
-      throw new Error(`Deletion Failed : ${e.message}`);
-    }
-  } else {
+  if (!user) {
     throw new Error("User Not Found");
+  }
+
+  const verifPassword = await bcrypt.compare(password, user.password);
+
+  if (!verifPassword) {
+    throw new Error("Incorrect Password...");
+  }
+
+  try {
+    await destroy(User, {
+      where: { id_user: targetID },
+    });
+
+    return {
+      success: true,
+      message: "User successfully deleted!",
+    };
+  } catch (e) {
+    throw new Error(`${e.message}`);
   }
 };
 

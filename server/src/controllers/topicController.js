@@ -3,8 +3,10 @@
  * @description Topic CRUD Controller
  */
 
-const Topic = require("../models/Topic");
+const { Topic, Category } = require("../models");
 const tableName = "Topic";
+
+const { findOne } = require("../services/basicService");
 
 const {
   topicsFindByFK,
@@ -13,6 +15,7 @@ const {
   topicCreate,
   topicUpdate,
   topicDestroy,
+  topicsFindByQuery,
 } = require("../services/topicService");
 
 const {
@@ -29,31 +32,41 @@ const {
 /*============================================================================*/
 /**
  * @async
- * @function getFKTopics
+ * @function getTopicsByFK
  * @description Controller : Read Topics from Foreign Key
- * @param {Object} req - Targeted user ID
+ * @param {Object} req - Targeted User ID or Category name
  * @param {Object} res
  * @returns {Promise<void>} All Topics from FK || null
  */
-const getFKTopics = async (req, res) => {
+const getTopicsByFK = async (req, res) => {
   let id_user = req.params.id_user;
-  let id_category = req.params.id_category;
+  let category = req.params.name;
 
-  let fkTable;
+  let fkCol;
   let fk;
   try {
+    // IF USER
     if (id_user && id_user !== "") {
-      fkTable = "id_user";
+      fkCol = "id_user";
       fk = id_user;
-    } else if (id_category && id_category !== "") {
-      fkTable = "id_category";
-      fk = id_category;
+    }
+    // IF CATEGORY
+    else if (category && category !== "") {
+      // category NAME TO ID
+      const findCategory = await findOne(Category, {
+        where: { name: category },
+      });
+      if (findCategory === null) {
+        return notFound(res, "Category");
+      }
+      fkCol = "id_category";
+      fk = findCategory.id_category;
     } else {
       const err = "Foreign Key Missing";
       return badRequest(res, err);
     }
 
-    const topic = await topicsFindByFK(Topic, fkTable, fk);
+    const topic = await topicsFindByFK(Topic, fkCol, fk);
 
     if (topic === null) {
       return notFound(res, tableName);
@@ -62,6 +75,39 @@ const getFKTopics = async (req, res) => {
     return successOk(res, tableName, topic);
   } catch (e) {
     return errorBlock(res, e, tableName);
+  }
+};
+
+/*============================================================================*/
+/**
+ * @async
+ * @function getTopicsByQuery
+ * @description Controller : Read Topics from searched title
+ * @param {Object} req - Targeted topic title
+ * @param {Object} res
+ * @returns {Promise<void>} All Topics from search query || null
+ */
+const getTopicsByQuery = async (req, res) => {
+  try {
+    const searchTitle = req.query.search;
+
+    if (!searchTitle) {
+      const err = "Title Missing";
+      return badRequest(res, err);
+    }
+
+    const research = await topicsFindByQuery(Topic, searchTitle);
+
+    if (research === null || research.length === 0) {
+      return res.status(200).json({
+        message: "No matching topic",
+        research: [],
+      });
+    }
+
+    return successOk(res, tableName, research);
+  } catch (e) {
+    return servError(res, e);
   }
 };
 
@@ -145,7 +191,7 @@ const patchTopic = async (req, res) => {
       const topic = await topicUpdate(Topic, req.body, id_topic);
       return success(res, topic.message);
     } else {
-      const forbiddenMessage = "You don't have the right !";
+      const forbiddenMessage = "You don't have the right!";
       return forbidden(res, forbiddenMessage);
     }
   } catch (e) {
@@ -184,7 +230,7 @@ const deleteTopic = async (req, res) => {
       const topic = await topicDestroy(Topic, id_topic);
       return success(res, topic.message);
     } else {
-      const forbiddenMessage = "You don't have the right !";
+      const forbiddenMessage = "You don't have the right!";
       return forbidden(res, forbiddenMessage);
     }
   } catch (e) {
@@ -193,7 +239,8 @@ const deleteTopic = async (req, res) => {
 };
 
 module.exports = {
-  getFKTopics,
+  getTopicsByFK,
+  getTopicsByQuery,
   getTopic,
   postTopic,
   patchTopic,

@@ -15,7 +15,7 @@ const findAll = async (model, options = {}) => {
   if (model) {
     return await model.findAll(options);
   } else {
-    throw new Error("Not Provided : Model Missing");
+    throw new Error("Not Provided: Model Missing");
   }
 };
 
@@ -35,7 +35,7 @@ const findOne = async (model, options = {}) => {
       return null;
     }
   } else {
-    throw new Error("Not Provided : Model Missing");
+    throw new Error("Not Provided: Model Missing");
   }
 };
 
@@ -56,7 +56,7 @@ const findByPk = async (model, id, options = {}) => {
       return null;
     }
   } else {
-    throw new Error("Not Provided : Model Missing");
+    throw new Error("Not Provided: Model Missing");
   }
 };
 
@@ -76,7 +76,7 @@ const create = async (model, form) => {
       return null;
     }
   } else {
-    throw new Error("Not Provided : Model Missing");
+    throw new Error("Not Provided: Model Missing");
   }
 };
 
@@ -101,7 +101,7 @@ const update = async (model, form, target) => {
       throw new Error("Invalid Form");
     }
   } else {
-    throw new Error("Not Provided : Model Missing");
+    throw new Error("Not Provided: Model Missing");
   }
 };
 
@@ -121,7 +121,7 @@ const destroy = async (model, target) => {
       return null;
     }
   } else {
-    throw new Error("Not Provided : Model Missing");
+    throw new Error("Not Provided: Model Missing");
   }
 };
 
