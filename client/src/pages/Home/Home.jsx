@@ -1,22 +1,9 @@
 import { Helmet } from "react-helmet-async";
-import { useEffect, useState } from "react";
 
+import SuccessMessage from "../../components/SuccessMessage/SuccessMessage";
 import SearchBar from "../../components/SearchBar/SearchBar";
 
 export default function Home() {
-  /* 
-    Is SUCCESS MESSAGE ?
-    Message DELETED by refresh
-  */
-  const [successMessage, setSuccessMessage] = useState(null);
-  useEffect(() => {
-    const txt = localStorage.getItem("successMessage");
-    if (txt) {
-      setSuccessMessage(txt);
-      localStorage.removeItem("successMessage");
-    }
-  }, []);
-
   return (
     <>
       <Helmet>
@@ -30,12 +17,7 @@ export default function Home() {
         <section className="search-section">
           <h1>We make Hearts of Iron IV understandable!</h1>
 
-          {
-            // SUCCESS MESSAGE
-            successMessage && (
-              <p className="success-message">{successMessage}</p>
-            )
-          }
+          <SuccessMessage></SuccessMessage>
 
           <SearchBar></SearchBar>
         </section>

@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { useParams } from "react-router-dom";
 
+import SuccessMessage from "../../components/SuccessMessage/SuccessMessage";
 import { useTopic } from "../../hooks/Topics/useTopics";
 
 export default function Topic() {
@@ -20,6 +21,8 @@ export default function Topic() {
       </Helmet>
       <main>
         <section className="topic-section">
+          <SuccessMessage></SuccessMessage>
+
           <h1>{topic.title}</h1>
           <p>{topic.description}</p>
         </section>
