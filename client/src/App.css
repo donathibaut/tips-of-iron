@@ -5,10 +5,108 @@
 /* Fonts */
 @import "./fonts.css";
 
+a,
+body,
+button {
+  color: #ffffff;
+}
+
 body {
+  font-size: 18px;
   font-family: "Archivo Narrow", sans-serif;
+  background-image: url(./assets/img/blueprint.png);
+}
+
+fieldset {
+  display: flex;
+  flex-direction: column;
+}
+
+footer,
+header {
+  padding: 20px;
+  background-color: #355e86;
 }
 
 h1 {
+  text-align: center;
+}
+
+h1,
+p {
+  margin-bottom: 0;
+}
+
+h1,
+.header-title {
   font-family: "Oswald", sans-serif;
+  font-size: 2rem;
+}
+
+main {
+  height: 100vh;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: rgba(55, 94, 134, 80%);
+  border-radius: 20px;
+  padding: 30px;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+/* CLASS */
+
+.account-theme {
+  background-color: rgba(77, 77, 77, 80%);
+}
+
+.account-theme form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.btn-cancel {
+  background-color: #4d4d4d;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+}
+
+.btn-validate {
+  background-color: #80985c;
+}
+
+.form-btn {
+  width: fit-content;
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 20px;
+}
+
+.form-btn {
+  text-decoration: none;
+}
+
+.search-section {
+  gap: 10px;
+}
+
+.search-section h1 {
+  font-size: 1.5rem;
 }

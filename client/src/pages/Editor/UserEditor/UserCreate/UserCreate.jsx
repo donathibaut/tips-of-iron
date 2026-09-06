@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 
 import userCreateHandler from "../../../../utils/handlers/userSubmitHandler/userCreateHandler";
 
+import ErrorMessage from "../../../../components/ErrorMessage/ErrorMessage";
+
 export default function UserCreate() {
   const [error, setError] = useState(null);
 
@@ -20,10 +22,7 @@ export default function UserCreate() {
         <section>
           <h1>Sign up</h1>
 
-          {
-            //ERROR MESSAGE
-            error !== null && <p className="error-message">{error}</p>
-          }
+          <ErrorMessage error={error}></ErrorMessage>
 
           <form
             onSubmit={(event) => {

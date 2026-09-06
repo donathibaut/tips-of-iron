@@ -1,78 +1,71 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-import decodeToken from "../../utils/decodeToken";
 import logoutSubmitHandler from "../../utils/handlers/authSubmitHandler/logoutSubmitHandler";
 
-import useCategories from "../../hooks/Categories/useCategories";
-import { ListCategories } from "../Categories/ListCategories";
 import SearchBar from "../SearchBar/SearchBar";
+import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
-export default function Nav() {
+import "./Nav.css";
+
+export default function Nav({ decodedToken }) {
   const [error, setError] = useState(null);
 
-  const decodedToken = decodeToken();
-
-  // LIST CATEGORIES
-  const { categories, loading } = useCategories();
-
   return (
-    <div>
+    <div className="nav-container">
       <nav className="navbar">
-        {
-          //ERROR MESSAGE
-          error !== null && <p className="error-message">{error}</p>
-        }
+        <ErrorMessage error={error}></ErrorMessage>
 
-        <ul>
-          <li>
-            <Link to="/">Tips of Iron</Link>
-          </li>
+        <ul className="navbar__list">
           <li>
             <SearchBar></SearchBar>
           </li>
-
-          {
-            // PROFILE || SIGN IN
-            decodedToken ? (
-              <div className="dropdown">
-                <button
-                  className="btn btn-secondary dropdown-toggle"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <img src="" alt="Profile Options" />
-                </button>
-                <ul className="dropdown-menu">
-                  {/* PROFILE */}
-                  <li>
-                    <Link className="dropdown-item" to="/profile">
-                      Profile
-                    </Link>
-                  </li>
-                  {/* LOG OUT */}
-                  <li>
-                    <button
-                      className="dropdown-item"
-                      type="button"
-                      onClick={(event) => {
-                        logoutSubmitHandler(setError, event);
-                      }}
-                    >
-                      Log Out
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            ) : (
-              <li>
-                <Link to="/login">
-                  <img src="" alt="Sign in" />
-                </Link>
-              </li>
-            )
-          }
+          <li>
+            {
+              // PROFILE || SIGN IN
+              decodedToken ? (
+                <div className="dropdown">
+                  <button
+                    className="btn"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <i className="bi bi-person-circle"></i>
+                  </button>
+                  <ul className="dropdown-menu">
+                    {/* PROFILE */}
+                    <li>
+                      <Link
+                        className="dropdown-item connect-link"
+                        to="/profile"
+                      >
+                        Profile
+                      </Link>
+                    </li>
+                    {/* LOG OUT */}
+                    <li>
+                      <button
+                        className="dropdown-item"
+                        type="button"
+                        onClick={(event) => {
+                          logoutSubmitHandler(setError, event);
+                        }}
+                      >
+                        Log Out
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              ) : (
+                <li>
+                  <Link className="connect-link" to="/login">
+                    Sign in
+                  </Link>
+                </li>
+              )
+            }
+          </li>
 
           {/* Navbar Toggler */}
           <li className="container-fluid">
@@ -85,35 +78,11 @@ export default function Nav() {
               aria-expanded="false"
               aria-label="Toggle navigation"
             >
-              <span className="navbar-toggler-icon"></span>
+              <i className="bi bi-list"></i>
             </button>
           </li>
         </ul>
       </nav>
-
-      {/* Hidden Menu */}
-      <div
-        className="collapse"
-        id="navbarToggleExternalContent"
-        data-bs-theme="dark"
-      >
-        <ul className="category-list">
-          <ListCategories array={categories} loading={loading}></ListCategories>
-        </ul>
-
-        {/* IS ROLE 1 || 2 ? */}
-        {decodedToken &&
-          (decodedToken.role === 1 || decodedToken.role === 2) && (
-            <ul className="action-list">
-              <li>
-                <Link to="/my-topics">My topics</Link>
-              </li>
-              <li>
-                <Link to="/topic-editor">Create a new topic</Link>
-              </li>
-            </ul>
-          )}
-      </div>
     </div>
   );
 }

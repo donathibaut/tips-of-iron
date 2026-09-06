@@ -6,6 +6,8 @@ import decodeToken from "../../utils/decodeToken";
 
 import userDeleteHandler from "../../utils/handlers/userSubmitHandler/userDeleteHandler";
 
+import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
+
 export default function Profile() {
   const [error, setError] = useState(null);
 
@@ -58,10 +60,7 @@ export default function Profile() {
                       Confirm deletion
                     </p>
 
-                    {
-                      //ERROR MESSAGE
-                      error !== null && <p className="error-message">{error}</p>
-                    }
+                    <ErrorMessage error={error}></ErrorMessage>
 
                     <form
                       className="delete-user-form"

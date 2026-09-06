@@ -17,6 +17,7 @@ import topicUpdateHandler from "../../../utils/handlers/topicSubmitHandler/topic
 
 import { SelectCategories } from "../../../components/Categories/ListCategories";
 import FieldsetSection from "../../../components/Sections/FieldsetSection";
+import ErrorMessage from "../../../components/ErrorMessage/ErrorMessage";
 
 export default function TopicEditor() {
   const { title } = useParams();
@@ -72,10 +73,7 @@ export default function TopicEditor() {
         <section>
           {title ? <h1>Update Topic</h1> : <h1>Create a new Topic</h1>}
 
-          {
-            // ERROR MESSAGE
-            error !== null && <p className="error-message">{error}</p>
-          }
+          <ErrorMessage error={error}></ErrorMessage>
 
           <form
             onSubmit={(event) => {

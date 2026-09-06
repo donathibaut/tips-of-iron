@@ -1,0 +1,27 @@
+header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+
+header a {
+  align-self: center;
+}
+
+/* CLASS */
+
+.connect-link {
+  text-wrap: nowrap;
+}
+
+.header-title {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.hidden-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+
+  padding-top: 20px;
+}

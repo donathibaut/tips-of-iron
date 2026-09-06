@@ -1,0 +1,34 @@
+i {
+  font-size: 2rem;
+}
+
+/* CLASS */
+.container-fluid {
+  width: auto;
+  padding: 0;
+}
+
+.dropdown,
+nav li {
+  align-self: center;
+}
+
+.nav-container {
+  justify-self: end;
+}
+
+.navbar {
+  padding: 0;
+}
+
+.navbar__list {
+  display: flex;
+  gap: 20px;
+}
+
+.navbar-toggler,
+.btn {
+  color: white;
+  border: 0;
+  padding: 0;
+}

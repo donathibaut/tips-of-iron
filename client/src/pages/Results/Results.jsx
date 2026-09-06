@@ -9,6 +9,8 @@ import {
 import { ListTopics } from "../../components/Topics/ListTopics";
 import SearchBar from "../../components/SearchBar/SearchBar";
 
+import "./Results.css";
+
 export default function Results() {
   // category <Link> from Nav component
   const { category } = useParams();
@@ -39,7 +41,7 @@ export default function Results() {
         </section>
 
         <section className="results-section">
-          <ul>
+          <ul className="results-list">
             <ListTopics array={array} loading={loading}></ListTopics>
           </ul>
         </section>

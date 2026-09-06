@@ -1,28 +1,18 @@
 import { Helmet } from "react-helmet-async";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import decodeToken from "../../../../utils/decodeToken";
 
 import { useUserByID } from "../../../../hooks/Users/useUsers";
 
+import SuccessMessage from "../../../../components/SuccessMessage/SuccessMessage";
+import ErrorMessage from "../../../../components/ErrorMessage/ErrorMessage";
+
 import userUpdateHandler from "../../../../utils/handlers/userSubmitHandler/userUpdateHandler";
 
 export default function UserUpdate() {
   const [error, setError] = useState(null);
-
-  /* 
-      Is SUCCESS MESSAGE ?
-      Message DELETED by refresh
-    */
-  const [successMessage, setSuccessMessage] = useState(null);
-  useEffect(() => {
-    const txt = localStorage.getItem("successMessage");
-    if (txt) {
-      setSuccessMessage(txt);
-      localStorage.removeItem("successMessage");
-    }
-  }, []);
 
   const decodedToken = decodeToken();
   const userID = decodedToken ? decodedToken.id_user : null;
@@ -46,17 +36,9 @@ export default function UserUpdate() {
         <section>
           <h1>Update my account</h1>
 
-          {
-            // SUCCESS MESSAGE
-            successMessage && (
-              <p className="success-message">{successMessage}</p>
-            )
-          }
+          <SuccessMessage></SuccessMessage>
 
-          {
-            //ERROR MESSAGE
-            error !== null && <p className="error-message">{error}</p>
-          }
+          <ErrorMessage error={error}></ErrorMessage>
 
           {/* USERNAME UPDATE */}
           <form
