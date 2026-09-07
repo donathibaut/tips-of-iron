@@ -1,20 +1,30 @@
 import { Link } from "react-router-dom";
 
+import "./Footer.css";
+
 export default function Footer() {
   return (
     <footer>
-      <ul>
-        <li>
-          <Link to="/legal-notice">Legal Notice</Link>
+      <ul className="norms">
+        <li className="norms__li">
+          <Link to="/legal-notice" className="norm-link">
+            Legal Notice
+          </Link>
         </li>
-        <li>
-          <Link to="/personal-data">Personal Data</Link>
+        <li className="norms__li">
+          <Link to="/personal-data" className="norm-link">
+            Personal Data
+          </Link>
         </li>
-        <li>
-          <Link to="/accessibility">Accessibility</Link>
+        <li className="norms__li">
+          <Link to="/accessibility" className="norm-link">
+            Accessibility
+          </Link>
         </li>
-        <li>
-          <Link to="/cookies">Cookies</Link>
+        <li className="norms__li">
+          <Link to="/cookies" className="norm-link">
+            Cookies
+          </Link>
         </li>
       </ul>
       <p className="copyrights">© ThibautDONA 2026 / All rights reserved.</p>

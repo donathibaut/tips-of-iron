@@ -14,7 +14,14 @@ button {
 body {
   font-size: 18px;
   font-family: "Archivo Narrow", sans-serif;
-  background-image: url(./assets/img/blueprint.png);
+}
+
+button,
+.btn {
+  background: none;
+  color: white;
+  border: 0;
+  padding: 0;
 }
 
 fieldset {
@@ -29,7 +36,9 @@ header {
 }
 
 h1 {
+  font-size: 2rem;
   text-align: center;
+  font-weight: 700;
 }
 
 h1,
@@ -40,21 +49,37 @@ p {
 h1,
 .header-title {
   font-family: "Oswald", sans-serif;
-  font-size: 2rem;
+}
+
+h2 {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+img {
+  width: fit-content;
+}
+
+input {
+  padding: 0;
 }
 
 main {
-  height: 100vh;
-  margin: 20px;
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  min-height: 100vh;
+  max-height: 100%;
+  padding: 20px;
+  background-image: url(./assets/img/blueprint.png);
 }
 
 section {
   display: flex;
   flex-direction: column;
   gap: 20px;
+
   background-color: rgba(55, 94, 134, 80%);
   border-radius: 20px;
   padding: 30px;
@@ -76,6 +101,16 @@ ul {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.btn {
+  padding: 0 7px;
+  border: 2px rgba(0, 0, 0, 0) solid;
+}
+
+.btn:focus,
+.btn:hover {
+  border: #ffffff 2px solid;
 }
 
 .btn-cancel {
@@ -105,8 +140,4 @@ ul {
 
 .search-section {
   gap: 10px;
-}
-
-.search-section h1 {
-  font-size: 1.5rem;
 }

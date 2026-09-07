@@ -3,7 +3,6 @@ import { useState } from "react";
 
 import logoutSubmitHandler from "../../utils/handlers/authSubmitHandler/logoutSubmitHandler";
 
-import SearchBar from "../SearchBar/SearchBar";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 
 import "./Nav.css";
@@ -17,8 +16,19 @@ export default function Nav({ decodedToken }) {
         <ErrorMessage error={error}></ErrorMessage>
 
         <ul className="navbar__list">
+          {/* Search Bar Toggler */}
           <li>
-            <SearchBar></SearchBar>
+            <button
+              className="searchBar-toggler btn"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#searchBarToggleExternalContent"
+              aria-controls="searchBarToggleExternalContent"
+              aria-expanded="false"
+              aria-label="Toggle search bar"
+            >
+              <i className="bi bi-search"></i>
+            </button>
           </li>
           <li>
             {
@@ -42,6 +52,10 @@ export default function Nav({ decodedToken }) {
                       >
                         Profile
                       </Link>
+                    </li>
+
+                    <li>
+                      <hr className="dropdown-divider" />
                     </li>
                     {/* LOG OUT */}
                     <li>
@@ -67,14 +81,14 @@ export default function Nav({ decodedToken }) {
             }
           </li>
 
-          {/* Navbar Toggler */}
+          {/* Navbar Menu Toggler */}
           <li className="container-fluid">
             <button
-              className="navbar-toggler"
+              className="menu-toggler btn"
               type="button"
               data-bs-toggle="collapse"
-              data-bs-target="#navbarToggleExternalContent"
-              aria-controls="navbarToggleExternalContent"
+              data-bs-target="#menuToggleExternalContent"
+              aria-controls="menuToggleExternalContent"
               aria-expanded="false"
               aria-label="Toggle navigation"
             >

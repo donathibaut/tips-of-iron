@@ -1,0 +1,33 @@
+section[class*="section-"] {
+  border-radius: 0;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+}
+
+/* CLASS */
+
+.topic {
+  gap: 10px;
+
+  background-image: none;
+  background-color: #dee9f4;
+}
+
+.topic h1,
+.topic h2 {
+  text-align: center;
+}
+
+.topic h1,
+.topic h2,
+.topic p {
+  color: black;
+}
+
+.topic-section {
+  background-color: unset;
+}
+
+.topic-img {
+  align-self: center;
+}

@@ -1,11 +1,11 @@
 import Nav from "../Nav/Nav";
 import { Link } from "react-router-dom";
-
 import useCategories from "../../hooks/Categories/useCategories";
 
 import decodeToken from "../../utils/decodeToken";
 
 import { ListCategories } from "../Categories/ListCategories";
+import SearchBar from "../SearchBar/SearchBar";
 
 import "./Header.css";
 
@@ -16,33 +16,46 @@ export default function Header() {
   const { categories, loading } = useCategories();
   return (
     <header>
-      <Link className="header-title" to="/">
+      <Link className="header-title btn" to="/">
         TIPS of IRON
       </Link>
       <Nav decodedToken={decodedToken} />
 
-      {/* Hidden Menu */}
-      <div
-        className="collapse hidden-menu"
-        id="navbarToggleExternalContent"
-        data-bs-theme="dark"
-      >
-        <ul className="hidden-menu__category">
-          <ListCategories array={categories} loading={loading}></ListCategories>
-        </ul>
+      <div className="hidden">
+        {/* Hidden SearchBar */}
+        <div
+          className="collapse hidden__search-bar"
+          id="searchBarToggleExternalContent"
+        >
+          <SearchBar></SearchBar>
+        </div>
 
-        {/* IS ROLE 1 || 2 ? */}
-        {decodedToken &&
-          (decodedToken.role === 1 || decodedToken.role === 2) && (
-            <ul className="hidden-menu__topic">
-              <li>
-                <Link to="/my-topics">My topics</Link>
-              </li>
-              <li>
-                <Link to="/topic-editor">Create a new topic</Link>
-              </li>
-            </ul>
-          )}
+        {/* Hidden Menu */}
+        <div className="collapse hidden__menu" id="menuToggleExternalContent">
+          <ul className="menu__category">
+            <ListCategories
+              array={categories}
+              loading={loading}
+            ></ListCategories>
+          </ul>
+
+          {/* IS ROLE 1 || 2 ? */}
+          {decodedToken &&
+            (decodedToken.role === 1 || decodedToken.role === 2) && (
+              <ul className="menu__topic">
+                <li className="topic__li">
+                  <Link to="/my-topics">
+                    <i class="bi bi-window"></i>My topics
+                  </Link>
+                </li>
+                <li className="topic__li">
+                  <Link to="/topic-editor">
+                    <i class="bi bi-pencil"></i>Create a new topic
+                  </Link>
+                </li>
+              </ul>
+            )}
+        </div>
       </div>
     </header>
   );
