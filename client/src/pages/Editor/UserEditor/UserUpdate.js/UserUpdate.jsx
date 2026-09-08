@@ -11,6 +11,10 @@ import ErrorMessage from "../../../../components/ErrorMessage/ErrorMessage";
 
 import userUpdateHandler from "../../../../utils/handlers/userSubmitHandler/userUpdateHandler";
 
+import "./UserUpdate.css";
+// Profile page style
+import "../../../Profile/Profile.css";
+
 export default function UserUpdate() {
   const [error, setError] = useState(null);
 
@@ -32,8 +36,8 @@ export default function UserUpdate() {
           content="Update your account on Tips of Iron"
         />
       </Helmet>
-      <main>
-        <section>
+      <main className="account-theme">
+        <section className="update-section">
           <h1>Update my account</h1>
 
           <SuccessMessage></SuccessMessage>
@@ -42,6 +46,7 @@ export default function UserUpdate() {
 
           {/* USERNAME UPDATE */}
           <form
+            className="update-form"
             onSubmit={(event) => {
               userUpdateHandler(event, userID, setError);
             }}
@@ -55,11 +60,14 @@ export default function UserUpdate() {
               defaultValue={user && user.username ? user.username : "ERROR"}
               required
             />
-            <button type="submit">Submit</button>
+            <button className="validate-btn form-btn" type="submit">
+              Submit
+            </button>
           </form>
 
           {/* EMAIL UPDATE */}
           <form
+            className="update-form"
             onSubmit={(event) => {
               userUpdateHandler(event, userID, setError);
             }}
@@ -73,11 +81,14 @@ export default function UserUpdate() {
               defaultValue={user && user.email ? user.email : "ERROR"}
               required
             />
-            <button type="submit">Submit</button>
+            <button className="validate-btn form-btn" type="submit">
+              Submit
+            </button>
           </form>
 
           {/* PASSWORD UPDATE */}
           <form
+            className="update-form"
             onSubmit={(event) => {
               userUpdateHandler(event, userID, setError);
             }}
@@ -101,10 +112,14 @@ export default function UserUpdate() {
               name="confirmNewPassword"
               required
             />
-            <button type="submit">Submit</button>
+            <button className="validate-btn form-btn" type="submit">
+              Submit
+            </button>
           </form>
 
-          <Link to="/">Home Page</Link>
+          <Link className="home-btn cancel-btn form-btn" to="/">
+            Home Page
+          </Link>
         </section>
       </main>
     </>

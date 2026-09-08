@@ -7,7 +7,7 @@ import { jwtDecode } from "jwt-decode";
 /**
  * @function decodeToken
  * @returns {Object|null} token
- * @description DECODE Base64 token (access token role (for example))
+ * @description DECODE Base64 token
  */
 export default function decodeToken() {
   const token = localStorage.getItem("token");

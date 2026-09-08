@@ -21,7 +21,7 @@ export default function Topic() {
         <meta name="description" content="Topic description" />
         {/* Topic Description */}
       </Helmet>
-      <main className="topic">
+      <main className="topic-theme">
         <section className="intro-section topic-section">
           <SuccessMessage></SuccessMessage>
 

@@ -70,19 +70,24 @@ export function ListMyTopics({ array, loading }) {
     <>
       {array.map((topic) => {
         return (
-          <tr key={topic.id_topic}>
+          <tr key={topic.id_topic} className="myTopics-tr">
             <th scope="row">
-              <Link to={`/topic/${topic.title}`}>{topic.title}</Link>
+              <Link className="table-btn btn" to={`/topic/${topic.title}`}>
+                {topic.title}
+              </Link>
             </th>
             <td>
-              <Link to={`/topic-editor/${topic.title}`} className="update-link">
+              <Link
+                to={`/topic-editor/${topic.title}`}
+                className="table-btn btn"
+              >
                 Update
               </Link>
             </td>
             <td>
               <button
                 type="button"
-                class="btn btn-primary"
+                className="btn table-delete"
                 data-bs-toggle="modal"
                 data-bs-target="#delete-modal"
                 onClick={() => {

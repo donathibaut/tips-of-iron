@@ -12,7 +12,7 @@ button {
 }
 
 body {
-  font-size: 18px;
+  font-size: 1rem;
   font-family: "Archivo Narrow", sans-serif;
 }
 
@@ -36,7 +36,7 @@ header {
 }
 
 h1 {
-  font-size: 2rem;
+  font-size: 2em;
   text-align: center;
   font-weight: 700;
 }
@@ -54,6 +54,10 @@ h1,
 h2 {
   font-weight: 700;
   font-size: 1.5rem;
+}
+
+html {
+  font-size: 18px;
 }
 
 img {
@@ -93,28 +97,23 @@ ul {
 
 /* CLASS */
 
-.account-theme {
-  background-color: rgba(77, 77, 77, 80%);
+.bi {
+  margin-top: 50px;
+  padding: 0 8px;
 }
 
-.account-theme form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+.bi::before {
+  vertical-align: -0.24rem;
 }
 
 .btn {
-  padding: 0 7px;
   border: 2px rgba(0, 0, 0, 0) solid;
 }
 
 .btn:focus,
 .btn:hover {
   border: #ffffff 2px solid;
-}
-
-.btn-cancel {
-  background-color: #4d4d4d;
+  background-color: rgba(55, 94, 134, 80%);
 }
 
 .btn-group {
@@ -123,21 +122,34 @@ ul {
   gap: 60px;
 }
 
-.btn-validate {
-  background-color: #80985c;
+.btn-section {
+  padding: 0;
 }
 
-.form-btn {
-  width: fit-content;
-  padding: 10px 20px;
+.btn-section button {
+  padding: 30px;
   border: 0;
   border-radius: 20px;
 }
 
+.cancel-btn {
+  background-color: #4d4d4d;
+}
+
 .form-btn {
+  width: fit-content;
+  padding: 10px 40px;
+  border: 0;
+  border-radius: 50px;
+
+  /* <Link> & <a> */
   text-decoration: none;
 }
 
 .search-section {
   gap: 10px;
+}
+
+.validate-btn {
+  background-color: #80985c;
 }

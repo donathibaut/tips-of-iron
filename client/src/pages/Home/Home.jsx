@@ -15,7 +15,7 @@ export default function Home() {
       </Helmet>
       <main>
         <section className="search-section">
-          <h1>We make Hearts of Iron IV understandable!</h1>
+          <h1>We make Hearts&nbsp;of&nbsp;Iron&nbsp;IV understandable!</h1>
 
           <SuccessMessage></SuccessMessage>
 

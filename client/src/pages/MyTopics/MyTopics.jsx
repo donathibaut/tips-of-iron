@@ -5,6 +5,10 @@ import decodeToken from "../../utils/decodeToken";
 import SuccessMessage from "../../components/SuccessMessage/SuccessMessage";
 import { ListMyTopics } from "../../components/Topics/ListTopics";
 
+import "./MyTopics.css";
+// Profile page style
+import "../Profile/Profile.css";
+
 export default function MyTopics() {
   const decodedToken = decodeToken();
 
@@ -17,18 +21,19 @@ export default function MyTopics() {
         <title>My Topics</title>
         <meta name="description" content="Tips of Iron search results" />
       </Helmet>
-      <main>
+      <main className="account-theme">
         <section className="title-section">
           <h1>My Topics</h1>
 
           <SuccessMessage></SuccessMessage>
-        </section>
-        <section className="results-section">
-          <table>
-            <tbody>
-              <ListMyTopics array={topics} loading={loading}></ListMyTopics>
-            </tbody>
-          </table>
+
+          <div className="table-container">
+            <table className="myTopics-table">
+              <tbody className="myTopics-tbody">
+                <ListMyTopics array={topics} loading={loading}></ListMyTopics>
+              </tbody>
+            </table>
+          </div>
         </section>
       </main>
     </>

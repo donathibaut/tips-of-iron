@@ -6,6 +6,7 @@ import loginSubmitHandler from "../../utils/handlers/authSubmitHandler/loginSubm
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 
 import "./Login.css";
+import "../Profile/Profile.css";
 
 export default function Login() {
   const [error, setError] = useState(null);
@@ -16,8 +17,8 @@ export default function Login() {
         <title>Sign in</title>
         <meta name="description" content="Tips of Iron connection page" />
       </Helmet>
-      <main>
-        <section className="login-section account-theme">
+      <main className="account-theme">
+        <section className="login-section">
           <h1>Sign in</h1>
 
           <ErrorMessage error={error}></ErrorMessage>
@@ -44,10 +45,10 @@ export default function Login() {
               <input type="password" id="password" name="password" required />
             </fieldset>
             <div className="btn-group">
-              <Link className="form-btn btn-cancel" to="/">
+              <Link className="form-btn cancel-btn" to="/">
                 Cancel
               </Link>
-              <button className="form-btn btn-validate" type="submit">
+              <button className="form-btn validate-btn" type="submit">
                 Submit
               </button>
             </div>

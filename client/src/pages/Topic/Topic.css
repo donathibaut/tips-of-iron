@@ -1,26 +1,24 @@
 section[class*="section-"] {
   border-radius: 0;
-  border-top: 2px solid black;
-  border-bottom: 2px solid black;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
 }
 
 /* CLASS */
 
-.topic {
+.topic-theme {
   gap: 10px;
 
   background-image: none;
   background-color: #dee9f4;
 }
 
-.topic h1,
-.topic h2 {
+.topic-theme h1,
+.topic-theme h2 {
   text-align: center;
 }
 
-.topic h1,
-.topic h2,
-.topic p {
+.topic-theme {
   color: black;
 }
 

@@ -16,20 +16,6 @@ export default function Nav({ decodedToken }) {
         <ErrorMessage error={error}></ErrorMessage>
 
         <ul className="navbar__list">
-          {/* Search Bar Toggler */}
-          <li>
-            <button
-              className="searchBar-toggler btn"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#searchBarToggleExternalContent"
-              aria-controls="searchBarToggleExternalContent"
-              aria-expanded="false"
-              aria-label="Toggle search bar"
-            >
-              <i className="bi bi-search"></i>
-            </button>
-          </li>
           <li>
             {
               // PROFILE || SIGN IN

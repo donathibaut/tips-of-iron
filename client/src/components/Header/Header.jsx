@@ -5,7 +5,6 @@ import useCategories from "../../hooks/Categories/useCategories";
 import decodeToken from "../../utils/decodeToken";
 
 import { ListCategories } from "../Categories/ListCategories";
-import SearchBar from "../SearchBar/SearchBar";
 
 import "./Header.css";
 
@@ -22,14 +21,6 @@ export default function Header() {
       <Nav decodedToken={decodedToken} />
 
       <div className="hidden">
-        {/* Hidden SearchBar */}
-        <div
-          className="collapse hidden__search-bar"
-          id="searchBarToggleExternalContent"
-        >
-          <SearchBar></SearchBar>
-        </div>
-
         {/* Hidden Menu */}
         <div className="collapse hidden__menu" id="menuToggleExternalContent">
           <ul className="menu__category">

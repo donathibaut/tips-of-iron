@@ -15,7 +15,7 @@ header a {
 
 .header-title {
   margin-right: 20px;
-  padding: 0;
+  padding: 0 2px;
   font-size: 1.5rem;
   text-wrap: nowrap;
   font-weight: 700;
