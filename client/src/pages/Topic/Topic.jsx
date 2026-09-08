@@ -44,7 +44,7 @@ export default function Topic() {
                 />
               )}
 
-              <p>{section.text}</p>
+              <p className="topic-txt">{section.text}</p>
             </section>
           ))}
       </main>

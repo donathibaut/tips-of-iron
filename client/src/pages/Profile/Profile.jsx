@@ -24,7 +24,7 @@ export default function Profile() {
         </Helmet>
         <main className="account-theme">
           <section className="profile-section">
-            <h1>{decodedToken.username}</h1>
+            <h1 className="username-h1">{decodedToken.username}</h1>
 
             {/* IS ROLE 1 || 2 ? */}
             {(decodedToken.role === 1 || decodedToken.role === 2) && (
@@ -50,7 +50,7 @@ export default function Profile() {
             <div
               className="modal fade"
               id="delete-modal"
-              tabindex="-1"
+              tabIndex="-1"
               aria-labelledby="modal-txt"
               aria-hidden="true"
             >
@@ -74,25 +74,32 @@ export default function Profile() {
                         );
                       }}
                     >
-                      <label htmlFor="password">Password:</label>
-                      <input
-                        type="password"
-                        name="password"
-                        id="password"
-                        required
-                      />
+                      <fieldset>
+                        <label htmlFor="password">Password:</label>
+                        <input
+                          type="password"
+                          name="password"
+                          id="password"
+                          required
+                        />
+                      </fieldset>
 
-                      <button
-                        type="button"
-                        className="btn"
-                        data-bs-dismiss="modal"
-                      >
-                        Cancel
-                      </button>
+                      <div className="btn-group">
+                        <button
+                          type="button"
+                          className="cancel-btn form-btn"
+                          data-bs-dismiss="modal"
+                        >
+                          Cancel
+                        </button>
 
-                      <button type="submit" className="delete-btn btn">
-                        Delete
-                      </button>
+                        <button
+                          type="submit"
+                          className="delete-confirm-btn form-btn"
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </form>
                   </div>
                 </div>

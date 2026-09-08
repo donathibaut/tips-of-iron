@@ -1,12 +1,7 @@
 /* CLASS */
 
-.login-section {
+.create-user-section {
   background-color: rgba(77, 77, 77, 80%);
   border-radius: 20px;
   padding: 30px;
-}
-
-.new-account-link {
-  align-self: center;
-  width: fit-content;
 }

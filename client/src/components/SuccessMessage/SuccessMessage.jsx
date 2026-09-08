@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import "./SuccessMessage.css";
+
 export default function SuccessMessage() {
   /* 
     Is SUCCESS MESSAGE ?
@@ -16,6 +18,8 @@ export default function SuccessMessage() {
 
   return (
     // SUCCESS MESSAGE
-    successMessage && <p className="success-message">{successMessage}</p>
+    successMessage && (
+      <p className="success-message message-banner">{successMessage}</p>
+    )
   );
 }

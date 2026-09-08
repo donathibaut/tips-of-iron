@@ -36,12 +36,12 @@ export default function Header() {
               <ul className="menu__topic">
                 <li className="topic__li">
                   <Link to="/my-topics">
-                    <i class="bi bi-window"></i>My topics
+                    <i className="bi bi-window"></i>My topics
                   </Link>
                 </li>
                 <li className="topic__li">
                   <Link to="/topic-editor">
-                    <i class="bi bi-pencil"></i>Create a new topic
+                    <i className="bi bi-pencil"></i>Create a new topic
                   </Link>
                 </li>
               </ul>

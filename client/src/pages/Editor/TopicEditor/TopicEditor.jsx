@@ -177,7 +177,7 @@ export default function TopicEditor() {
                 sectionAddHandler(event, setSections, setError);
               }}
             >
-              <i class="bi bi-plus-circle add-icon"></i>
+              <i className="bi bi-plus-circle add-icon"></i>
             </button>
 
             <div className="btn-group">

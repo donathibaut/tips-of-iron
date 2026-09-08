@@ -5,6 +5,22 @@
 /* Fonts */
 @import "./fonts.css";
 
+a {
+  padding: 0 5px;
+}
+
+a:hover,
+a:focus {
+  border-radius: 10px;
+  border: #ffffff 2px solid;
+}
+
+a,
+.btn {
+  border-radius: 10px;
+  border: 2px rgba(0, 0, 0, 0) solid;
+}
+
 a,
 body,
 button {
@@ -16,11 +32,14 @@ body {
   font-family: "Archivo Narrow", sans-serif;
 }
 
+button {
+  border: 0;
+}
+
 button,
 .btn {
   background: none;
-  color: white;
-  border: 0;
+  color: #ffffff;
   padding: 0;
 }
 
@@ -79,6 +98,15 @@ main {
   background-image: url(./assets/img/blueprint.png);
 }
 
+.modal-content {
+  background-color: #dee9f4;
+}
+
+.modal-txt {
+  margin-bottom: 15px;
+  text-align: center;
+}
+
 section {
   display: flex;
   flex-direction: column;
@@ -104,10 +132,6 @@ ul {
 
 .bi::before {
   vertical-align: -0.24rem;
-}
-
-.btn {
-  border: 2px rgba(0, 0, 0, 0) solid;
 }
 
 .btn:focus,
@@ -136,14 +160,37 @@ ul {
   background-color: #4d4d4d;
 }
 
+.dropdown-item {
+  border: 2px rgba(0, 0, 0, 0) solid;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  border-radius: 0;
+  background-color: #dee9f4;
+}
+
 .form-btn {
   width: fit-content;
   padding: 10px 40px;
-  border: 0;
   border-radius: 50px;
+  border: 2px rgba(0, 0, 0, 0) solid;
 
   /* <Link> & <a> */
   text-decoration: none;
+}
+
+.form-btn:hover,
+.form-btn:focus {
+  border-radius: 50px;
+  border: #ffffff 2px solid;
+}
+
+.message-banner {
+  color: #ffffff;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 5px 0;
 }
 
 .search-section {

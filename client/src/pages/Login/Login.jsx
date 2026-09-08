@@ -6,6 +6,7 @@ import loginSubmitHandler from "../../utils/handlers/authSubmitHandler/loginSubm
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 
 import "./Login.css";
+// Profile page style
 import "../Profile/Profile.css";
 
 export default function Login() {
@@ -24,6 +25,7 @@ export default function Login() {
           <ErrorMessage error={error}></ErrorMessage>
 
           <form
+            className="login-form"
             onSubmit={(event) => {
               loginSubmitHandler(event, setError);
             }}

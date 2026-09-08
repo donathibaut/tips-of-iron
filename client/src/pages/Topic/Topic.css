@@ -22,6 +22,10 @@ section[class*="section-"] {
   color: black;
 }
 
+.topic-txt {
+  white-space: pre-line;
+}
+
 .topic-section {
   background-color: unset;
 }

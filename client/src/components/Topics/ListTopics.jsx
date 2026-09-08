@@ -103,35 +103,44 @@ export function ListMyTopics({ array, loading }) {
 
       {/* DELETE CONFIRMATION MODAL */}
       <div
-        class="modal fade"
+        className="modal fade"
         id="delete-modal"
         tabindex="-1"
         aria-labelledby="modal-txt"
         aria-hidden="true"
       >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-body">
-              <p class="modal-txt fs-5" id="modal-txt">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-body">
+              <p className="modal-txt fs-5" id="modal-txt">
                 Confirm deletion
               </p>
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                class="delete-btn btn btn-primary"
-                onClick={(event) => {
-                  deleteTopicID !== null &&
-                    topicDeleteHandler(event, userID, deleteTopicID, setError);
-                }}
-              >
-                Delete
-              </button>
+
+              <div className="btn-group">
+                <button
+                  type="button"
+                  className="cancel-btn form-btn"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  className="delete-confirm-btn form-btn"
+                  onClick={(event) => {
+                    deleteTopicID !== null &&
+                      topicDeleteHandler(
+                        event,
+                        userID,
+                        deleteTopicID,
+                        setError,
+                      );
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
         </div>
