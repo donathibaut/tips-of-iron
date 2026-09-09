@@ -35,7 +35,7 @@ const Section = sequelize.define(
       allowNull: false,
     },
     image_path: {
-      type: DataTypes.STRING(250),
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     text: {

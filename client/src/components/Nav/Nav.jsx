@@ -58,11 +58,13 @@ export default function Nav({ decodedToken }) {
                   </ul>
                 </div>
               ) : (
-                <li>
-                  <Link className="connect-link" to="/login">
-                    Sign in
-                  </Link>
-                </li>
+                <ul>
+                  <li>
+                    <Link className="connect-link" to="/login">
+                      Sign in
+                    </Link>
+                  </li>
+                </ul>
               )
             }
           </li>

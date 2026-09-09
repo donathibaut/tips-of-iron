@@ -39,13 +39,22 @@ export default function Login() {
                 name="email"
                 maxLength="150"
                 required
+                autoComplete="email"
               />
             </fieldset>
+
             <fieldset>
               <legend hidden>Put your password here</legend>
               <label htmlFor="password">Password:</label>
-              <input type="password" id="password" name="password" required />
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required
+                autoComplete="current-password"
+              />
             </fieldset>
+
             <div className="btn-group">
               <Link className="form-btn cancel-btn" to="/">
                 Cancel
