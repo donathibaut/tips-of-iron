@@ -3,6 +3,8 @@ import { Helmet } from "react-helmet-async";
 import SuccessMessage from "../../components/SuccessMessage/SuccessMessage";
 import SearchBar from "../../components/SearchBar/SearchBar";
 
+import "./Home.css";
+
 export default function Home() {
   return (
     <>
@@ -13,7 +15,7 @@ export default function Home() {
           content="Let's learn something new about Hearts of Iron IV! Tips of Iron is designed to help beginners get the hang of the game!"
         />
       </Helmet>
-      <main>
+      <main className="home">
         <section className="search-section">
           <h1>We make Hearts&nbsp;of&nbsp;Iron&nbsp;IV understandable!</h1>
 

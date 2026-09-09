@@ -38,7 +38,7 @@ export default function UserUpdate() {
       </Helmet>
       <main className="account-theme">
         <section className="update-section">
-          <h1>Update my account</h1>
+          <h1 className="profile-h1">Update my account</h1>
 
           <SuccessMessage></SuccessMessage>
 

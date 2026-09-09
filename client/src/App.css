@@ -98,21 +98,11 @@ main {
   background-image: url(./assets/img/blueprint.png);
 }
 
-.modal-content {
-  background-color: #dee9f4;
-}
-
-.modal-txt {
-  margin-bottom: 15px;
-  text-align: center;
-}
-
 section {
   display: flex;
   flex-direction: column;
   gap: 20px;
 
-  background-color: rgba(55, 94, 134, 80%);
   border-radius: 20px;
   padding: 30px;
 }
@@ -193,10 +183,26 @@ ul {
   margin: 5px 0;
 }
 
+.modal-content {
+  background-color: #dee9f4;
+}
+
+.modal-txt {
+  margin-bottom: 15px;
+  text-align: center;
+}
+
 .search-section {
   gap: 10px;
 }
 
 .validate-btn {
   background-color: #80985c;
+}
+
+/* RESPONSIVE */
+@media all and (min-width: 1440px) {
+  main {
+    padding: 20px 150px;
+  }
 }

@@ -24,7 +24,7 @@ export default function Profile() {
         </Helmet>
         <main className="account-theme">
           <section className="profile-section">
-            <h1 className="username-h1">{decodedToken.username}</h1>
+            <h1 className="profile-h1">{decodedToken.username}</h1>
 
             {/* IS ROLE 1 || 2 ? */}
             {(decodedToken.role === 1 || decodedToken.role === 2) && (

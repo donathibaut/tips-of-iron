@@ -23,7 +23,7 @@ export default function MyTopics() {
       </Helmet>
       <main className="account-theme">
         <section className="title-section">
-          <h1>My Topics</h1>
+          <h1 className="profile-h1">My Topics</h1>
 
           <SuccessMessage></SuccessMessage>
 
