@@ -1,22 +1,11 @@
 import { Helmet } from "react-helmet-async";
-import { useEffect, useState } from "react";
 
+import SuccessMessage from "../../components/SuccessMessage/SuccessMessage";
 import SearchBar from "../../components/SearchBar/SearchBar";
 
-export default function Home() {
-  /* 
-    Is SUCCESS MESSAGE ?
-    Message DELETED by refresh
-  */
-  const [successMessage, setSuccessMessage] = useState(null);
-  useEffect(() => {
-    const txt = localStorage.getItem("successMessage");
-    if (txt) {
-      setSuccessMessage(txt);
-      localStorage.removeItem("successMessage");
-    }
-  }, []);
+import "./Home.css";
 
+export default function Home() {
   return (
     <>
       <Helmet>
@@ -26,16 +15,11 @@ export default function Home() {
           content="Let's learn something new about Hearts of Iron IV! Tips of Iron is designed to help beginners get the hang of the game!"
         />
       </Helmet>
-      <main>
+      <main className="home">
         <section className="search-section">
-          <h1>We make Hearts of Iron IV understandable!</h1>
+          <h1>We make Hearts&nbsp;of&nbsp;Iron&nbsp;IV understandable!</h1>
 
-          {
-            // SUCCESS MESSAGE
-            successMessage && (
-              <p className="success-message">{successMessage}</p>
-            )
-          }
+          <SuccessMessage></SuccessMessage>
 
           <SearchBar></SearchBar>
         </section>

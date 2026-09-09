@@ -17,6 +17,11 @@ import topicUpdateHandler from "../../../utils/handlers/topicSubmitHandler/topic
 
 import { SelectCategories } from "../../../components/Categories/ListCategories";
 import FieldsetSection from "../../../components/Sections/FieldsetSection";
+import ErrorMessage from "../../../components/ErrorMessage/ErrorMessage";
+
+import "./TopicEditor.css";
+// Topic page style
+import "../../Topic/Topic.css";
 
 export default function TopicEditor() {
   const { title } = useParams();
@@ -68,16 +73,14 @@ export default function TopicEditor() {
         <title>Topic Editor</title>
         <meta name="description" content="Tips of Iron topic edition page" />
       </Helmet>
-      <main>
-        <section>
+      <main className="topic-theme">
+        <section className="topic-section">
           {title ? <h1>Update Topic</h1> : <h1>Create a new Topic</h1>}
 
-          {
-            // ERROR MESSAGE
-            error !== null && <p className="error-message">{error}</p>
-          }
+          <ErrorMessage error={error}></ErrorMessage>
 
           <form
+            className="editor-form"
             onSubmit={(event) => {
               if (!title) {
                 topicCreateHandler(event, sections, userID, setError);
@@ -86,7 +89,7 @@ export default function TopicEditor() {
               }
             }}
           >
-            <fieldset>
+            <fieldset className="topic-fieldset">
               <label htmlFor="title">Title:</label>
               <input
                 key={topic?.title ?? "new-title"}
@@ -99,38 +102,42 @@ export default function TopicEditor() {
                   setUserInput(e.target.value);
                 }}
               />
+
               <label htmlFor="description">Global Description:</label>
-              <input
+              <textarea
                 key={topic?.description ?? "new-description"}
                 type="text"
                 id="description"
                 name="description"
-                required
-                defaultValue={
-                  topic && topic.description ? topic.description : ""
-                }
+                rows="3"
                 onChange={(e) => {
                   setUserInput(e.target.value);
                 }}
-              />
-              <label htmlFor="category">Category:</label>
-              <select name="category" id="category" required>
-                {topic && topic.id_category ? (
-                  <option
-                    defaultValue={findCategory(topic.id_category, categories)}
-                  >
-                    {findCategory(topic.id_category, categories)}
-                  </option>
-                ) : (
-                  <option value="">--Choose a category--</option>
-                )}
+                required
+              >
+                {topic && topic.description ? topic.description : ""}
+              </textarea>
 
-                {/* Dynamic options */}
-                <SelectCategories
-                  array={categories}
-                  loading={categoriesLoading}
-                ></SelectCategories>
-              </select>
+              <div className="category-container">
+                <label htmlFor="category">Category:</label>
+                <select name="category" id="category" required>
+                  {topic && topic.id_category ? (
+                    <option
+                      defaultValue={findCategory(topic.id_category, categories)}
+                    >
+                      {findCategory(topic.id_category, categories)}
+                    </option>
+                  ) : (
+                    <option value="">--Choose a category--</option>
+                  )}
+
+                  {/* Dynamic options */}
+                  <SelectCategories
+                    array={categories}
+                    loading={categoriesLoading}
+                  ></SelectCategories>
+                </select>
+              </div>
             </fieldset>
 
             {/* SECTIONS Fieldsets mapped for sectionAddHandler function */}
@@ -164,15 +171,23 @@ export default function TopicEditor() {
 
             {/* Create object mapped in FieldSection function */}
             <button
+              aria-label="Add a section"
+              className="btn add-btn"
               onClick={(event) => {
                 sectionAddHandler(event, setSections, setError);
               }}
             >
-              Add section
+              <i className="bi bi-plus-circle add-icon"></i>
             </button>
 
-            <button type="submit">Submit</button>
-            <Link to="/">Cancel</Link>
+            <div className="btn-group">
+              <Link className="form-btn cancel-btn" to="/">
+                Cancel
+              </Link>
+              <button className="form-btn validate-btn" type="submit">
+                Submit
+              </button>
+            </div>
           </form>
         </section>
       </main>

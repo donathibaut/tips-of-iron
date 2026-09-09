@@ -6,6 +6,10 @@ import decodeToken from "../../utils/decodeToken";
 
 import userDeleteHandler from "../../utils/handlers/userSubmitHandler/userDeleteHandler";
 
+import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
+
+import "./Profile.css";
+
 export default function Profile() {
   const [error, setError] = useState(null);
 
@@ -18,25 +22,24 @@ export default function Profile() {
           <title>{decodedToken.username}</title>
           <meta name="description" content="Tips of Iron profile page" />
         </Helmet>
-        <main>
+        <main className="account-theme">
           <section className="profile-section">
-            <h1>{decodedToken.username}</h1>
-          </section>
+            <h1 className="profile-h1">{decodedToken.username}</h1>
 
-          {/* IS ROLE 1 || 2 ? */}
-          {(decodedToken.role === 1 || decodedToken.role === 2) && (
-            <section className="my-topics-section">
-              <Link to="/my-topics">My topics</Link>
-            </section>
-          )}
+            {/* IS ROLE 1 || 2 ? */}
+            {(decodedToken.role === 1 || decodedToken.role === 2) && (
+              <Link className="btn neutral-btn" to="/my-topics">
+                My topics
+              </Link>
+            )}
 
-          <section className="modify-account-section">
-            <Link to="/update-user">Modify my account</Link>
-          </section>
-          <section className="deleteAccount-section">
+            <Link className="btn neutral-btn" to="/update-user">
+              Modify my account
+            </Link>
+
             <button
               type="button"
-              class="delete-btn btn btn-primary"
+              className="delete-btn btn"
               data-bs-toggle="modal"
               data-bs-target="#delete-modal"
             >
@@ -45,23 +48,20 @@ export default function Profile() {
 
             {/* DELETE CONFIRMATION MODAL */}
             <div
-              class="modal fade"
+              className="modal fade"
               id="delete-modal"
-              tabindex="-1"
+              tabIndex="-1"
               aria-labelledby="modal-txt"
               aria-hidden="true"
             >
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-body">
-                    <p class="modal-txt fs-5" id="modal-txt">
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-body">
+                    <p className="modal-txt fs-5" id="modal-txt">
                       Confirm deletion
                     </p>
 
-                    {
-                      //ERROR MESSAGE
-                      error !== null && <p className="error-message">{error}</p>
-                    }
+                    <ErrorMessage error={error}></ErrorMessage>
 
                     <form
                       className="delete-user-form"
@@ -74,25 +74,32 @@ export default function Profile() {
                         );
                       }}
                     >
-                      <label htmlFor="password">Password:</label>
-                      <input
-                        type="password"
-                        name="password"
-                        id="password"
-                        required
-                      />
+                      <fieldset>
+                        <label htmlFor="password">Password:</label>
+                        <input
+                          type="password"
+                          name="password"
+                          id="password"
+                          required
+                        />
+                      </fieldset>
 
-                      <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal"
-                      >
-                        Cancel
-                      </button>
+                      <div className="btn-group">
+                        <button
+                          type="button"
+                          className="cancel-btn form-btn"
+                          data-bs-dismiss="modal"
+                        >
+                          Cancel
+                        </button>
 
-                      <button type="submit" class="delete-btn btn btn-primary">
-                        Delete
-                      </button>
+                        <button
+                          type="submit"
+                          className="delete-confirm-btn form-btn"
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </form>
                   </div>
                 </div>

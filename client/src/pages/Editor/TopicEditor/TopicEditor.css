@@ -1,0 +1,61 @@
+label[for*="title"] {
+  margin-top: 10px;
+}
+
+/* CLASS */
+
+.add-btn {
+  width: fit-content;
+  align-self: center;
+}
+
+.add-btn:hover,
+.add-btn:focus,
+.remove-btn:hover,
+.remove-btn:focus {
+  border: #4d4d4d solid 2px;
+  background-color: #dee9f4;
+}
+
+.add-icon {
+  font-size: 2rem;
+}
+
+.cancel-section {
+  text-decoration: underline;
+  align-self: flex-start;
+}
+
+.category-container {
+  display: flex;
+  gap: 5px;
+
+  margin-top: 5px;
+}
+
+.editor-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.editor-form input,
+.editor-form select,
+.editor-form textarea {
+  margin-bottom: 10px;
+}
+
+.remove-btn {
+  padding: 0 5px;
+}
+
+.section-fieldset {
+  padding: 20px;
+  border-radius: 0;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+.topic-theme .btn {
+  color: black;
+}

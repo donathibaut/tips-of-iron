@@ -1,3 +1,208 @@
 /* init bootstrap */
 @import "bootstrap-icons/font/bootstrap-icons.css";
 @import "bootstrap/dist/css/bootstrap.min.css";
+
+/* Fonts */
+@import "./fonts.css";
+
+a {
+  padding: 0 5px;
+}
+
+a:hover,
+a:focus {
+  border-radius: 10px;
+  border: #ffffff 2px solid;
+}
+
+a,
+.btn {
+  border-radius: 10px;
+  border: 2px rgba(0, 0, 0, 0) solid;
+}
+
+a,
+body,
+button {
+  color: #ffffff;
+}
+
+body {
+  font-size: 1rem;
+  font-family: "Archivo Narrow", sans-serif;
+}
+
+button {
+  border: 0;
+}
+
+button,
+.btn {
+  background: none;
+  color: #ffffff;
+  padding: 0;
+}
+
+fieldset {
+  display: flex;
+  flex-direction: column;
+}
+
+footer,
+header {
+  padding: 20px;
+  background-color: #355e86;
+}
+
+h1 {
+  font-size: 2em;
+  text-align: center;
+  font-weight: 700;
+}
+
+h1,
+p {
+  margin-bottom: 0;
+}
+
+h1,
+.header-title {
+  font-family: "Oswald", sans-serif;
+}
+
+h2 {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+html {
+  font-size: 18px;
+}
+
+img {
+  width: fit-content;
+}
+
+input {
+  padding: 0;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  min-height: 100vh;
+  max-height: 100%;
+  padding: 20px;
+  background-image: url(./assets/img/blueprint.png);
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  border-radius: 20px;
+  padding: 30px;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+/* CLASS */
+
+.bi {
+  margin-top: 50px;
+  padding: 0 8px;
+}
+
+.bi::before {
+  vertical-align: -0.24rem;
+}
+
+.btn:focus,
+.btn:hover {
+  border: #ffffff 2px solid;
+  background-color: rgba(55, 94, 134, 80%);
+}
+
+.btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+}
+
+.btn-section {
+  padding: 0;
+}
+
+.btn-section button {
+  padding: 30px;
+  border: 0;
+  border-radius: 20px;
+}
+
+.cancel-btn {
+  background-color: #4d4d4d;
+}
+
+.dropdown-item {
+  border: 2px rgba(0, 0, 0, 0) solid;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  border-radius: 0;
+  background-color: #dee9f4;
+}
+
+.form-btn {
+  width: fit-content;
+  padding: 10px 40px;
+  border-radius: 50px;
+  border: 2px rgba(0, 0, 0, 0) solid;
+
+  /* <Link> & <a> */
+  text-decoration: none;
+}
+
+.form-btn:hover,
+.form-btn:focus {
+  border-radius: 50px;
+  border: #ffffff 2px solid;
+}
+
+.message-banner {
+  color: #ffffff;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 5px 0;
+}
+
+.modal-content {
+  background-color: #dee9f4;
+}
+
+.modal-txt {
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.search-section {
+  gap: 10px;
+}
+
+.validate-btn {
+  background-color: #80985c;
+}
+
+/* RESPONSIVE */
+@media all and (min-width: 1440px) {
+  main {
+    padding: 20px 150px;
+  }
+}

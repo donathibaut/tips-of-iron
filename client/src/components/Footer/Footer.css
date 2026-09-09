@@ -1,0 +1,16 @@
+footer {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+/* CLASS */
+
+.copyrights {
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.norm-link {
+  text-decoration: none;
+}

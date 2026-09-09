@@ -1,0 +1,43 @@
+/* CLASS */
+
+.account-theme form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/*.account-theme section {
+  background-color: unset;
+}*/
+
+.delete-btn,
+.delete-confirm-btn {
+  background-color: rgba(109, 46, 46, 80%);
+}
+
+.delete-btn {
+  text-decoration: underline;
+  border-radius: 20px;
+  padding: 30px;
+}
+
+.delete-btn:hover,
+.delete-btn:focus {
+  background-color: rgba(109, 46, 46, 80%);
+}
+
+.neutral-btn {
+  text-decoration: underline;
+}
+
+.neutral-btn,
+.profile-h1 {
+  background-color: rgba(77, 77, 77, 80%);
+  border-radius: 20px;
+  padding: 30px;
+}
+
+.neutral-btn:hover,
+.neutral-btn:focus {
+  background-color: rgba(77, 77, 77, 80%);
+}

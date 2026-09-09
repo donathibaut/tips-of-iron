@@ -70,19 +70,24 @@ export function ListMyTopics({ array, loading }) {
     <>
       {array.map((topic) => {
         return (
-          <tr key={topic.id_topic}>
+          <tr key={topic.id_topic} className="myTopics-tr">
             <th scope="row">
-              <Link to={`/topic/${topic.title}`}>{topic.title}</Link>
+              <Link className="table-btn btn" to={`/topic/${topic.title}`}>
+                {topic.title}
+              </Link>
             </th>
             <td>
-              <Link to={`/topic-editor/${topic.title}`} className="update-link">
+              <Link
+                to={`/topic-editor/${topic.title}`}
+                className="table-btn btn"
+              >
                 Update
               </Link>
             </td>
             <td>
               <button
                 type="button"
-                class="btn btn-primary"
+                className="btn table-delete"
                 data-bs-toggle="modal"
                 data-bs-target="#delete-modal"
                 onClick={() => {
@@ -98,35 +103,44 @@ export function ListMyTopics({ array, loading }) {
 
       {/* DELETE CONFIRMATION MODAL */}
       <div
-        class="modal fade"
+        className="modal fade"
         id="delete-modal"
         tabindex="-1"
         aria-labelledby="modal-txt"
         aria-hidden="true"
       >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-body">
-              <p class="modal-txt fs-5" id="modal-txt">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-body">
+              <p className="modal-txt fs-5" id="modal-txt">
                 Confirm deletion
               </p>
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                class="delete-btn btn btn-primary"
-                onClick={(event) => {
-                  deleteTopicID !== null &&
-                    topicDeleteHandler(event, userID, deleteTopicID, setError);
-                }}
-              >
-                Delete
-              </button>
+
+              <div className="btn-group">
+                <button
+                  type="button"
+                  className="cancel-btn form-btn"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  className="delete-confirm-btn form-btn"
+                  onClick={(event) => {
+                    deleteTopicID !== null &&
+                      topicDeleteHandler(
+                        event,
+                        userID,
+                        deleteTopicID,
+                        setError,
+                      );
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
         </div>

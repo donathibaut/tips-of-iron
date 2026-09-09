@@ -1,0 +1,38 @@
+/* CLASS */
+
+.search-form {
+  display: flex;
+  flex-wrap: nowrap;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.search-form i {
+  padding-right: 10px;
+}
+
+.search-glass {
+  font-size: 1.5rem;
+}
+
+.search-glass,
+#search-bar::placeholder {
+  color: rgba(0, 0, 0, 70%);
+}
+
+/* ID */
+
+#search-bar {
+  border: 0;
+  border-radius: 10px;
+  width: 100%;
+}
+
+#search-bar:focus {
+  outline: none;
+}
+
+#search-bar::-webkit-search-cancel-button {
+  display: none;
+}

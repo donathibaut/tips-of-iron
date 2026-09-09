@@ -52,7 +52,7 @@ export default async function topicCreateHandler(
         REFRESH page
         redirection -> DESTROY useState 
     */
-    window.location.href = "/";
+    window.location.href = `/topic/${allData.title}`;
   } catch (e) {
     console.log("Form Submission Error:", e);
     setError(e.message);

@@ -1,0 +1,11 @@
+/* CLASS */
+.results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.search-section,
+.results-section {
+  background-color: rgba(55, 94, 134, 80%);
+}

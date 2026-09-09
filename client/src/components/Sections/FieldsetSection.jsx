@@ -19,7 +19,7 @@ export default function FieldsetSection({
   onChange,
 }) {
   return (
-    <fieldset>
+    <fieldset className="section-fieldset">
       <label htmlFor={`section-title-${index}`}>Section title:</label>
       <input
         type="text"
@@ -30,32 +30,39 @@ export default function FieldsetSection({
         required
       />
       <label htmlFor={`section-image_path-${index}`}>
-        Add a picture URL
-        <span className="label-instruction">(copy the image's address)</span>:
+        Image URL (optional):
       </label>
       <input
         type="url"
         id={`section-image_path-${index}`}
         name="section-image_path"
-        accept="image/png, image/jpeg, image/jpg"
         defaultValue={section.image_path}
+        placeholder="https://hoi4.paradoxwikis.com/images/7/72/image.png"
+        pattern="https://.*"
         onChange={(event) => onChange("image_path", event.target.value)}
       />
       <label htmlFor={`section-text-${index}`}>Text:</label>
-      <input
-        type="text"
+      <textarea
         id={`section-text-${index}`}
         name="section-text"
-        defaultValue={section.text}
         onChange={(event) => onChange("text", event.target.value)}
+        rows="5"
         required
-      />
+      >
+        {section.text}
+      </textarea>
 
       {/* Purely visual */}
-      <p className="list-position">{index + 1}</p>
+      <p className="list-position" hidden>
+        {index + 1}
+      </p>
 
-      <button type="button" onClick={remove}>
-        Cancel
+      <button
+        className="btn cancel-section remove-btn"
+        type="button"
+        onClick={remove}
+      >
+        Remove
       </button>
     </fieldset>
   );

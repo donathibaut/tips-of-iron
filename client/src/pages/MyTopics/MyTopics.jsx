@@ -1,24 +1,15 @@
 import { Helmet } from "react-helmet-async";
 import { useTopicsByUser } from "../../hooks/Topics/useTopics";
-import { useEffect, useState } from "react";
 import decodeToken from "../../utils/decodeToken";
 
+import SuccessMessage from "../../components/SuccessMessage/SuccessMessage";
 import { ListMyTopics } from "../../components/Topics/ListTopics";
 
-export default function MyTopics() {
-  /* 
-      Is SUCCESS MESSAGE ?
-      Message DELETED by refresh
-    */
-  const [successMessage, setSuccessMessage] = useState(null);
-  useEffect(() => {
-    const txt = localStorage.getItem("successMessage");
-    if (txt) {
-      setSuccessMessage(txt);
-      localStorage.removeItem("successMessage");
-    }
-  }, []);
+import "./MyTopics.css";
+// Profile page style
+import "../Profile/Profile.css";
 
+export default function MyTopics() {
   const decodedToken = decodeToken();
 
   // LIST TOPICS
@@ -30,23 +21,19 @@ export default function MyTopics() {
         <title>My Topics</title>
         <meta name="description" content="Tips of Iron search results" />
       </Helmet>
-      <main>
+      <main className="account-theme">
         <section className="title-section">
-          <h1>My Topics</h1>
+          <h1 className="profile-h1">My Topics</h1>
 
-          {
-            // SUCCESS MESSAGE
-            successMessage && (
-              <p className="success-message">{successMessage}</p>
-            )
-          }
-        </section>
-        <section className="results-section">
-          <table>
-            <tbody>
-              <ListMyTopics array={topics} loading={loading}></ListMyTopics>
-            </tbody>
-          </table>
+          <SuccessMessage></SuccessMessage>
+
+          <div className="table-container">
+            <table className="myTopics-table">
+              <tbody className="myTopics-tbody">
+                <ListMyTopics array={topics} loading={loading}></ListMyTopics>
+              </tbody>
+            </table>
+          </div>
         </section>
       </main>
     </>
