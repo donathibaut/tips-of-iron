@@ -75,7 +75,7 @@ const topicsFindByQuery = async (Topic, searchTitle) => {
  * @function topicFindOne
  * @description Find One Topic || null
  * @param {object} Topic - Topic Model
- * @param {object} target - searched topic title
+ * @param {object} target - searched topic
  * @returns {Promise<Object|null>} Topic + Section
  */
 const topicFindOne = async (Topic, target) => {
@@ -132,15 +132,42 @@ const topicCreate = async (Topic, form, token) => {
   // category NAME TO ID
   const category = await findOne(Category, { where: { name: form.category } });
   if (category === null) {
-    const e = new Error("Category Not Found");
-    e.table = "Category";
-    throw e;
+    throw new Error("Category Not Found");
   }
 
-  const isTopic = await topicFindOne(Topic, form);
+  // check TOPIC TITLE length
+  if (form.title.length > 100) {
+    throw new Error("Topic title is too long");
+  }
 
+  // is TOPIC (is TOPIC TITLE)
+  const isTopic = await topicFindOne(Topic, form);
   if (isTopic) {
     throw new Error("Topic Already Exists");
+  }
+
+  if (form.sections) {
+    // check SECTION TITLE length
+    const titleLength = form.sections.some(
+      (section) => section.title.length > 100,
+    );
+    if (titleLength) {
+      throw new Error("Section title is too long");
+    }
+
+    // has image_path URL -> HTTPS protocol
+    for (const section of form.sections) {
+      if (section.image_path) {
+        try {
+          const url = new URL(section.image_path);
+          if (url.protocol !== "https:") {
+            throw new Error('URL protocol is not "https:"');
+          }
+        } catch (e) {
+          throw new Error("Invalid image_path URL format");
+        }
+      }
+    }
   }
 
   try {
@@ -200,15 +227,49 @@ const topicUpdate = async (Topic, form, targetID) => {
 
   const category = await findOne(Category, { where: { name: form.category } });
   if (category === null) {
-    const e = new Error("Category Not Found");
-    e.table = "Category";
-    throw e;
+    throw new Error("Category Not Found");
   }
 
   const isTopic = await topicFindByPk(Topic, targetID);
-
   if (!isTopic) {
     throw new Error("Topic Not Found");
+  }
+
+  // check TOPIC TITLE length
+  if (form.title.length > 100) {
+    throw new Error("Topic title is too long");
+  }
+
+  // is TOPIC TITLE
+  if (form.title !== isTopic.title) {
+    const isTopicTitle = await topicFindOne(Topic, form);
+    if (isTopicTitle) {
+      throw new Error("Topic Title Already Exists");
+    }
+  }
+
+  if (form.sections) {
+    // check SECTION TITLE length
+    const titleLength = form.sections.some(
+      (section) => section.title.length > 100,
+    );
+    if (titleLength) {
+      throw new Error("Section title is too long");
+    }
+
+    // has image_path URL -> HTTPS protocol
+    for (const section of form.sections) {
+      if (section.image_path) {
+        try {
+          const url = new URL(section.image_path);
+          if (url.protocol !== "https:") {
+            throw new Error('URL protocol is not "https:"');
+          }
+        } catch (e) {
+          throw new Error("Invalid image_path URL format");
+        }
+      }
+    }
   }
 
   // TRANSACTION -> Secure "sequelize" operations (1. update topic; 2. destroy section; 3. create section)
@@ -232,7 +293,7 @@ const topicUpdate = async (Topic, form, targetID) => {
     await Section.bulkCreate(
       form.sections.map((section) => ({
         title: section.title,
-        image_path: section.image_path,
+        image_path: section.image_path || "",
         text: section.text,
         list_nb: section.list_nb,
         id_topic: targetID,

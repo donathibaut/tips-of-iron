@@ -72,7 +72,14 @@ export const postTopic = async (form) => {
     },
     body: JSON.stringify(form),
   });
-  return await res.json();
+  const response = await res.json();
+
+  // Error if BAD REQUEST
+  if (res.status === 400) {
+    throw new Error(response.message);
+  }
+
+  return response;
 };
 
 // prettier-ignore
@@ -95,7 +102,14 @@ export const patchTopic = async (id, form) => {
     },
     body: JSON.stringify(form),
   });
-  return await res.json();
+  const response = await res.json();
+
+  // Error if BAD REQUEST
+  if (res.status === 400) {
+    throw new Error(response.message);
+  }
+
+  return response;
 };
 
 // prettier-ignore

@@ -25,7 +25,7 @@ export default function FieldsetSection({
         type="text"
         id={`section-title-${index}`}
         name="section-title"
-        maxLength="250"
+        maxLength="100"
         defaultValue={section.title}
         onChange={(event) => onChange("title", event.target.value)}
         required

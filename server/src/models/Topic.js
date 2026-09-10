@@ -30,7 +30,7 @@ const Topic = sequelize.define(
       autoIncrement: true,
     },
     title: {
-      type: DataTypes.STRING(250),
+      type: DataTypes.STRING(100),
       allowNull: false,
       index: true,
     },

@@ -4,7 +4,7 @@
  */
 
 // Necessary to use Op.or ("OR" for Sequelize filters)
-const { Op, Error } = require("sequelize");
+const { Error } = require("sequelize");
 
 const jwt = require("jsonwebtoken");
 
@@ -22,36 +22,30 @@ const {
 /**
  * @async
  * @function userFindOne
- * @description Find One User || null
+ * @description Find One User BY username OR email || null
  * @param {Object} User - User Model
- * @param {Object} target - searched user
+ * @param {String} type - username || email
+ * @param {String} target - searched user (username || email)
  * @returns {Promise<Object|null>}
  */
-const userFindOne = async (User, target) => {
-  if (!target) {
+const userFindOne = async (User, type, target) => {
+  if (!target || !type) {
     return null;
   }
 
-  if (
-    (target.username && target.username !== "") ||
-    (target.email && target.email !== "")
-  ) {
-    const opOr = [];
-    if (target.username) opOr.push({ username: target.username });
-    if (target.email) opOr.push({ email: target.email });
-
+  // is target
+  if (target && target !== "") {
     return await findOne(User, {
       where: {
-        // username OR email
-        [Op.or]: opOr,
+        [type]: target,
       },
       attributes: {
         exclude: ["password"],
       },
     });
-  } else {
-    return null;
   }
+
+  return null;
 };
 
 /*============================================================================*/
@@ -91,10 +85,31 @@ const userCreate = async (User, form) => {
     throw new Error("Form Field Empty");
   }
 
-  const isUser = await userFindOne(User, form);
+  // check USERNAME & EMAIL length
+  if (form.username.length > 50) {
+    throw new Error("Username is too long");
+  }
+  if (form.email.length > 150) {
+    throw new Error("Email is too long");
+  }
 
-  if (isUser) {
-    throw new Error("User Already Exists");
+  // check PASSWORD format & length
+  const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^]).{8,}/;
+  const pwdFormatCheck = regex.test(form.password);
+  if (!pwdFormatCheck) {
+    throw new Error("Password is too short or Password format is incorrect");
+  }
+
+  // IS USERNAME
+  const isUsername = await userFindOne(User, "username", form.username);
+  if (isUsername) {
+    throw new Error("Username Already Exists");
+  }
+
+  // IS EMAIL
+  const isEmail = await userFindOne(User, "email", form.email);
+  if (isEmail) {
+    throw new Error("Email Already Exists");
   }
 
   try {
@@ -127,7 +142,6 @@ const userCreate = async (User, form) => {
  */
 const userUpdate = async (User, form, targetID) => {
   const user = await findByPk(User, targetID);
-
   if (!user) {
     throw new Error("User Not Found");
   }
@@ -143,14 +157,51 @@ const userUpdate = async (User, form, targetID) => {
     const updateData = {};
 
     if (form.password && form.newPassword) {
+      // check NEW PASSWORD format & length
+      const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^]).{8,}/;
+      const pwdFormatCheck = regex.test(form.newPassword);
+      if (!pwdFormatCheck) {
+        throw new Error(
+          "Password is too short or Password format is incorrect",
+        );
+      }
+      // hash NEW PASSWORD
       const saltRounds = 10;
       updateData.password = await bcrypt.hash(form.newPassword, saltRounds);
     }
-    if (form.email) {
-      updateData.email = form.email;
-    }
+
+    // IS USERNAME
     if (form.username) {
+      // check length
+      if (form.username.length > 50) {
+        throw new Error("Username is too long");
+      }
+
+      if (user.username !== form.username) {
+        const isUsername = await userFindOne(User, "username", form.username);
+        if (isUsername) {
+          throw new Error("Username Already Exists");
+        }
+      }
+
       updateData.username = form.username;
+    }
+
+    // IS EMAIL
+    if (form.email) {
+      // check length
+      if (form.email.length > 150) {
+        throw new Error("Email is too long");
+      }
+
+      if (user.email !== form.email) {
+        const isEmail = await userFindOne(User, "email", form.email);
+        if (isEmail) {
+          throw new Error("Email Already Exists");
+        }
+      }
+
+      updateData.email = form.email;
     }
 
     await update(User, updateData, {

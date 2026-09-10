@@ -155,11 +155,16 @@ const postTopic = async (req, res) => {
   } catch (e) {
     if (
       e.message === "Form Field Empty" ||
-      e.message === "Topic Already Exists"
+      e.message === "Topic Already Exists" ||
+      e.message === "Topic title is too long" ||
+      e.message === "Section title is too long" ||
+      e.message === 'URL protocol is not "https:"' ||
+      e.message === "Invalid image_path URL format"
     ) {
       return badRequest(res, e.message);
-    } else if (e.message === "Category Not Found" && e.table) {
-      return notFound(res, e.table);
+    }
+    if (e.message === "Category Not Found") {
+      return notFound(res, "Category");
     }
     return servError(res, e);
   }
@@ -195,10 +200,21 @@ const patchTopic = async (req, res) => {
       return forbidden(res, forbiddenMessage);
     }
   } catch (e) {
-    if (e.message === "Form Field Empty") {
+    if (
+      e.message === "Form Field Empty" ||
+      e.message === "Topic Title Already Exists" ||
+      e.message === "Topic title is too long" ||
+      e.message === "Section title is too long" ||
+      e.message === 'URL protocol is not "https:"' ||
+      e.message === "Invalid image_path URL format"
+    ) {
       return badRequest(res, e.message);
-    } else if (e.message === "Category Not Found" && e.table) {
-      return notFound(res, e.table);
+    }
+    if (e.message === "Category Not Found") {
+      return notFound(res, "Category");
+    }
+    if (e.message === "Topic Not Found") {
+      return notFound(res, "Topic");
     }
     return errorBlock(res, e, tableName);
   }

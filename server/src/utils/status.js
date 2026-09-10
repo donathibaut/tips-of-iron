@@ -100,7 +100,7 @@ const forbidden = (res, message) => {
 const notFound = (res, resource) => {
   return res.status(404).json({
     success: false,
-    message: `Unknown ${resource}`,
+    message: `${resource} Not Found`,
   });
 };
 

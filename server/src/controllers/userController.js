@@ -67,7 +67,11 @@ const postUser = async (req, res) => {
   } catch (e) {
     if (
       e.message === "Form Field Empty" ||
-      e.message === "User Already Exists"
+      e.message === "Username Already Exists" ||
+      e.message === "Email Already Exists" ||
+      e.message === "Username is too long" ||
+      e.message === "Email is too long" ||
+      e.message === "Password is too short or Password format is incorrect"
     ) {
       return badRequest(res, e.message);
     }
@@ -105,7 +109,14 @@ const patchUser = async (req, res) => {
       return forbidden(res, forbiddenMessage);
     }
   } catch (e) {
-    if (e.message === "Form Field Empty") {
+    if (
+      e.message === "Form Field Empty" ||
+      e.message === "Username Already Exists" ||
+      e.message === "Email Already Exists" ||
+      e.message === "Username is too long" ||
+      e.message === "Email is too long" ||
+      e.message === "Password is too short or Password format is incorrect"
+    ) {
       return badRequest(res, e.message);
     }
     if (e.message === "Incorrect Password...") {

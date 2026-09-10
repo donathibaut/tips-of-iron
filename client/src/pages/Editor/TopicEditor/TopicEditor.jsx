@@ -96,7 +96,7 @@ export default function TopicEditor() {
                 type="text"
                 id="title"
                 name="title"
-                maxLength="250"
+                maxLength="100"
                 required
                 autoComplete="off"
                 defaultValue={topic && topic.title ? topic.title : ""}
