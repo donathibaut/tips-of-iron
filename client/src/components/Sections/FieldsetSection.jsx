@@ -25,9 +25,11 @@ export default function FieldsetSection({
         type="text"
         id={`section-title-${index}`}
         name="section-title"
+        maxLength="100"
         defaultValue={section.title}
         onChange={(event) => onChange("title", event.target.value)}
         required
+        autoComplete="off"
       />
       <label htmlFor={`section-image_path-${index}`}>
         Image URL (optional):
@@ -39,6 +41,7 @@ export default function FieldsetSection({
         defaultValue={section.image_path}
         placeholder="https://hoi4.paradoxwikis.com/images/7/72/image.png"
         pattern="https://.*"
+        autoComplete="url"
         onChange={(event) => onChange("image_path", event.target.value)}
       />
       <label htmlFor={`section-text-${index}`}>Text:</label>
@@ -48,6 +51,7 @@ export default function FieldsetSection({
         onChange={(event) => onChange("text", event.target.value)}
         rows="5"
         required
+        autoComplete="off"
       >
         {section.text}
       </textarea>

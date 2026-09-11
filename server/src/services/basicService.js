@@ -85,15 +85,15 @@ const create = async (model, form) => {
  * @function update
  * @param {object} model
  * @param {object} form
- * @param {object} target
+ * @param {object} filter
  * @returns {Promise<Object|null>}
  * @description Update data in database || null
  */
-const update = async (model, form, target) => {
+const update = async (model, form, filter) => {
   if (model) {
     if (form) {
-      if (target) {
-        return await model.update(form, target);
+      if (filter) {
+        return await model.update(form, filter);
       } else {
         return null;
       }
@@ -109,14 +109,14 @@ const update = async (model, form, target) => {
  * @async
  * @function destroy
  * @param {object} model
- * @param {object} target
+ * @param {object} id
  * @returns {Promise<Object|null>}
  * @description Delete data in database || null
  */
-const destroy = async (model, target) => {
+const destroy = async (model, id) => {
   if (model) {
-    if (target) {
-      return await model.destroy(target);
+    if (id) {
+      return await model.destroy(id);
     } else {
       return null;
     }

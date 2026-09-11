@@ -81,6 +81,7 @@ export default function Profile() {
                           name="password"
                           id="password"
                           required
+                          autoComplete="current-password"
                         />
                       </fieldset>
 

@@ -1,7 +1,6 @@
 /**
  * @file patchTopic.test.js
  * @description Test Topic Update
- * ! DELETE DATABASE TEST RESULTS BEFORE RUNNING A NEW ONE !
  */
 
 const app = require("../../src/app");
@@ -123,7 +122,7 @@ describe("PATCH topics", () => {
   );
 
   /*============================================================================*/
-  it("Error 400",
+  it("Error 400 -> Form Field Empty",
     async () => {
       const response = await reqTest
         .patch(`/api/topic/${topicID}`)
@@ -154,7 +153,180 @@ describe("PATCH topics", () => {
   );
 
   /*============================================================================*/
-  it("Error 403",
+  it("Error 400 -> Topic Title Already Exists",
+    async () => {
+
+      // Create topic that will create conflict
+      await Topic.create(
+        { 
+          title: "newTopic400",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+          id_category: 1,
+          id_user: 1,
+          Sections: [
+            {
+              title: "Titre de la section",
+              text: "Contenu de la section...",
+              id_user: 1,
+            }
+          ]
+        }, {include: [Section]},
+      );
+
+      const response = await reqTest
+        .patch(`/api/topic/${topicID}`)
+        .set("Authorization", `Bearer ${tokenTest}`)
+        .send({ 
+          title: "newTopic400", 
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          category: "Interface",
+          sections: [
+            {
+              title: "sectionTitle",
+              image_path: "",
+              text: "Lorem ipsum dolor sit amet,",
+              list_nb: 1,
+            },
+            {
+              title: "sectionTitle",
+              image_path: "",
+              text: "Lorem ipsum dolor sit amet,",
+              list_nb: 1,
+            }
+          ]
+        })
+        .expect(400);
+
+      assert.strictEqual(response.body.message, "Topic Title Already Exists");
+    }
+  );
+
+  /*============================================================================*/
+  it("Error 400 -> Topic title is too long",
+    async () => {
+      const response = await reqTest
+        .patch(`/api/topic/${topicID}`)
+        .set("Authorization", `Bearer ${tokenTest}`)
+        .send({ 
+          title: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu", 
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          category: "Interface",
+          sections: [
+            {
+              title: "sectionTitle",
+              image_path: "",
+              text: "Lorem ipsum dolor sit amet,",
+              list_nb: 1,
+            },
+            {
+              title: "sectionTitle",
+              image_path: "",
+              text: "Lorem ipsum dolor sit amet,",
+              list_nb: 1,
+            }
+          ]
+        })
+        .expect(400);
+
+      assert.strictEqual(response.body.message, "Topic title is too long");
+    }
+  );
+
+  /*============================================================================*/
+  it("Error 400 -> Section title is too long",
+    async () => {
+      const response = await reqTest
+        .patch(`/api/topic/${topicID}`)
+        .set("Authorization", `Bearer ${tokenTest}`)
+        .send({ 
+          title: "topicNotExist", 
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          category: "Interface",
+          sections: [
+            {
+              title: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu",
+              image_path: "",
+              text: "Lorem ipsum dolor sit amet,",
+              list_nb: 1,
+            },
+            {
+              title: "sectionTitle",
+              image_path: "",
+              text: "Lorem ipsum dolor sit amet,",
+              list_nb: 1,
+            }
+          ]
+        })
+        .expect(400);
+
+      assert.strictEqual(response.body.message, "Section title is too long");
+    }
+  );
+
+  /*============================================================================*/
+  it('Error 400 -> URL protocol is not "https:"',
+    async () => {
+      const response = await reqTest
+        .patch(`/api/topic/${topicID}`)
+        .set("Authorization", `Bearer ${tokenTest}`)
+        .send({ 
+          title: "topicNotExist", 
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          category: "Interface",
+          sections: [
+            {
+              title: "sectionTitle",
+              image_path: "http://hoi4.paradoxwikis.com/images/2/2f/Experience_army.png",
+              text: "Lorem ipsum dolor sit amet,",
+              list_nb: 1,
+            },
+            {
+              title: "sectionTitle",
+              image_path: "",
+              text: "Lorem ipsum dolor sit amet,",
+              list_nb: 1,
+            }
+          ]
+        })
+        .expect(400);
+
+      assert.strictEqual(response.body.message, 'URL protocol is not "https:"');
+    }
+  );
+
+  /*============================================================================*/
+  it("Error 400 -> Invalid image_path URL format",
+    async () => {
+      const response = await reqTest
+        .patch(`/api/topic/${topicID}`)
+        .set("Authorization", `Bearer ${tokenTest}`)
+        .send({ 
+          title: "topicNotExist", 
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          category: "Interface",
+          sections: [
+            {
+              title: "sectionTitle",
+              image_path: "not a path",
+              text: "Lorem ipsum dolor sit amet,",
+              list_nb: 1,
+            },
+            {
+              title: "sectionTitle",
+              image_path: "",
+              text: "Lorem ipsum dolor sit amet,",
+              list_nb: 1,
+            }
+          ]
+        })
+        .expect(400);
+
+      assert.strictEqual(response.body.message, "Invalid image_path URL format");
+    }
+  );
+
+  /*============================================================================*/
+  it("Error 403 -> You don't have the right!",
     async () => {
       const response = await reqTest
         .patch(`/api/topic/${topicID}`)

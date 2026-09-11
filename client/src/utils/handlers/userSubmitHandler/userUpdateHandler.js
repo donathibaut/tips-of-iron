@@ -25,7 +25,6 @@ export default async function userUpdateHandler(event, userID, setError) {
   const token = localStorage.getItem("token");
   if (!token) {
     const errorMessage = "Your are not connected...";
-    console.log(errorMessage);
     return setError(errorMessage);
   }
 

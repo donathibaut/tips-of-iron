@@ -1,0 +1,23 @@
+/* CLASS */
+
+.myTopics-tr {
+  border-bottom: 1px #ffffff solid;
+}
+
+.no-topic-row {
+  border-bottom: 1px #ffffff solid;
+}
+
+.table-btn {
+  text-decoration: none;
+}
+
+.table-btn,
+.table-delete {
+  padding: 10px;
+}
+
+.table-delete:hover,
+.table-delete:focus {
+  background-color: rgba(109, 46, 46, 80%);
+}

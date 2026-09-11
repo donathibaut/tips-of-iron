@@ -41,6 +41,7 @@ export default function UserCreate() {
                 name="username"
                 maxLength="50"
                 required
+                autoComplete="username"
               />
             </fieldset>
 
@@ -52,12 +53,23 @@ export default function UserCreate() {
                 name="email"
                 maxLength="150"
                 required
+                autoComplete="email"
               />
             </fieldset>
 
             <fieldset>
               <label htmlFor="password">Password:</label>
-              <input type="password" id="password" name="password" required />
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required
+                autoComplete="new-password"
+                minLength="8"
+                // 0-9, a-z, A-Z, Special characters "!@#$%^", minLength => 8
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^]).{8,}"
+                title="Minimum 8 characters | Include: lowercase, UPPERCASE, number, special character !@#$%^"
+              />
             </fieldset>
 
             <fieldset>
@@ -67,6 +79,7 @@ export default function UserCreate() {
                 id="confirmPassword"
                 name="confirmPassword"
                 required
+                autoComplete="new-password"
               />
             </fieldset>
 

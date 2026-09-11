@@ -23,7 +23,6 @@ export default function UserUpdate() {
 
   // selected User
   let { user, loading } = useUserByID(userID);
-  console.log(user);
 
   return loading ? (
     <li className="loading">Loading...</li>
@@ -59,6 +58,7 @@ export default function UserUpdate() {
               maxLength="50"
               defaultValue={user && user.username ? user.username : "ERROR"}
               required
+              autoComplete="username"
             />
             <button className="validate-btn form-btn" type="submit">
               Submit
@@ -80,6 +80,7 @@ export default function UserUpdate() {
               maxLength="150"
               defaultValue={user && user.email ? user.email : "ERROR"}
               required
+              autoComplete="email"
             />
             <button className="validate-btn form-btn" type="submit">
               Submit
@@ -93,8 +94,24 @@ export default function UserUpdate() {
               userUpdateHandler(event, userID, setError);
             }}
           >
+            {/* Accessibility Input (hidden) */}
+            <input
+              type="text"
+              name="username"
+              autoComplete="username"
+              value={user && user.username ? user.username : ""}
+              readOnly
+              hidden
+            />
+
             <label htmlFor="password">Password:</label>
-            <input type="password" id="password" name="password" required />
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              autoComplete="current-password"
+            />
 
             <label htmlFor="newPassword">New Password:</label>
             <input
@@ -102,6 +119,11 @@ export default function UserUpdate() {
               id="newPassword"
               name="newPassword"
               required
+              autoComplete="new-password"
+              minLength="8"
+              // 0-9, a-z, A-Z, Special characters "!@#$%^", minLength => 8
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^]).{8,}"
+              title="Minimum 8 characters | Include: lowercase, UPPERCASE, number, special character !@#$%^"
             />
             <label htmlFor="confirmNewPassword">
               Confirm your New Password:
@@ -111,6 +133,7 @@ export default function UserUpdate() {
               id="confirmNewPassword"
               name="confirmNewPassword"
               required
+              autoComplete="new-password"
             />
             <button className="validate-btn form-btn" type="submit">
               Submit

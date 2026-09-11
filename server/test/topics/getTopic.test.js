@@ -1,7 +1,6 @@
 /**
  * @file getTopic.test.js
  * @description Test Topic Read
- * ! DELETE DATABASE TEST RESULTS BEFORE RUNNING A NEW ONE !
  */
 
 const app = require("../../src/app");
@@ -11,7 +10,7 @@ const supertest = require("supertest");
 const reqTest = supertest(app);
 
 const assert = require("node:assert");
-const { describe, it, before } = require("node:test");
+const { describe, it } = require("node:test");
 
 // prettier-ignore
 describe("GET topic", () => {

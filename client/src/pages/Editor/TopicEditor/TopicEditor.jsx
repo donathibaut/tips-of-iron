@@ -96,7 +96,9 @@ export default function TopicEditor() {
                 type="text"
                 id="title"
                 name="title"
+                maxLength="100"
                 required
+                autoComplete="off"
                 defaultValue={topic && topic.title ? topic.title : ""}
                 onChange={(e) => {
                   setUserInput(e.target.value);
@@ -110,6 +112,7 @@ export default function TopicEditor() {
                 id="description"
                 name="description"
                 rows="3"
+                autoComplete="off"
                 onChange={(e) => {
                   setUserInput(e.target.value);
                 }}
@@ -120,7 +123,12 @@ export default function TopicEditor() {
 
               <div className="category-container">
                 <label htmlFor="category">Category:</label>
-                <select name="category" id="category" required>
+                <select
+                  name="category"
+                  id="category"
+                  required
+                  autoComplete="off"
+                >
                   {topic && topic.id_category ? (
                     <option
                       defaultValue={findCategory(topic.id_category, categories)}

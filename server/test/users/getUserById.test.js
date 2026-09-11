@@ -1,7 +1,6 @@
 /**
  * @file getUserById.test.js
  * @description Test User Read
- * ! DELETE DATABASE TEST RESULTS  BEFORE RUNNING A NEW ONE !
  */
 
 const app = require("../../src/app");
@@ -15,6 +14,7 @@ const { describe, it, before } = require("node:test");
 // prettier-ignore
 describe("GET users", () => {
   let userID;
+  const password = "aA1$aaaa";
 
   // create user before GET request
   before(async () => {
@@ -25,7 +25,7 @@ describe("GET users", () => {
 
     const res = await reqTest
       .post("/api/user")
-      .send({ username: "GetGuy", email: testEmail, password: "password" });
+      .send({ username: "GetGuy", email: testEmail, password: password });
     
     const testUser = res.body.result; 
     userID = testUser?.id_user || testUser?.id;

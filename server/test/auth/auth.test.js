@@ -1,7 +1,6 @@
 /**
  * @file auth.test.js
  * @description Test Login & Token Creation
- * ! DELETE DATABASE TEST RESULTS BEFORE RUNNING A NEW ONE !
  */
 
 const app = require("../../src/app");
@@ -17,6 +16,7 @@ describe("Log in & Create Token", () => {
 
     // accessibility for all it()
     let testEmail;
+    const password = "aA1$aaaa";
 
     before(async () => {
         const emailDateNow = Date.now();
@@ -24,7 +24,7 @@ describe("Log in & Create Token", () => {
 
             await reqTest
                 .post("/api/user")
-                .send({ username: "LoginGuy", email: testEmail, password: "password" });
+                .send({ username: "LoginGuy", email: testEmail, password: password });
         }
     );
 
@@ -46,12 +46,12 @@ describe("Log in & Create Token", () => {
             .post("/api/login")
             .send({
                 email: testEmail,
-                password: "password"
+                password: password
             })
             .expect(200);
 
         assert.strictEqual(response.body.success, true);
         assert.strictEqual(typeof response.body.token, "string");
-        assert.strictEqual(response.body.message, "You are connected ! :D");
+        assert.strictEqual(response.body.message, "You are connected!");
     });
 });

@@ -23,6 +23,7 @@
 
 .delete-btn:hover,
 .delete-btn:focus {
+  border-radius: 20px;
   background-color: rgba(109, 46, 46, 80%);
 }
 
@@ -39,5 +40,6 @@
 
 .neutral-btn:hover,
 .neutral-btn:focus {
+  border-radius: 20px;
   background-color: rgba(77, 77, 77, 80%);
 }

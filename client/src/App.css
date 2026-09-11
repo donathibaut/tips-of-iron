@@ -5,6 +5,10 @@
 /* Fonts */
 @import "./fonts.css";
 
+* {
+  outline: none;
+}
+
 a {
   padding: 0 5px;
 }

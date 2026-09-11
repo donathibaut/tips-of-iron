@@ -31,11 +31,11 @@ const Section = sequelize.define(
       autoIncrement: true,
     },
     title: {
-      type: DataTypes.STRING(250),
+      type: DataTypes.STRING(100),
       allowNull: false,
     },
     image_path: {
-      type: DataTypes.STRING(250),
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     text: {

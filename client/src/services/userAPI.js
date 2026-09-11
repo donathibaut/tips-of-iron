@@ -30,7 +30,14 @@ export const postUser = async (form) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(form),
   });
-  return await res.json();
+  const response = await res.json();
+
+  // Error if BAD REQUEST
+  if (res.status === 400) {
+    throw new Error(response.message);
+  }
+
+  return response;
 };
 
 // prettier-ignore
@@ -60,6 +67,11 @@ export const patchUser = async (id, token, form) => {
 
   // Error if INCORRECT PASSWORD
   if(res.status === 401){
+    throw new Error(response.message);
+  }
+
+  // Error if BAD REQUEST
+  if(res.status === 400){
     throw new Error(response.message);
   }
 

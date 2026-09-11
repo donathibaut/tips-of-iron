@@ -1,7 +1,6 @@
 /**
  * @file postUser.test.js
  * @description Test User Creation
- * ! DELETE DATABASE TEST RESULTS  BEFORE RUNNING A NEW ONE !
  */
 
 const app = require("../../src/app");
@@ -17,6 +16,7 @@ describe("POST users", () => {
 
   // accessibility for all it()
   let testEmail;
+  const password = "aA1$aaaa";
 
   it("Create user + Success 201",
     async () => {
@@ -25,15 +25,15 @@ describe("POST users", () => {
 
       const response = await reqTest
         .post("/api/user")
-        .send({ username: "CreateGuy", email: testEmail, password: "0000" })
+        .send({ username: "CreateGuy", email: testEmail, password: password })
         .expect(201);
 
       assert.strictEqual(response.body.success, true);
-      assert.strictEqual(response.body.message, "User successfully created !");
+      assert.strictEqual(response.body.message, "User successfully created!");
     }
   );
 
-  it("Error 400",
+  it("Error 400 -> Form Field Empty",
     async () => {
       const response = await reqTest.post("/api/user").send({}).expect(400);
 
