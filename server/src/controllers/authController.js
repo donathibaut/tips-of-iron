@@ -51,7 +51,7 @@ const auth = async (req, res) => {
         },
         process.env.SECRET_KEY,
         {
-          expiresIn: "7d",
+          expiresIn: "2d",
         },
       );
 

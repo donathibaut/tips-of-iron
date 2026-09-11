@@ -9,6 +9,8 @@ import { jwtDecode } from "jwt-decode";
 
 import topicDeleteHandler from "../../utils/handlers/topicSubmitHandler/topicDeleteHandler";
 
+import "./ListTopics.css";
+
 /**
  * @function ListTopics
  * @param {Object} props
@@ -66,7 +68,7 @@ export function ListMyTopics({ array, loading }) {
     <tr className="loading">
       <td>Loading...</td>
     </tr>
-  ) : (
+  ) : array[0] !== undefined ? (
     <>
       {array.map((topic) => {
         return (
@@ -146,5 +148,9 @@ export function ListMyTopics({ array, loading }) {
         </div>
       </div>
     </>
+  ) : (
+    <tr className="no-topic-row">
+      <td>No topics created...</td>
+    </tr>
   );
 }

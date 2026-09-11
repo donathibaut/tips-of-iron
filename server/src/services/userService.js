@@ -233,7 +233,7 @@ const userUpdate = async (User, form, targetID) => {
       },
       process.env.SECRET_KEY,
       {
-        expiresIn: "7d",
+        expiresIn: "2d",
       },
     );
 

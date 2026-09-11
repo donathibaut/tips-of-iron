@@ -8,26 +8,8 @@
   border-top: 1px #ffffff solid;
 }
 
-.myTopics-tr {
-  border-bottom: 1px #ffffff solid;
-}
-
 .table-container {
   background-color: rgba(77, 77, 77, 80%);
   border-radius: 20px;
   padding: 30px;
-}
-
-.table-btn {
-  text-decoration: none;
-}
-
-.table-btn,
-.table-delete {
-  padding: 10px;
-}
-
-.table-delete:hover,
-.table-delete:focus {
-  background-color: rgba(109, 46, 46, 80%);
 }

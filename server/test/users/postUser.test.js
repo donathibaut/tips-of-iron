@@ -33,7 +33,7 @@ describe("POST users", () => {
     }
   );
 
-  it("Error 400",
+  it("Error 400 -> Form Field Empty",
     async () => {
       const response = await reqTest.post("/api/user").send({}).expect(400);
 
