@@ -59,7 +59,7 @@ const auth = async (req, res) => {
       return res.status(200).json({
         token: token,
         success: true,
-        message: "You are connected! :D",
+        message: "You are connected!",
       });
     } else {
       const errorMessage = "Incorrect Email or Password...";

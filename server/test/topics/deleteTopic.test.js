@@ -1,7 +1,6 @@
 /**
  * @file deleteTopic.test.js
  * @description Test Topic Deletion
- * ! DELETE DATABASE TEST RESULTS BEFORE RUNNING A NEW ONE !
  */
 
 const app = require("../../src/app");

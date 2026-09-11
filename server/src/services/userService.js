@@ -141,6 +141,11 @@ const userCreate = async (User, form) => {
  * @returns {Promise<Object|null>}
  */
 const userUpdate = async (User, form, targetID) => {
+  // is form || is form empty
+  if (!form || Object.keys(form).length === 0) {
+    throw new Error("Form Field Empty");
+  }
+
   const user = await findByPk(User, targetID);
   if (!user) {
     throw new Error("User Not Found");
@@ -156,18 +161,22 @@ const userUpdate = async (User, form, targetID) => {
   try {
     const updateData = {};
 
-    if (form.password && form.newPassword) {
-      // check NEW PASSWORD format & length
-      const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^]).{8,}/;
-      const pwdFormatCheck = regex.test(form.newPassword);
-      if (!pwdFormatCheck) {
-        throw new Error(
-          "Password is too short or Password format is incorrect",
-        );
+    if (form.password || form.newPassword) {
+      if (form.password && form.newPassword) {
+        // check NEW PASSWORD format & length
+        const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^]).{8,}/;
+        const pwdFormatCheck = regex.test(form.newPassword);
+        if (!pwdFormatCheck) {
+          throw new Error(
+            "Password is too short or Password format is incorrect",
+          );
+        }
+        // hash NEW PASSWORD
+        const saltRounds = 10;
+        updateData.password = await bcrypt.hash(form.newPassword, saltRounds);
+      } else {
+        throw new Error("Form Field Empty");
       }
-      // hash NEW PASSWORD
-      const saltRounds = 10;
-      updateData.password = await bcrypt.hash(form.newPassword, saltRounds);
     }
 
     // IS USERNAME

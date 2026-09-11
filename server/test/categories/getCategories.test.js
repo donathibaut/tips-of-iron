@@ -1,7 +1,6 @@
 /**
  * @file getCategories.test.js
  * @description Test Category Read
- * ! DELETE DATABASE TEST RESULTS BEFORE RUNNING A NEW ONE !
  */
 
 const app = require("../../src/app");

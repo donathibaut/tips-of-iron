@@ -61,9 +61,6 @@ const getTopicsByFK = async (req, res) => {
       }
       fkCol = "id_category";
       fk = findCategory.id_category;
-    } else {
-      const err = "Foreign Key Missing";
-      return badRequest(res, err);
     }
 
     const topic = await topicsFindByFK(Topic, fkCol, fk);
@@ -100,6 +97,7 @@ const getTopicsByQuery = async (req, res) => {
 
     if (research === null || research.length === 0) {
       return res.status(200).json({
+        success: true,
         message: "No matching topic",
         research: [],
       });
@@ -145,14 +143,18 @@ const getTopic = async (req, res) => {
  */
 const postTopic = async (req, res) => {
   const token = req.token;
+  if (!token) {
+    return forbidden(res, "You don't have the right!");
+  }
 
   try {
-    if (token) {
-      const result = await topicCreate(Topic, req.body, token);
+    const result = await topicCreate(Topic, req.body, token);
 
-      return successCreated(res, result.message, result.topic);
-    }
+    return successCreated(res, result.message, result.topic);
   } catch (e) {
+    if (e.message === "You don't have the right!") {
+      return forbidden(res, e.message);
+    }
     if (
       e.message === "Form Field Empty" ||
       e.message === "Topic Already Exists" ||

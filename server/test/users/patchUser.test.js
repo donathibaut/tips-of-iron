@@ -1,7 +1,6 @@
 /**
  * @file patchUser.test.js
  * @description Test User Update
- * ! DELETE DATABASE TEST RESULTS  BEFORE RUNNING A NEW ONE !
  */
 
 const app = require("../../src/app");
@@ -18,6 +17,7 @@ const jwt = require("jsonwebtoken");
 describe("PATCH users", () => {
   let userID;
   let tokenTest;
+  const password = "aA1$aaaa";
   let wrongToken;
 
   // accessibility for all it()
@@ -31,7 +31,7 @@ describe("PATCH users", () => {
 
     const res = await reqTest
       .post("/api/user")
-      .send({ username: "UpdateGuy", email: testEmail, password: "password" });
+      .send({ username: "UpdateGuy", email: testEmail, password: password });
     
     const testUser = res.body.result; 
     userID = testUser?.id_user || testUser?.id;
@@ -49,7 +49,7 @@ describe("PATCH users", () => {
     );
   });
 
-  it("Error 400",
+  it("Error 400 -> Form Field Empty",
     async () => {
 
       const response = await reqTest
@@ -62,6 +62,19 @@ describe("PATCH users", () => {
     }
   );
 
+  it("Error 400 -> Password without special characters",
+    async () => {
+
+      const response = await reqTest
+        .patch(`/api/user/${userID}`)
+        .set("Authorization", `Bearer ${tokenTest}`)
+        .send({ password: password, newPassword: "cC2hfhhfhffhfh" })
+        .expect(400);
+
+      assert.strictEqual(response.body.message, "Password is too short or Password format is incorrect");
+    }
+  );
+
   it("Error 403",
     async () => {
 
@@ -70,7 +83,7 @@ describe("PATCH users", () => {
         .set("Authorization", `Bearer ${wrongToken}`)
         .expect(403);
 
-      assert.strictEqual(response.body.message.includes("You don't have the right !"), true);
+      assert.strictEqual(response.body.message.includes("You don't have the right!"), true);
     }
   );
     
@@ -86,13 +99,40 @@ describe("PATCH users", () => {
     }
   );
 
-  it("Patch user + Success 200",
+  it("Patch user username + Success 200",
     async () => {
 
       const response = await reqTest
         .patch(`/api/user/${userID}`)
         .set("Authorization", `Bearer ${tokenTest}`)
-        .send({ username: "Billy", email: `updated_${testEmail}`, password: "newPassword" })
+        .send({ username: "Billy"})
+        .expect(200);
+
+      assert.strictEqual(response.body.success, true);
+    }
+    
+  );
+
+  it("Patch user email + Success 200",
+    async () => {
+
+      const response = await reqTest
+        .patch(`/api/user/${userID}`)
+        .set("Authorization", `Bearer ${tokenTest}`)
+        .send({ email: `updated_${testEmail}`})
+        .expect(200);
+
+      assert.strictEqual(response.body.success, true);
+    }
+  );
+
+  it("Patch user password + Success 200",
+    async () => {
+
+      const response = await reqTest
+        .patch(`/api/user/${userID}`)
+        .set("Authorization", `Bearer ${tokenTest}`)
+        .send({ password: password, newPassword: "cC2@hfhhfhffhfh" })
         .expect(200);
 
       assert.strictEqual(response.body.success, true);

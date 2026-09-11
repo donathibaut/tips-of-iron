@@ -1,7 +1,6 @@
 /**
  * @file deleteUser.test.js
  * @description Test User Deletion
- * ! DELETE DATABASE TEST RESULTS  BEFORE RUNNING A NEW ONE !
  */
 
 const app = require("../../src/app");
@@ -18,6 +17,7 @@ const jwt = require("jsonwebtoken");
 describe("DELETE users", () => {
   let userID;
   let tokenTest;
+  const password = "aA1$aaaa";
   let wrongToken;
 
   // accessibility for all it()
@@ -31,7 +31,7 @@ describe("DELETE users", () => {
 
     const res = await reqTest
       .post("/api/user")
-      .send({ username: "DeleteGuy", email: testEmail, password: "password" });
+      .send({ username: "DeleteGuy", email: testEmail, password: password });
     
     const testUser = res.body.result; 
     userID = testUser?.id_user || testUser?.id;
@@ -49,24 +49,39 @@ describe("DELETE users", () => {
     );
   });
 
-  it("Error 403",
-    async () => {
-
-      const response = await reqTest
-        .delete(`/api/user/${userID}`)
-        .set("Authorization", `Bearer ${wrongToken}`)
-        .expect(403);
-
-      assert.strictEqual(response.body.message.includes("You don't have the right !"), true);
-    }
-  );
-    
-  it("Error 404",
+    it("Error 401 -> Wrong Password",
     async () => {
 
       const response = await reqTest
         .delete("/api/user/1000")
         .set("Authorization", `Bearer ${tokenTest}`)
+        .send({password: "wrong"})
+        .expect(404);
+
+      assert.strictEqual(response.body.success, false);
+    }
+  );
+
+  it("Error 403 ->  ID not matching",
+    async () => {
+
+      const response = await reqTest
+        .delete(`/api/user/${userID}`)
+        .set("Authorization", `Bearer ${wrongToken}`)
+        .send({ password: password })
+        .expect(403);
+
+      assert.strictEqual(response.body.message.includes("You don't have the right!"), true);
+    }
+  );
+    
+  it("Error 404 -> User not found",
+    async () => {
+
+      const response = await reqTest
+        .delete("/api/user/1000")
+        .set("Authorization", `Bearer ${tokenTest}`)
+        .send({ password: password })
         .expect(404);
 
       assert.strictEqual(response.body.success, false);
@@ -79,6 +94,7 @@ describe("DELETE users", () => {
       const response = await reqTest
         .delete(`/api/user/${userID}`)
         .set("Authorization", `Bearer ${tokenTest}`)
+        .send({ password: password })
         .expect(200);
 
       assert.strictEqual(response.body.success, true);

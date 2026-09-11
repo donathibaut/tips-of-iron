@@ -117,6 +117,10 @@ const topicFindByPk = async (Topic, id_topic) => {
  * @returns {Promise<Object|null>} new TOPIC + SECTIONS
  */
 const topicCreate = async (Topic, form, token) => {
+  if (!token.id_user) {
+    throw new Error("You don't have the right!");
+  }
+
   // is it empty ?
   if (
     !form.title ||
@@ -158,13 +162,15 @@ const topicCreate = async (Topic, form, token) => {
     // has image_path URL -> HTTPS protocol
     for (const section of form.sections) {
       if (section.image_path) {
+        let url;
         try {
-          const url = new URL(section.image_path);
-          if (url.protocol !== "https:") {
-            throw new Error('URL protocol is not "https:"');
-          }
+          url = new URL(section.image_path);
         } catch (e) {
           throw new Error("Invalid image_path URL format");
+        }
+
+        if (url.protocol !== "https:") {
+          throw new Error('URL protocol is not "https:"');
         }
       }
     }
@@ -260,13 +266,14 @@ const topicUpdate = async (Topic, form, targetID) => {
     // has image_path URL -> HTTPS protocol
     for (const section of form.sections) {
       if (section.image_path) {
+        let url;
         try {
-          const url = new URL(section.image_path);
-          if (url.protocol !== "https:") {
-            throw new Error('URL protocol is not "https:"');
-          }
+          url = new URL(section.image_path);
         } catch (e) {
           throw new Error("Invalid image_path URL format");
+        }
+        if (url.protocol !== "https:") {
+          throw new Error('URL protocol is not "https:"');
         }
       }
     }
