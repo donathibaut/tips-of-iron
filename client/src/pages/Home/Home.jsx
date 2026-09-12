@@ -45,7 +45,7 @@ export default function Home() {
             className="arrow-btn btn"
             onClick={(event) => scrollList(".country-suggestions", -1)}
           >
-            <i class="bi bi-arrow-left-square"></i>
+            <i className="bi bi-arrow-left-square"></i>
           </button>
 
           <ul className="suggestion-list country-suggestions">
@@ -125,7 +125,7 @@ export default function Home() {
             className="arrow-btn btn"
             onClick={(event) => scrollList(".country-suggestions", 1)}
           >
-            <i class="bi bi-arrow-right-square"></i>
+            <i className="bi bi-arrow-right-square"></i>
           </button>
         </section>
 
@@ -135,7 +135,7 @@ export default function Home() {
             className="arrow-btn btn"
             onClick={(event) => scrollList(".interface-suggestions", -1)}
           >
-            <i class="bi bi-arrow-left-square"></i>
+            <i className="bi bi-arrow-left-square"></i>
           </button>
 
           <ul className="suggestion-list interface-suggestions">
@@ -185,7 +185,7 @@ export default function Home() {
             className="arrow-btn btn"
             onClick={(event) => scrollList(".interface-suggestions", 1)}
           >
-            <i class="bi bi-arrow-right-square"></i>
+            <i className="bi bi-arrow-right-square"></i>
           </button>
         </section>
       </main>

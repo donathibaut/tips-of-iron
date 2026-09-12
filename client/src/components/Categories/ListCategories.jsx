@@ -4,6 +4,7 @@
  */
 
 import { Link } from "react-router-dom";
+import togglerLink from "../../utils/togglerLink";
 
 /**
  * @function ListCategories
@@ -20,7 +21,10 @@ export function ListCategories({ array, loading }) {
     array.map((category) => {
       return (
         <li key={category.id_category}>
-          <Link to={`/results/categories/${category.name}`}>
+          <Link
+            to={`/results/categories/${category.name}`}
+            onClick={togglerLink}
+          >
             {category.name}
           </Link>
         </li>
