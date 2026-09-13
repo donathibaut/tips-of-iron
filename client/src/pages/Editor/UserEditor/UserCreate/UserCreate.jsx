@@ -83,6 +83,19 @@ export default function UserCreate() {
               />
             </fieldset>
 
+            <fieldset className="cgu-fieldset">
+              <input type="checkbox" name="cgu" id="cgu" required />
+              <label htmlFor="cgu">
+                When you create an account, your email address will be used
+                solely as your login ID. In accordance with the law, you have
+                the right to access your information.
+              </label>
+            </fieldset>
+
+            <Link className="personal-data-link" to="/personal-data">
+              Click here to see the use of Personal Data
+            </Link>
+
             <div className="btn-group">
               <Link className="form-btn cancel-btn" to="/">
                 Cancel

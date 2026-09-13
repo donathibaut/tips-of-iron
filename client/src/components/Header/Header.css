@@ -1,4 +1,7 @@
 header {
+  padding: 20px;
+  background-color: #355e86;
+
   display: grid;
   grid-template-columns: auto 1fr;
 }
@@ -9,13 +12,25 @@ header a {
 
 /* CLASS */
 
+.collapse__ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.collapse__ul a {
+  display: block;
+
+  padding: 10px 10px;
+}
+
 .connect-link {
   text-wrap: nowrap;
 }
 
 .header-title {
   margin-right: 20px;
-  padding: 0 5px;
+  padding: 0 10px;
   font-size: 1.5rem;
   text-wrap: nowrap;
   font-weight: 700;
@@ -29,15 +44,24 @@ header a {
 .hidden__menu {
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 20px;
 }
 
-.menu__category,
-.hidden__search-bar .search-form {
+.menu__first {
   margin-top: 20px;
 }
 
 .topic__li .bi {
   font-size: 1rem;
-  padding-right: 5px;
+}
+
+.topic__li a {
+  padding-left: 0;
+}
+
+/* RESPONSIVE */
+@media all and (min-width: 1440px) {
+  header {
+    padding: 20px 150px;
+  }
 }

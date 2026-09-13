@@ -45,7 +45,7 @@ export default function Home() {
             className="arrow-btn btn"
             onClick={(event) => scrollList(".country-suggestions", -1)}
           >
-            <i class="bi bi-arrow-left-square"></i>
+            <i className="bi bi-arrow-left-square"></i>
           </button>
 
           <ul className="suggestion-list country-suggestions">
@@ -76,7 +76,7 @@ export default function Home() {
             <li className="suggestion">
               <Link className="suggestion__link" to="/results?search=Germany">
                 <img className="flag" src={Germany} alt="German Reich flag" />
-                <p>Germany</p>
+                <p>German Reich</p>
               </Link>
             </li>
             <li className="suggestion">
@@ -109,7 +109,7 @@ export default function Home() {
             <li className="suggestion">
               <Link className="suggestion__link" to="/results?search=India">
                 <img className="flag" src={India} alt="British Raj flag" />
-                <p>India</p>
+                <p>British Raj</p>
               </Link>
             </li>
             <li className="suggestion">
@@ -125,7 +125,7 @@ export default function Home() {
             className="arrow-btn btn"
             onClick={(event) => scrollList(".country-suggestions", 1)}
           >
-            <i class="bi bi-arrow-right-square"></i>
+            <i className="bi bi-arrow-right-square"></i>
           </button>
         </section>
 
@@ -135,7 +135,7 @@ export default function Home() {
             className="arrow-btn btn"
             onClick={(event) => scrollList(".interface-suggestions", -1)}
           >
-            <i class="bi bi-arrow-left-square"></i>
+            <i className="bi bi-arrow-left-square"></i>
           </button>
 
           <ul className="suggestion-list interface-suggestions">
@@ -185,7 +185,7 @@ export default function Home() {
             className="arrow-btn btn"
             onClick={(event) => scrollList(".interface-suggestions", 1)}
           >
-            <i class="bi bi-arrow-right-square"></i>
+            <i className="bi bi-arrow-right-square"></i>
           </button>
         </section>
       </main>

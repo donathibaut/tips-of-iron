@@ -9,6 +9,10 @@ i {
   padding: 0;
 }
 
+.desktop-li {
+  display: none;
+}
+
 .dropdown,
 nav li {
   align-self: center;
@@ -35,4 +39,25 @@ nav li {
 .navbar__list {
   display: flex;
   gap: 20px;
+}
+
+/* RESPONSIVE */
+@media all and (min-width: 1440px) {
+  .desktop-li {
+    display: inline;
+  }
+
+  .desktop-li__ul {
+    display: flex;
+    gap: 20px;
+  }
+
+  .desktop-li__ul a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .toggler-li {
+    display: none;
+  }
 }
