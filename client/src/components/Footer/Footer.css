@@ -1,7 +1,10 @@
 footer {
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 20px;
+
+  padding: 40px 20px;
+  background-color: #355e86;
 }
 
 /* CLASS */
@@ -11,6 +14,19 @@ footer {
   text-align: center;
 }
 
+.norms {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .norm-link {
   text-decoration: none;
+}
+
+/* RESPONSIVE */
+@media all and (min-width: 1440px) {
+  footer {
+    padding: 40px 150px;
+  }
 }

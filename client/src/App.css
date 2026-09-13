@@ -53,12 +53,6 @@ fieldset {
   flex-direction: column;
 }
 
-footer,
-header {
-  padding: 20px;
-  background-color: #355e86;
-}
-
 h1 {
   font-size: 2em;
   text-align: center;

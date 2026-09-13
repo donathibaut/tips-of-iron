@@ -13,10 +13,6 @@
   background-color: rgba(55, 94, 134, 80%);
 }
 
-.suggestion {
-  margin: 0 10px;
-}
-
 .suggestion a {
   white-space: nowrap;
   border: 2px rgba(255, 255, 255, 0) solid;
@@ -41,9 +37,12 @@
   display: flex;
   flex-direction: row;
 
+  gap: 20px;
+
   overflow-x: auto;
   scrollbar-width: none;
 
+  padding: 0 20px;
   border-right: 2px solid white;
   border-left: 2px solid white;
 }
@@ -51,4 +50,23 @@
 .suggestion-section {
   display: flex;
   flex-direction: row;
+}
+
+/* RESPONSIVE */
+@media all and (min-width: 1440px) {
+  .arrow-btn {
+    display: none;
+  }
+
+  .country-suggestions .suggestion {
+    min-width: 180px;
+  }
+
+  .suggestion-list {
+    flex-wrap: wrap;
+
+    border: none;
+
+    overflow-x: unset;
+  }
 }

@@ -25,7 +25,6 @@ import TopicEditor from "./pages/Editor/TopicEditor/TopicEditor";
 
 // NORMS
 import Accessibility from "./pages/Norms/Accessibility/Accessibility";
-import Cookies from "./pages/Norms/Cookies/Cookies";
 import LegalNotice from "./pages/Norms/LegalNotice/LegalNotice";
 import PersonalData from "./pages/Norms/PersonalData/PersonalData";
 
@@ -61,7 +60,6 @@ export default function App() {
 
         {/* NORMS */}
         <Route path="/accessibility" element={<Accessibility />}></Route>
-        <Route path="/cookies" element={<Cookies />}></Route>
         <Route path="/legal-notice" element={<LegalNotice />}></Route>
         <Route path="/personal-data" element={<PersonalData />}></Route>
       </Routes>

@@ -76,7 +76,7 @@ export default function Home() {
             <li className="suggestion">
               <Link className="suggestion__link" to="/results?search=Germany">
                 <img className="flag" src={Germany} alt="German Reich flag" />
-                <p>Germany</p>
+                <p>German Reich</p>
               </Link>
             </li>
             <li className="suggestion">
@@ -109,7 +109,7 @@ export default function Home() {
             <li className="suggestion">
               <Link className="suggestion__link" to="/results?search=India">
                 <img className="flag" src={India} alt="British Raj flag" />
-                <p>India</p>
+                <p>British Raj</p>
               </Link>
             </li>
             <li className="suggestion">

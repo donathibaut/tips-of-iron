@@ -1,4 +1,7 @@
 header {
+  padding: 20px;
+  background-color: #355e86;
+
   display: grid;
   grid-template-columns: auto 1fr;
 }
@@ -54,4 +57,11 @@ header a {
 
 .topic__li a {
   padding-left: 0;
+}
+
+/* RESPONSIVE */
+@media all and (min-width: 1440px) {
+  header {
+    padding: 20px 150px;
+  }
 }
