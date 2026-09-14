@@ -1,3 +1,17 @@
+/* CLASS */
+
+.norms-link {
+  padding: 0;
+}
+
+.norms-theme address {
+  margin: 0;
+
+  display: inline;
+
+  text-wrap: nowrap;
+}
+
 .norms-theme section {
   background-color: rgba(55, 94, 134, 80%);
 }

@@ -21,6 +21,11 @@ export default function Footer() {
             Accessibility
           </Link>
         </li>
+        <li className="norms__li">
+          <Link to="/cookies" className="norm-link">
+            Cookies
+          </Link>
+        </li>
       </ul>
       <p className="copyrights">© ThibautDONA 2026 / All rights reserved.</p>
     </footer>
