@@ -27,6 +27,7 @@ import TopicEditor from "./pages/Editor/TopicEditor/TopicEditor";
 import Accessibility from "./pages/Norms/Accessibility/Accessibility";
 import LegalNotice from "./pages/Norms/LegalNotice/LegalNotice";
 import PersonalData from "./pages/Norms/PersonalData/PersonalData";
+import Cookies from "./pages/Norms/Cookies/Cookies";
 
 export default function App() {
   return (
@@ -62,6 +63,7 @@ export default function App() {
         <Route path="/accessibility" element={<Accessibility />}></Route>
         <Route path="/legal-notice" element={<LegalNotice />}></Route>
         <Route path="/personal-data" element={<PersonalData />}></Route>
+        <Route path="/cookies" element={<Cookies />}></Route>
       </Routes>
       <Footer />
     </div>
