@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: test/auth/auth.test.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: test/auth/auth.test.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @file auth.test.js
+ * @description Test Login &amp; Token Creation
+ */
+
+const app = require("../../src/app");
+
+const supertest = require("supertest");
+const reqTest = supertest(app);
+
+const assert = require("node:assert");
+const { describe, it, before } = require("node:test");
+
+// prettier-ignore
+describe("Log in &amp; Create Token", () => {
+
+    // accessibility for all it()
+    let testEmail;
+    const password = "aA1$aaaa";
+
+    before(async () => {
+        const emailDateNow = Date.now();
+        testEmail = `loginguy_${emailDateNow}@gmail.com`;
+
+            await reqTest
+                .post("/api/user")
+                .send({ username: "LoginGuy", email: testEmail, password: password });
+        }
+    );
+
+    it("Error 401 : Email or Password -> Incorrect", async () => {
+
+        const response = await reqTest
+        .post("/api/login")
+        .send({
+            email: testEmail,
+            password: "222"
+        })
+        .expect(401);
+
+        assert.strictEqual(response.body.success, false);
+    });
+
+    it("Return token + Success 200", async () => {
+        const response = await reqTest
+            .post("/api/login")
+            .send({
+                email: testEmail,
+                password: password
+            })
+            .expect(200);
+
+        assert.strictEqual(response.body.success, true);
+        assert.strictEqual(typeof response.body.token, "string");
+        assert.strictEqual(response.body.message, "You are connected!");
+    });
+});
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Category.html">Category</a></li><li><a href="module-Section.html">Section</a></li><li><a href="module-Topic.html">Topic</a></li><li><a href="module-User.html">User</a></li><li><a href="module-app.html">app</a></li></ul><h3>Global</h3><ul><li><a href="global.html#auth">auth</a></li><li><a href="global.html#authFindOne">authFindOne</a></li><li><a href="global.html#authMiddleware">authMiddleware</a></li><li><a href="global.html#authRoleMiddleware">authRoleMiddleware</a></li><li><a href="global.html#badRequest">badRequest</a></li><li><a href="global.html#categoryFindAll">categoryFindAll</a></li><li><a href="global.html#categoryFindByPk">categoryFindByPk</a></li><li><a href="global.html#categoryFindOne">categoryFindOne</a></li><li><a href="global.html#create">create</a></li><li><a href="global.html#deleteTopic">deleteTopic</a></li><li><a href="global.html#deleteUser">deleteUser</a></li><li><a href="global.html#destroy">destroy</a></li><li><a href="global.html#errorBlock">errorBlock</a></li><li><a href="global.html#findAll">findAll</a></li><li><a href="global.html#findByPk">findByPk</a></li><li><a href="global.html#findOne">findOne</a></li><li><a href="global.html#forbidden">forbidden</a></li><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getTopic">getTopic</a></li><li><a href="global.html#getTopicsByFK">getTopicsByFK</a></li><li><a href="global.html#getTopicsByQuery">getTopicsByQuery</a></li><li><a href="global.html#getUserById">getUserById</a></li><li><a href="global.html#initApi">initApi</a></li><li><a href="global.html#notFound">notFound</a></li><li><a href="global.html#patchTopic">patchTopic</a></li><li><a href="global.html#patchUser">patchUser</a></li><li><a href="global.html#postTopic">postTopic</a></li><li><a href="global.html#postUser">postUser</a></li><li><a href="global.html#sequelize">sequelize</a></li><li><a href="global.html#servError">servError</a></li><li><a href="global.html#success">success</a></li><li><a href="global.html#successCreated">successCreated</a></li><li><a href="global.html#successOk">successOk</a></li><li><a href="global.html#topicCreate">topicCreate</a></li><li><a href="global.html#topicDestroy">topicDestroy</a></li><li><a href="global.html#topicFindByPk">topicFindByPk</a></li><li><a href="global.html#topicFindOne">topicFindOne</a></li><li><a href="global.html#topicUpdate">topicUpdate</a></li><li><a href="global.html#topicsFindByFK">topicsFindByFK</a></li><li><a href="global.html#topicsFindByQuery">topicsFindByQuery</a></li><li><a href="global.html#unauthorized">unauthorized</a></li><li><a href="global.html#update">update</a></li><li><a href="global.html#userCreate">userCreate</a></li><li><a href="global.html#userDestroy">userDestroy</a></li><li><a href="global.html#userFindByPk">userFindByPk</a></li><li><a href="global.html#userFindOne">userFindOne</a></li><li><a href="global.html#userUpdate">userUpdate</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Mon Sep 14 2026 23:01:37 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

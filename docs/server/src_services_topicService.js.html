@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: src/services/topicService.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: src/services/topicService.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @file topicService.js
+ * @description Topic CRUD
+ */
+
+/* Imported Models for FOREIGN KEYS */
+const { Section, Category } = require("../models");
+
+// Import config for .transaction()
+const sequelize = require("../config/config");
+
+// Op.like
+const { Op } = require("sequelize");
+
+const {
+  findAll,
+  findOne,
+  findByPk,
+  create,
+  update,
+  destroy,
+} = require("./basicService");
+
+/*============================================================================*/
+/**
+ * @async
+ * @function topicsFindByFK
+ * @description Find All Topics BY FOREIGN KEY || null
+ * @param {object} Topic - Topic Model
+ * @param {object} fkTable - foreign key TABLE
+ * @param {object} fk - foreign key
+ * @returns {Promise&lt;Array|null>} Topic + Section
+ */
+const topicsFindByFK = async (Topic, fkTable, fk) => {
+  const array = await findAll(Topic, {
+    where: { [fkTable]: fk },
+    include: [{ model: Section }],
+  });
+
+  if (array.length !== 0) {
+    return array;
+  } else {
+    return null;
+  }
+};
+
+/*============================================================================*/
+/**
+ * @async
+ * @function topicsFindByQuery
+ * @description Find All Topics BY TITLE from query || null
+ * @param {object} Topic - Topic Model
+ * @param {object} searchTitle - query
+ * @returns {Promise&lt;Array|null>} Topic
+ */
+const topicsFindByQuery = async (Topic, searchTitle) => {
+  const array = await findAll(Topic, {
+    where: {
+      // similar to searchTitle
+      title: { [Op.like]: `%${searchTitle}%` },
+    },
+    order: [["title", "ASC"]],
+  });
+
+  if (array.length !== 0) {
+    return array;
+  } else {
+    return null;
+  }
+};
+
+/*============================================================================*/
+/**
+ * @async
+ * @function topicFindOne
+ * @description Find One Topic || null
+ * @param {object} Topic - Topic Model
+ * @param {object} target - searched topic
+ * @returns {Promise&lt;Object|null>} Topic + Section
+ */
+const topicFindOne = async (Topic, target) => {
+  if (!target) {
+    return null;
+  }
+
+  if (target.title &amp;&amp; target.title !== "") {
+    return await findOne(Topic, {
+      where: { title: target.title },
+      include: [{ model: Section }],
+    });
+  } else {
+    return null;
+  }
+};
+
+/*============================================================================*/
+/**
+ * @async
+ * @function topicFindByPk
+ * @description Find Topic By ID || null
+ * @param {object} Topic - Topic Model
+ * @param {number} id_topic
+ * @returns {Promise&lt;Object|null>} Topic + Section
+ */
+const topicFindByPk = async (Topic, id_topic) => {
+  return await findByPk(Topic, id_topic, { include: [{ model: Section }] });
+};
+
+/*============================================================================*/
+/**
+ * @async
+ * @function topicCreate
+ * @description Create a new topic || null
+ * @param {object} Topic - Topic Model
+ * @param {object} form - creation form
+ * @param {object} token - authentication token
+ * @returns {Promise&lt;Object|null>} new TOPIC + SECTIONS
+ */
+const topicCreate = async (Topic, form, token) => {
+  if (!token.id_user) {
+    throw new Error("You don't have the right!");
+  }
+
+  // is it empty ?
+  if (
+    !form.title ||
+    !form.description ||
+    form.title === "" ||
+    form.description === "" ||
+    !form.category ||
+    form.category === ""
+  ) {
+    throw new Error("Form Field Empty");
+  }
+
+  // category NAME TO ID
+  const category = await findOne(Category, { where: { name: form.category } });
+  if (category === null) {
+    throw new Error("Category Not Found");
+  }
+
+  // check TOPIC TITLE length
+  if (form.title.length > 100) {
+    throw new Error("Topic title is too long");
+  }
+
+  // is TOPIC (is TOPIC TITLE)
+  const isTopic = await topicFindOne(Topic, form);
+  if (isTopic) {
+    throw new Error("Topic Already Exists");
+  }
+
+  if (form.sections) {
+    // check SECTION TITLE length
+    const titleLength = form.sections.some(
+      (section) => section.title.length > 100,
+    );
+    if (titleLength) {
+      throw new Error("Section title is too long");
+    }
+
+    // has image_path URL -> HTTPS protocol
+    for (const section of form.sections) {
+      if (section.image_path) {
+        let url;
+        try {
+          url = new URL(section.image_path);
+        } catch (e) {
+          throw new Error("Invalid image_path URL format");
+        }
+
+        if (url.protocol !== "https:") {
+          throw new Error('URL protocol is not "https:"');
+        }
+      }
+    }
+  }
+
+  try {
+    const newTopic = await create(Topic, {
+      title: form.title,
+      description: form.description,
+      id_category: category.id_category,
+      id_user: token.id_user,
+    });
+
+    // SECTION CREATE
+    if (Array.isArray(form.sections) &amp;&amp; form.sections.length > 0) {
+      for (const section of form.sections) {
+        await create(Section, {
+          title: section.title,
+          image_path: section.image_path || "",
+          text: section.text,
+          list_nb: section.list_nb,
+          id_user: token.id_user,
+          id_topic: newTopic.id_topic,
+        });
+      }
+    }
+
+    return {
+      success: true,
+      message: "Topic successfully created!",
+      topic: newTopic,
+    };
+  } catch (e) {
+    throw new Error(`${e.message}`);
+  }
+};
+
+/*============================================================================*/
+/**
+ * @async
+ * @function topicUpdate
+ * @description Update topic personal data || null
+ * @param {object} Topic - Topic Model
+ * @param {object} form - update form
+ * @param {object} targetID - topic ID
+ * @returns {Promise&lt;Object|null>} update TOPIC + SECTIONS
+ */
+const topicUpdate = async (Topic, form, targetID) => {
+  // is it empty ?
+  if (
+    !form.title ||
+    !form.description ||
+    form.title === "" ||
+    form.description === "" ||
+    !form.category ||
+    form.category === ""
+  ) {
+    throw new Error("Form Field Empty");
+  }
+
+  const category = await findOne(Category, { where: { name: form.category } });
+  if (category === null) {
+    throw new Error("Category Not Found");
+  }
+
+  const isTopic = await topicFindByPk(Topic, targetID);
+  if (!isTopic) {
+    throw new Error("Topic Not Found");
+  }
+
+  // check TOPIC TITLE length
+  if (form.title.length > 100) {
+    throw new Error("Topic title is too long");
+  }
+
+  // is TOPIC TITLE
+  if (form.title !== isTopic.title) {
+    const isTopicTitle = await topicFindOne(Topic, form);
+    if (isTopicTitle) {
+      throw new Error("Topic Title Already Exists");
+    }
+  }
+
+  if (form.sections) {
+    // check SECTION TITLE length
+    const titleLength = form.sections.some(
+      (section) => section.title.length > 100,
+    );
+    if (titleLength) {
+      throw new Error("Section title is too long");
+    }
+
+    // has image_path URL -> HTTPS protocol
+    for (const section of form.sections) {
+      if (section.image_path) {
+        let url;
+        try {
+          url = new URL(section.image_path);
+        } catch (e) {
+          throw new Error("Invalid image_path URL format");
+        }
+        if (url.protocol !== "https:") {
+          throw new Error('URL protocol is not "https:"');
+        }
+      }
+    }
+  }
+
+  // TRANSACTION -> Secure "sequelize" operations (1. update topic; 2. destroy section; 3. create section)
+  const transaction = await sequelize.transaction();
+  try {
+    await update(
+      Topic,
+      {
+        title: form.title,
+        description: form.description,
+        id_category: category.id_category,
+      },
+      { where: { id_topic: targetID }, transaction: transaction },
+    );
+
+    await destroy(Section, {
+      where: { id_topic: targetID },
+      transaction: transaction,
+    });
+
+    await Section.bulkCreate(
+      form.sections.map((section) => ({
+        title: section.title,
+        image_path: section.image_path || "",
+        text: section.text,
+        list_nb: section.list_nb,
+        id_topic: targetID,
+        id_user: isTopic.id_user,
+      })),
+      { transaction: transaction },
+    );
+
+    await transaction.commit();
+
+    return {
+      success: true,
+      message: "Information successfully updated!",
+    };
+  } catch (e) {
+    await transaction.rollback();
+    throw new Error(`${e.message}`);
+  }
+};
+
+/*============================================================================*/
+/**
+ * @async
+ * @function topicDestroy
+ * @description Destroy topic account || null
+ * @param {object} Topic - Topic Model
+ * @param {object} targetID - Targeted Topic ID
+ * @returns {Promise&lt;Object|null>} delete TOPIC + SECTIONS
+ */
+const topicDestroy = async (Topic, targetID) => {
+  const isTopic = await topicFindByPk(Topic, targetID);
+
+  if (!isTopic) {
+    throw new Error("Topic Not Found");
+  }
+  // TRANSACTION -> Secure "destroy" operations (1. sections; 2. Topic)
+  const transaction = await sequelize.transaction();
+  try {
+    await destroy(Section, {
+      where: { id_topic: targetID },
+      transaction: transaction,
+    });
+
+    await destroy(Topic, {
+      where: { id_topic: targetID },
+      transaction: transaction,
+    });
+
+    await transaction.commit();
+
+    return {
+      success: true,
+      message: "Topic successfully deleted!",
+    };
+  } catch (e) {
+    await transaction.rollback();
+    throw new Error(`${e.message}`);
+  }
+};
+
+module.exports = {
+  topicsFindByFK,
+  topicsFindByQuery,
+  topicFindOne,
+  topicFindByPk,
+  topicCreate,
+  topicUpdate,
+  topicDestroy,
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Category.html">Category</a></li><li><a href="module-Section.html">Section</a></li><li><a href="module-Topic.html">Topic</a></li><li><a href="module-User.html">User</a></li><li><a href="module-app.html">app</a></li></ul><h3>Global</h3><ul><li><a href="global.html#auth">auth</a></li><li><a href="global.html#authFindOne">authFindOne</a></li><li><a href="global.html#authMiddleware">authMiddleware</a></li><li><a href="global.html#authRoleMiddleware">authRoleMiddleware</a></li><li><a href="global.html#badRequest">badRequest</a></li><li><a href="global.html#categoryFindAll">categoryFindAll</a></li><li><a href="global.html#categoryFindByPk">categoryFindByPk</a></li><li><a href="global.html#categoryFindOne">categoryFindOne</a></li><li><a href="global.html#create">create</a></li><li><a href="global.html#deleteTopic">deleteTopic</a></li><li><a href="global.html#deleteUser">deleteUser</a></li><li><a href="global.html#destroy">destroy</a></li><li><a href="global.html#errorBlock">errorBlock</a></li><li><a href="global.html#findAll">findAll</a></li><li><a href="global.html#findByPk">findByPk</a></li><li><a href="global.html#findOne">findOne</a></li><li><a href="global.html#forbidden">forbidden</a></li><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getTopic">getTopic</a></li><li><a href="global.html#getTopicsByFK">getTopicsByFK</a></li><li><a href="global.html#getTopicsByQuery">getTopicsByQuery</a></li><li><a href="global.html#getUserById">getUserById</a></li><li><a href="global.html#initApi">initApi</a></li><li><a href="global.html#notFound">notFound</a></li><li><a href="global.html#patchTopic">patchTopic</a></li><li><a href="global.html#patchUser">patchUser</a></li><li><a href="global.html#postTopic">postTopic</a></li><li><a href="global.html#postUser">postUser</a></li><li><a href="global.html#sequelize">sequelize</a></li><li><a href="global.html#servError">servError</a></li><li><a href="global.html#success">success</a></li><li><a href="global.html#successCreated">successCreated</a></li><li><a href="global.html#successOk">successOk</a></li><li><a href="global.html#topicCreate">topicCreate</a></li><li><a href="global.html#topicDestroy">topicDestroy</a></li><li><a href="global.html#topicFindByPk">topicFindByPk</a></li><li><a href="global.html#topicFindOne">topicFindOne</a></li><li><a href="global.html#topicUpdate">topicUpdate</a></li><li><a href="global.html#topicsFindByFK">topicsFindByFK</a></li><li><a href="global.html#topicsFindByQuery">topicsFindByQuery</a></li><li><a href="global.html#unauthorized">unauthorized</a></li><li><a href="global.html#update">update</a></li><li><a href="global.html#userCreate">userCreate</a></li><li><a href="global.html#userDestroy">userDestroy</a></li><li><a href="global.html#userFindByPk">userFindByPk</a></li><li><a href="global.html#userFindOne">userFindOne</a></li><li><a href="global.html#userUpdate">userUpdate</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Mon Sep 14 2026 23:01:37 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
