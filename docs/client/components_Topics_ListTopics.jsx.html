@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Topics/ListTopics.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Topics/ListTopics.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @file ListTopics.jsx
+ * @description List Topics for Results page
+ */
+
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import { jwtDecode } from "jwt-decode";
+
+import topicDeleteHandler from "../../utils/handlers/topicSubmitHandler/topicDeleteHandler";
+
+import "./ListTopics.css";
+
+/**
+ * @function ListTopics
+ * @param {Object} props
+ * @prop {Array} props.array
+ * @prop {Boolean} props.loading - is loading ?
+ * @returns {JSX.Element}
+ * @description List Topics with &lt;Link> markups
+ */
+export function ListTopics({ array, loading }) {
+  return loading ? (
+    &lt;li className="loading">Loading...&lt;/li>
+  ) : array.length !== 0 ? (
+    array.map((topic) => {
+      return (
+        &lt;li key={topic.id_topic}>
+          &lt;Link to={`/topic/${topic.title}`}>{topic.title}&lt;/Link>
+        &lt;/li>
+      );
+    })
+  ) : (
+    &lt;p className="no-results">"No results..."&lt;/p>
+  );
+}
+
+/**
+ * @function ListMyTopics
+ * @param {Object} props
+ * @prop {Array} props.array
+ * @prop {Boolean} props.loading - is loading ?
+ * @returns {JSX.Element}
+ * @description List my Topics with table rows (update &amp; delete options)
+ */
+export function ListMyTopics({ array, loading }) {
+  const [error, setError] = useState(null);
+  let [deleteTopicID, setDeleteTopicID] = useState(null);
+
+  if (error !== null) {
+    console.error(error);
+  }
+
+  // get token
+  const token = localStorage.getItem("token");
+  // DECODE Base64 token to access token role (for example)
+  let decodedToken = null;
+  if (token) {
+    try {
+      decodedToken = jwtDecode(token);
+    } catch (e) {
+      console.error("Token Issue", e);
+    }
+  }
+  const userID = decodedToken ? decodedToken.id_user : null;
+
+  return loading ? (
+    &lt;tr className="loading">
+      &lt;td>Loading...&lt;/td>
+    &lt;/tr>
+  ) : array[0] !== undefined ? (
+    &lt;>
+      {array.map((topic) => {
+        return (
+          &lt;tr key={topic.id_topic} className="myTopics-tr">
+            &lt;th scope="row">
+              &lt;Link className="table-btn btn" to={`/topic/${topic.title}`}>
+                {topic.title}
+              &lt;/Link>
+            &lt;/th>
+            &lt;td>
+              &lt;Link
+                to={`/topic-editor/${topic.title}`}
+                className="table-btn btn"
+              >
+                Update
+              &lt;/Link>
+            &lt;/td>
+            &lt;td>
+              &lt;button
+                type="button"
+                className="btn table-delete"
+                data-bs-toggle="modal"
+                data-bs-target="#delete-modal"
+                onClick={() => {
+                  setDeleteTopicID(topic.id_topic);
+                }}
+              >
+                Delete
+              &lt;/button>
+            &lt;/td>
+          &lt;/tr>
+        );
+      })}
+
+      {/* DELETE CONFIRMATION MODAL */}
+      &lt;div
+        className="modal fade"
+        id="delete-modal"
+        tabindex="-1"
+        aria-labelledby="modal-txt"
+        aria-hidden="true"
+      >
+        &lt;div className="modal-dialog">
+          &lt;div className="modal-content">
+            &lt;div className="modal-body">
+              &lt;p className="modal-txt fs-5" id="modal-txt">
+                Confirm deletion
+              &lt;/p>
+
+              &lt;div className="btn-group">
+                &lt;button
+                  type="button"
+                  className="cancel-btn form-btn"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                &lt;/button>
+
+                &lt;button
+                  type="submit"
+                  className="delete-confirm-btn form-btn"
+                  onClick={(event) => {
+                    deleteTopicID !== null &amp;&amp;
+                      topicDeleteHandler(
+                        event,
+                        userID,
+                        deleteTopicID,
+                        setError,
+                      );
+                  }}
+                >
+                  Delete
+                &lt;/button>
+              &lt;/div>
+            &lt;/div>
+          &lt;/div>
+        &lt;/div>
+      &lt;/div>
+    &lt;/>
+  ) : (
+    &lt;tr className="no-topic-row">
+      &lt;td>No topics created...&lt;/td>
+    &lt;/tr>
+  );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#FieldsetSection">FieldsetSection</a></li><li><a href="global.html#ListCategories">ListCategories</a></li><li><a href="global.html#ListMyTopics">ListMyTopics</a></li><li><a href="global.html#ListTopics">ListTopics</a></li><li><a href="global.html#SelectCategories">SelectCategories</a></li><li><a href="global.html#addSectionFromTopic">addSectionFromTopic</a></li><li><a href="global.html#apiURL">apiURL</a></li><li><a href="global.html#decodeToken">decodeToken</a></li><li><a href="global.html#deleteTopic">deleteTopic</a></li><li><a href="global.html#deleteUser">deleteUser</a></li><li><a href="global.html#fetchCategories">fetchCategories</a></li><li><a href="global.html#fetchTopic">fetchTopic</a></li><li><a href="global.html#fetchTopicByCategory">fetchTopicByCategory</a></li><li><a href="global.html#fetchTopicByQuery">fetchTopicByQuery</a></li><li><a href="global.html#fetchTopicByUser">fetchTopicByUser</a></li><li><a href="global.html#fetchUser">fetchUser</a></li><li><a href="global.html#findCategory">findCategory</a></li><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getTopic">getTopic</a></li><li><a href="global.html#getTopicsByCategory">getTopicsByCategory</a></li><li><a href="global.html#getTopicsByQuery">getTopicsByQuery</a></li><li><a href="global.html#getTopicsByUser">getTopicsByUser</a></li><li><a href="global.html#loginSubmitHandler">loginSubmitHandler</a></li><li><a href="global.html#logoutSubmitHandler">logoutSubmitHandler</a></li><li><a href="global.html#patchTopic">patchTopic</a></li><li><a href="global.html#patchUser">patchUser</a></li><li><a href="global.html#postAuth">postAuth</a></li><li><a href="global.html#postTopic">postTopic</a></li><li><a href="global.html#postUser">postUser</a></li><li><a href="global.html#removeSection">removeSection</a></li><li><a href="global.html#scrollList">scrollList</a></li><li><a href="global.html#searchSubmitHandler">searchSubmitHandler</a></li><li><a href="global.html#sectionAddHandler">sectionAddHandler</a></li><li><a href="global.html#sectionOnChangeHandler">sectionOnChangeHandler</a></li><li><a href="global.html#togglerLink">togglerLink</a></li><li><a href="global.html#topicCreateHandler">topicCreateHandler</a></li><li><a href="global.html#topicDeleteHandler">topicDeleteHandler</a></li><li><a href="global.html#topicUpdateHandler">topicUpdateHandler</a></li><li><a href="global.html#useCategories">useCategories</a></li><li><a href="global.html#useTopic">useTopic</a></li><li><a href="global.html#useTopicsByCategory">useTopicsByCategory</a></li><li><a href="global.html#useTopicsByQuery">useTopicsByQuery</a></li><li><a href="global.html#useTopicsByUser">useTopicsByUser</a></li><li><a href="global.html#useUserByID">useUserByID</a></li><li><a href="global.html#userCreateHandler">userCreateHandler</a></li><li><a href="global.html#userDeleteHandler">userDeleteHandler</a></li><li><a href="global.html#userUpdateHandler">userUpdateHandler</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Mon Sep 14 2026 23:00:42 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

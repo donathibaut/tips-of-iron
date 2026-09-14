@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: utils/handlers/topicSubmitHandler/topicCreateHandler.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: utils/handlers/topicSubmitHandler/topicCreateHandler.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @file topicCreateHandler.js
+ * @description Handle Create Topic
+ */
+
+import { postTopic } from "../../../services/topicAPI";
+
+/**
+ * @async
+ * @function topicCreateHandler
+ * @description Handle Create Topic Form
+ * @param {SubmitEvent} event - form submission
+ * @param {Array} sections - sections state
+ * @param {Number} id_user
+ * @param {Function} setError - set error message
+ * @returns {Promise&lt;void>} null
+ */
+export default async function topicCreateHandler(
+  event,
+  sections,
+  id_user,
+  setError,
+) {
+  // reset message
+  setError(null);
+
+  // PREVENT page refresh on form submission
+  event.preventDefault();
+
+  if (!id_user) {
+    const errorMessage = "You are not connected...";
+    console.log(errorMessage);
+    return setError(errorMessage);
+  }
+
+  const allData = {
+    title: event.target.title.value,
+    description: event.target.description.value,
+    category: event.target.category.value,
+    id_user,
+    sections: sections,
+  };
+
+  try {
+    console.log(allData);
+    const newTopic = await postTopic(allData);
+    console.log(newTopic);
+
+    // store SUCCESS message
+    localStorage.setItem("successMessage", "Your topic has been created!");
+    /*
+        REFRESH page
+        redirection -> DESTROY useState 
+    */
+    window.location.href = `/topic/${allData.title}`;
+  } catch (e) {
+    console.log("Form Submission Error:", e);
+    setError(e.message);
+  }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#FieldsetSection">FieldsetSection</a></li><li><a href="global.html#ListCategories">ListCategories</a></li><li><a href="global.html#ListMyTopics">ListMyTopics</a></li><li><a href="global.html#ListTopics">ListTopics</a></li><li><a href="global.html#SelectCategories">SelectCategories</a></li><li><a href="global.html#addSectionFromTopic">addSectionFromTopic</a></li><li><a href="global.html#apiURL">apiURL</a></li><li><a href="global.html#decodeToken">decodeToken</a></li><li><a href="global.html#deleteTopic">deleteTopic</a></li><li><a href="global.html#deleteUser">deleteUser</a></li><li><a href="global.html#fetchCategories">fetchCategories</a></li><li><a href="global.html#fetchTopic">fetchTopic</a></li><li><a href="global.html#fetchTopicByCategory">fetchTopicByCategory</a></li><li><a href="global.html#fetchTopicByQuery">fetchTopicByQuery</a></li><li><a href="global.html#fetchTopicByUser">fetchTopicByUser</a></li><li><a href="global.html#fetchUser">fetchUser</a></li><li><a href="global.html#findCategory">findCategory</a></li><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getTopic">getTopic</a></li><li><a href="global.html#getTopicsByCategory">getTopicsByCategory</a></li><li><a href="global.html#getTopicsByQuery">getTopicsByQuery</a></li><li><a href="global.html#getTopicsByUser">getTopicsByUser</a></li><li><a href="global.html#loginSubmitHandler">loginSubmitHandler</a></li><li><a href="global.html#logoutSubmitHandler">logoutSubmitHandler</a></li><li><a href="global.html#patchTopic">patchTopic</a></li><li><a href="global.html#patchUser">patchUser</a></li><li><a href="global.html#postAuth">postAuth</a></li><li><a href="global.html#postTopic">postTopic</a></li><li><a href="global.html#postUser">postUser</a></li><li><a href="global.html#removeSection">removeSection</a></li><li><a href="global.html#scrollList">scrollList</a></li><li><a href="global.html#searchSubmitHandler">searchSubmitHandler</a></li><li><a href="global.html#sectionAddHandler">sectionAddHandler</a></li><li><a href="global.html#sectionOnChangeHandler">sectionOnChangeHandler</a></li><li><a href="global.html#togglerLink">togglerLink</a></li><li><a href="global.html#topicCreateHandler">topicCreateHandler</a></li><li><a href="global.html#topicDeleteHandler">topicDeleteHandler</a></li><li><a href="global.html#topicUpdateHandler">topicUpdateHandler</a></li><li><a href="global.html#useCategories">useCategories</a></li><li><a href="global.html#useTopic">useTopic</a></li><li><a href="global.html#useTopicsByCategory">useTopicsByCategory</a></li><li><a href="global.html#useTopicsByQuery">useTopicsByQuery</a></li><li><a href="global.html#useTopicsByUser">useTopicsByUser</a></li><li><a href="global.html#useUserByID">useUserByID</a></li><li><a href="global.html#userCreateHandler">userCreateHandler</a></li><li><a href="global.html#userDeleteHandler">userDeleteHandler</a></li><li><a href="global.html#userUpdateHandler">userUpdateHandler</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Mon Sep 14 2026 23:00:42 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
