@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: src/controllers/topicController.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: src/controllers/topicController.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @file topicController.js
+ * @description Topic CRUD Controller
+ */
+
+const { Topic, Category } = require("../models");
+const tableName = "Topic";
+
+const { findOne } = require("../services/basicService");
+
+const {
+  topicsFindByFK,
+  topicFindOne,
+  topicFindByPk,
+  topicCreate,
+  topicUpdate,
+  topicDestroy,
+  topicsFindByQuery,
+} = require("../services/topicService");
+
+const {
+  success,
+  successOk,
+  successCreated,
+  forbidden,
+  notFound,
+  servError,
+  errorBlock,
+  badRequest,
+} = require("../utils/status");
+
+/*============================================================================*/
+/**
+ * @async
+ * @function getTopicsByFK
+ * @description Controller : Read Topics from Foreign Key
+ * @param {Object} req - Targeted User ID or Category name
+ * @param {Object} res
+ * @returns {Promise&lt;void>} All Topics from FK || null
+ */
+const getTopicsByFK = async (req, res) => {
+  let id_user = req.params.id_user;
+  let category = req.params.name;
+
+  let fkCol;
+  let fk;
+  try {
+    // IF USER
+    if (id_user &amp;&amp; id_user !== "") {
+      fkCol = "id_user";
+      fk = id_user;
+    }
+    // IF CATEGORY
+    else if (category &amp;&amp; category !== "") {
+      // category NAME TO ID
+      const findCategory = await findOne(Category, {
+        where: { name: category },
+      });
+      if (findCategory === null) {
+        return notFound(res, "Category");
+      }
+      fkCol = "id_category";
+      fk = findCategory.id_category;
+    }
+
+    const topic = await topicsFindByFK(Topic, fkCol, fk);
+
+    if (topic === null) {
+      return notFound(res, tableName);
+    }
+
+    return successOk(res, tableName, topic);
+  } catch (e) {
+    return errorBlock(res, e, tableName);
+  }
+};
+
+/*============================================================================*/
+/**
+ * @async
+ * @function getTopicsByQuery
+ * @description Controller : Read Topics from searched title
+ * @param {Object} req - Targeted topic title
+ * @param {Object} res
+ * @returns {Promise&lt;void>} All Topics from search query || null
+ */
+const getTopicsByQuery = async (req, res) => {
+  try {
+    const searchTitle = req.query.search;
+
+    if (!searchTitle) {
+      const err = "Title Missing";
+      return badRequest(res, err);
+    }
+
+    const research = await topicsFindByQuery(Topic, searchTitle);
+
+    if (research === null || research.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No matching topic",
+        research: [],
+      });
+    }
+
+    return successOk(res, tableName, research);
+  } catch (e) {
+    return servError(res, e);
+  }
+};
+
+/*============================================================================*/
+/**
+ * @async
+ * @function getTopic
+ * @description Controller : Read Topic
+ * @param {Object} req - req.params
+ * @param {Object} res
+ * @returns {Promise&lt;void>} Topic Data || null
+ */
+const getTopic = async (req, res) => {
+  try {
+    const topic = await topicFindOne(Topic, req.params);
+
+    if (topic === null) {
+      return notFound(res, tableName);
+    }
+
+    return successOk(res, tableName, topic);
+  } catch (e) {
+    return errorBlock(res, e, tableName);
+  }
+};
+
+/*============================================================================*/
+/**
+ * @async
+ * @function postTopic
+ * @description Controller : Create Topic
+ * @param {Object} req
+ * @param {Object} res
+ * @returns {Promise&lt;void>} null
+ */
+const postTopic = async (req, res) => {
+  const token = req.token;
+  if (!token) {
+    return forbidden(res, "You don't have the right!");
+  }
+
+  try {
+    const result = await topicCreate(Topic, req.body, token);
+
+    return successCreated(res, result.message, result.topic);
+  } catch (e) {
+    if (e.message === "You don't have the right!") {
+      return forbidden(res, e.message);
+    }
+    if (
+      e.message === "Form Field Empty" ||
+      e.message === "Topic Already Exists" ||
+      e.message === "Topic title is too long" ||
+      e.message === "Section title is too long" ||
+      e.message === 'URL protocol is not "https:"' ||
+      e.message === "Invalid image_path URL format"
+    ) {
+      return badRequest(res, e.message);
+    }
+    if (e.message === "Category Not Found") {
+      return notFound(res, "Category");
+    }
+    return servError(res, e);
+  }
+};
+
+/*============================================================================*/
+/**
+ * @async
+ * @function patchTopic
+ * @description Controller : Update Topic
+ * @param {Object} req
+ * @param {Object} res
+ * @returns {Promise&lt;void>} null
+ */
+const patchTopic = async (req, res) => {
+  try {
+    const id_topic = req.params.id_topic;
+
+    const isTopic = await topicFindByPk(Topic, id_topic);
+    if (!isTopic) {
+      return notFound(res, tableName);
+    }
+
+    if (
+      (isTopic.id_user &amp;&amp;
+        Number(isTopic.id_user) === Number(req.token.id_user)) ||
+      req.token.role === 1
+    ) {
+      const topic = await topicUpdate(Topic, req.body, id_topic);
+      return success(res, topic.message);
+    } else {
+      const forbiddenMessage = "You don't have the right!";
+      return forbidden(res, forbiddenMessage);
+    }
+  } catch (e) {
+    if (
+      e.message === "Form Field Empty" ||
+      e.message === "Topic Title Already Exists" ||
+      e.message === "Topic title is too long" ||
+      e.message === "Section title is too long" ||
+      e.message === 'URL protocol is not "https:"' ||
+      e.message === "Invalid image_path URL format"
+    ) {
+      return badRequest(res, e.message);
+    }
+    if (e.message === "Category Not Found") {
+      return notFound(res, "Category");
+    }
+    if (e.message === "Topic Not Found") {
+      return notFound(res, "Topic");
+    }
+    return errorBlock(res, e, tableName);
+  }
+};
+
+/*============================================================================*/
+/**
+ * @async
+ * @function deleteTopic
+ * @description Controller : Destroy Topic
+ * @param {Object} req
+ * @param {Object} res
+ * @returns {Promise&lt;void>} null
+ */
+const deleteTopic = async (req, res) => {
+  try {
+    const id_topic = req.params.id_topic;
+
+    const isTopic = await topicFindByPk(Topic, id_topic);
+    if (!isTopic) {
+      return notFound(res, tableName);
+    }
+
+    if (
+      (isTopic.id_user &amp;&amp;
+        Number(isTopic.id_user) === Number(req.token.id_user)) ||
+      req.token.role === 1
+    ) {
+      const topic = await topicDestroy(Topic, id_topic);
+      return success(res, topic.message);
+    } else {
+      const forbiddenMessage = "You don't have the right!";
+      return forbidden(res, forbiddenMessage);
+    }
+  } catch (e) {
+    return errorBlock(res, e, tableName);
+  }
+};
+
+module.exports = {
+  getTopicsByFK,
+  getTopicsByQuery,
+  getTopic,
+  postTopic,
+  patchTopic,
+  deleteTopic,
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Category.html">Category</a></li><li><a href="module-Section.html">Section</a></li><li><a href="module-Topic.html">Topic</a></li><li><a href="module-User.html">User</a></li><li><a href="module-app.html">app</a></li></ul><h3>Global</h3><ul><li><a href="global.html#auth">auth</a></li><li><a href="global.html#authFindOne">authFindOne</a></li><li><a href="global.html#authMiddleware">authMiddleware</a></li><li><a href="global.html#authRoleMiddleware">authRoleMiddleware</a></li><li><a href="global.html#badRequest">badRequest</a></li><li><a href="global.html#categoryFindAll">categoryFindAll</a></li><li><a href="global.html#categoryFindByPk">categoryFindByPk</a></li><li><a href="global.html#categoryFindOne">categoryFindOne</a></li><li><a href="global.html#create">create</a></li><li><a href="global.html#deleteTopic">deleteTopic</a></li><li><a href="global.html#deleteUser">deleteUser</a></li><li><a href="global.html#destroy">destroy</a></li><li><a href="global.html#errorBlock">errorBlock</a></li><li><a href="global.html#findAll">findAll</a></li><li><a href="global.html#findByPk">findByPk</a></li><li><a href="global.html#findOne">findOne</a></li><li><a href="global.html#forbidden">forbidden</a></li><li><a href="global.html#getCategories">getCategories</a></li><li><a href="global.html#getTopic">getTopic</a></li><li><a href="global.html#getTopicsByFK">getTopicsByFK</a></li><li><a href="global.html#getTopicsByQuery">getTopicsByQuery</a></li><li><a href="global.html#getUserById">getUserById</a></li><li><a href="global.html#initApi">initApi</a></li><li><a href="global.html#notFound">notFound</a></li><li><a href="global.html#patchTopic">patchTopic</a></li><li><a href="global.html#patchUser">patchUser</a></li><li><a href="global.html#postTopic">postTopic</a></li><li><a href="global.html#postUser">postUser</a></li><li><a href="global.html#sequelize">sequelize</a></li><li><a href="global.html#servError">servError</a></li><li><a href="global.html#success">success</a></li><li><a href="global.html#successCreated">successCreated</a></li><li><a href="global.html#successOk">successOk</a></li><li><a href="global.html#topicCreate">topicCreate</a></li><li><a href="global.html#topicDestroy">topicDestroy</a></li><li><a href="global.html#topicFindByPk">topicFindByPk</a></li><li><a href="global.html#topicFindOne">topicFindOne</a></li><li><a href="global.html#topicUpdate">topicUpdate</a></li><li><a href="global.html#topicsFindByFK">topicsFindByFK</a></li><li><a href="global.html#topicsFindByQuery">topicsFindByQuery</a></li><li><a href="global.html#unauthorized">unauthorized</a></li><li><a href="global.html#update">update</a></li><li><a href="global.html#userCreate">userCreate</a></li><li><a href="global.html#userDestroy">userDestroy</a></li><li><a href="global.html#userFindByPk">userFindByPk</a></li><li><a href="global.html#userFindOne">userFindOne</a></li><li><a href="global.html#userUpdate">userUpdate</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Mon Sep 14 2026 23:01:37 GMT+0200 (heure d’été d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
