@@ -44,20 +44,19 @@ export default function LegalNotice() {
         <section>
           <h2>Hosting:</h2>
           <p>
-            The website is hosted by AWS, whose registered office is located at:{" "}
-            <address>
-              <a
-                className="norms-link"
-                href="https://www.google.com/maps/place/38+Av.+John+F.+Kennedy,+1316+Neudorf-Weimershof+Luxembourg/@49.630421,6.166487,713m/data=!3m2!1e3!4b1!4m6!3m5!1s0x47954f674478bbe1:0x21db64699942ac73!8m2!3d49.6304176!4d6.1690619!16s%2Fg%2F11pw3gzx5_?entry=ttu&g_ep=EgoyMDI2MDkwOS4wIKXMDSoASAFQAw%3D%3D"
-                aria-label="Google Maps link to the hosting address"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                38 Avenue John F. Kennedy, L-1855, Luxembourg
-              </a>
-            </address>
-            .
+            The website is hosted by AWS, whose registered office is located at:
           </p>
+          <address>
+            <a
+              className="norms-link"
+              href="https://www.google.com/maps/place/38+Av.+John+F.+Kennedy,+1316+Neudorf-Weimershof+Luxembourg/@49.630421,6.166487,713m/data=!3m2!1e3!4b1!4m6!3m5!1s0x47954f674478bbe1:0x21db64699942ac73!8m2!3d49.6304176!4d6.1690619!16s%2Fg%2F11pw3gzx5_?entry=ttu&g_ep=EgoyMDI2MDkwOS4wIKXMDSoASAFQAw%3D%3D"
+              aria-label="Google Maps link to the hosting address"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              38 Avenue John F. Kennedy, L-1855, Luxembourg
+            </a>
+          </address>
         </section>
         <section>
           <h2>Intellectual Property:</h2>

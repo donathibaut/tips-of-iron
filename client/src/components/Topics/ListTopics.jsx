@@ -26,7 +26,9 @@ export function ListTopics({ array, loading }) {
     array.map((topic) => {
       return (
         <li key={topic.id_topic}>
-          <Link to={`/topic/${topic.title}`}>{topic.title}</Link>
+          <Link to={`/topic/${encodeURIComponent(topic.title)}`}>
+            {topic.title}
+          </Link>
         </li>
       );
     })
@@ -45,7 +47,7 @@ export function ListTopics({ array, loading }) {
  */
 export function ListMyTopics({ array, loading }) {
   const [error, setError] = useState(null);
-  let [deleteTopicID, setDeleteTopicID] = useState(null);
+  const [deleteTopicID, setDeleteTopicID] = useState(null);
 
   if (error !== null) {
     console.error(error);
@@ -65,50 +67,54 @@ export function ListMyTopics({ array, loading }) {
   const userID = decodedToken ? decodedToken.id_user : null;
 
   return loading ? (
-    <tr className="loading">
-      <td>Loading...</td>
-    </tr>
+    <p className="loading">Loading...</p>
   ) : array[0] !== undefined ? (
     <>
-      {array.map((topic) => {
-        return (
-          <tr key={topic.id_topic} className="myTopics-tr">
-            <th scope="row">
-              <Link className="table-btn btn" to={`/topic/${topic.title}`}>
-                {topic.title}
-              </Link>
-            </th>
-            <td>
-              <Link
-                to={`/topic-editor/${topic.title}`}
-                className="table-btn btn"
-              >
-                Update
-              </Link>
-            </td>
-            <td>
-              <button
-                type="button"
-                className="btn table-delete"
-                data-bs-toggle="modal"
-                data-bs-target="#delete-modal"
-                onClick={() => {
-                  setDeleteTopicID(topic.id_topic);
-                }}
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
-        );
-      })}
+      <table className="myTopics-table">
+        <tbody className="myTopics-tbody">
+          {array.map((topic) => {
+            return (
+              <tr key={topic.id_topic} className="myTopics-tr">
+                <th scope="row">
+                  <Link
+                    className="table-btn btn"
+                    to={`/topic/${encodeURIComponent(topic.title)}`}
+                  >
+                    {topic.title}
+                  </Link>
+                </th>
+                <td>
+                  <Link
+                    to={`/topic-editor/${encodeURIComponent(topic.title)}`}
+                    className="table-btn btn"
+                  >
+                    Update
+                  </Link>
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    className="btn table-delete"
+                    data-bs-toggle="modal"
+                    data-bs-target="#delete-modal"
+                    onClick={() => {
+                      setDeleteTopicID(topic.id_topic);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
 
       {/* DELETE CONFIRMATION MODAL */}
       <div
         className="modal fade"
         id="delete-modal"
-        tabindex="-1"
-        aria-labelledby="modal-txt"
+        tabIndex="-1"
         aria-hidden="true"
       >
         <div className="modal-dialog">

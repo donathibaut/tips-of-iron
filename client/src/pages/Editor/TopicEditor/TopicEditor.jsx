@@ -108,36 +108,34 @@ export default function TopicEditor() {
               <label htmlFor="description">Global Description:</label>
               <textarea
                 key={topic?.description ?? "new-description"}
-                type="text"
                 id="description"
                 name="description"
                 rows="3"
                 autoComplete="off"
+                defaultValue={
+                  topic && topic.description ? topic.description : ""
+                }
                 onChange={(e) => {
                   setUserInput(e.target.value);
                 }}
                 required
-              >
-                {topic && topic.description ? topic.description : ""}
-              </textarea>
+              ></textarea>
 
               <div className="category-container">
                 <label htmlFor="category">Category:</label>
+
                 <select
                   name="category"
                   id="category"
                   required
                   autoComplete="off"
+                  defaultValue={
+                    topic && topic.id_category
+                      ? findCategory(topic.id_category, categories)
+                      : ""
+                  }
                 >
-                  {topic && topic.id_category ? (
-                    <option
-                      defaultValue={findCategory(topic.id_category, categories)}
-                    >
-                      {findCategory(topic.id_category, categories)}
-                    </option>
-                  ) : (
-                    <option value="">--Choose a category--</option>
-                  )}
+                  <option value="">--Choose a category--</option>
 
                   {/* Dynamic options */}
                   <SelectCategories

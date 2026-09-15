@@ -97,10 +97,10 @@ main {
   background-image: url(./assets/img/blueprint.png);
 }
 
-section {
+section,
+.section {
   display: flex;
   flex-direction: column;
-  gap: 20px;
 
   border-radius: 20px;
   padding: 30px;
@@ -125,7 +125,7 @@ ul {
 .btn:focus,
 .btn:hover {
   border: #ffffff 2px solid;
-  background-color: rgba(55, 94, 134, 80%);
+  background-color: rgba(55, 94, 134, 0.8);
 }
 
 .btn-group {

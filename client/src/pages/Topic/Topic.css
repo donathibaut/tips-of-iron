@@ -28,6 +28,7 @@ section[class*="section-"] {
 }
 
 .topic-section {
+  gap: 20px;
   background-color: unset;
 }
 

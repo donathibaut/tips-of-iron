@@ -52,9 +52,8 @@ export default function FieldsetSection({
         rows="5"
         required
         autoComplete="off"
-      >
-        {section.text}
-      </textarea>
+        defaultValue={section.text}
+      ></textarea>
 
       {/* Purely visual */}
       <p className="list-position" hidden>
