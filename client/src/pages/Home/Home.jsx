@@ -39,7 +39,7 @@ export default function Home() {
         </section>
 
         {/* Suggestion links */}
-        <section className="country-section suggestion-section">
+        <div className="section country-section suggestion-section">
           <button
             aria-label="Scroll left"
             className="arrow-btn btn"
@@ -52,7 +52,7 @@ export default function Home() {
             <li className="suggestion">
               <Link
                 className="suggestion__link"
-                to="/results?search=United Kingdom"
+                to="/results?search=United%20Kingdom"
               >
                 <img className="flag" src={UK} alt="United Kingdom flag" />
                 <p>United Kingdom</p>
@@ -67,7 +67,7 @@ export default function Home() {
             <li className="suggestion">
               <Link
                 className="suggestion__link"
-                to="/results?search=United States"
+                to="/results?search=United%20States"
               >
                 <img className="flag" src={USA} alt="USA flag" />
                 <p>United States</p>
@@ -94,7 +94,7 @@ export default function Home() {
             <li className="suggestion">
               <Link
                 className="suggestion__link"
-                to="/results?search=Soviet Union"
+                to="/results?search=Soviet%20Union"
               >
                 <img className="flag" src={USSR} alt="Soviet flag" />
                 <p>Soviet Union</p>
@@ -127,9 +127,9 @@ export default function Home() {
           >
             <i className="bi bi-arrow-right-square"></i>
           </button>
-        </section>
+        </div>
 
-        <section className="interface-section suggestion-section">
+        <div className="section interface-section suggestion-section">
           <button
             aria-label="Scroll left"
             className="arrow-btn btn"
@@ -146,7 +146,7 @@ export default function Home() {
               <Link to="/results?search=Decisions">Decisions</Link>
             </li>
             <li className="suggestion">
-              <Link to="/results?search=Intelligence Agency">
+              <Link to="/results?search=Intelligence%20Agency">
                 Intelligence Agency
               </Link>
             </li>
@@ -154,7 +154,7 @@ export default function Home() {
               <Link to="/results?search=Research">Research</Link>
             </li>
             <li className="suggestion">
-              <Link to="/results?search=International Market">
+              <Link to="/results?search=International%20Market">
                 International Market
               </Link>
             </li>
@@ -168,15 +168,13 @@ export default function Home() {
               <Link to="/results?search=Production">Production</Link>
             </li>
             <li className="suggestion">
-              <Link to="/results?search=Recruit & Deploy">
-                Recruit & Deploy
-              </Link>
+              <Link to="/results?search=Recruit">Recruit & Deploy</Link>
             </li>
             <li className="suggestion">
               <Link to="/results?search=Logistics">Logistics</Link>
             </li>
             <li className="suggestion">
-              <Link to="/results?search=Officer Corps">Officer Corps</Link>
+              <Link to="/results?search=Officer%20Corps">Officer Corps</Link>
             </li>
           </ul>
 
@@ -187,7 +185,7 @@ export default function Home() {
           >
             <i className="bi bi-arrow-right-square"></i>
           </button>
-        </section>
+        </div>
       </main>
     </>
   );

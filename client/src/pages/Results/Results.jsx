@@ -40,11 +40,11 @@ export default function Results() {
           <SearchBar></SearchBar>
         </section>
 
-        <section className="results-section">
+        <div className="section results-section">
           <ul className="results-list">
             <ListTopics array={array} loading={loading}></ListTopics>
           </ul>
-        </section>
+        </div>
       </main>
     </>
   );

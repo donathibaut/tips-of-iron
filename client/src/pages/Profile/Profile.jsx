@@ -51,7 +51,6 @@ export default function Profile() {
               className="modal fade"
               id="delete-modal"
               tabIndex="-1"
-              aria-labelledby="modal-txt"
               aria-hidden="true"
             >
               <div className="modal-dialog">
@@ -81,7 +80,7 @@ export default function Profile() {
                           name="password"
                           id="password"
                           required
-                          autoComplete="current-password"
+                          autoComplete="off"
                         />
                       </fieldset>
 

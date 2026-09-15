@@ -9,8 +9,13 @@
   width: 80px;
 }
 
-.home section {
-  background-color: rgba(55, 94, 134, 80%);
+.home section,
+.section {
+  background-color: rgba(55, 94, 134, 0.8);
+}
+
+.search-section {
+  gap: 20px;
 }
 
 .suggestion a {

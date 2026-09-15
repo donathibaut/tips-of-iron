@@ -22,7 +22,7 @@ export function ListCategories({ array, loading }) {
       return (
         <li key={category.id_category}>
           <Link
-            to={`/results/categories/${category.name}`}
+            to={`/results/categories/${encodeURIComponent(category.name)}`}
             onClick={togglerLink}
           >
             {category.name}

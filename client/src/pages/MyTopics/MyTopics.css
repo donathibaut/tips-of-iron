@@ -1,15 +1,7 @@
 /* CLASS */
 
-.myTopics-table {
-  width: 100%;
-}
-
-.myTopics-tbody {
-  border-top: 1px #ffffff solid;
-}
-
 .table-container {
-  background-color: rgba(77, 77, 77, 80%);
+  background-color: rgba(77, 77, 77, 0.8);
   border-radius: 20px;
   padding: 30px;
 }

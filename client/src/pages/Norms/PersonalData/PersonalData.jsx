@@ -19,11 +19,11 @@ export default function PersonalData() {
           <p className="collect-data">
             The only personal data collected on Tips of Iron is the information
             you voluntarily provide when creating your account:
-            <ul className="collect-data__ul">
-              <li>- email address</li>
-              <li>- nothing else</li>
-            </ul>
           </p>
+          <ul className="collect-data__ul">
+            <li>- email address</li>
+            <li>- nothing else</li>
+          </ul>
         </section>
         <section>
           <h2>Purpose:</h2>
@@ -38,20 +38,19 @@ export default function PersonalData() {
           <p>
             In accordance with applicable regulations, you have the right to
             access, correct, and delete your personal data by contacting the
-            administrator at:{" "}
-            <address>
-              <a
-                className="norms-link"
-                href="mailto:donathibaut02@gmail.com"
-                aria-label="Send an Email to the Publication Director"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                donathibaut02@gmail.com
-              </a>
-            </address>
-            .
+            administrator at:
           </p>
+          <address>
+            <a
+              className="norms-link"
+              href="mailto:donathibaut02@gmail.com"
+              aria-label="Send an Email to the Publication Director"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              donathibaut02@gmail.com
+            </a>
+          </address>
         </section>
       </main>
     </>

@@ -18,7 +18,7 @@
 
 .search-glass,
 #search-bar::placeholder {
-  color: rgba(0, 0, 0, 70%);
+  color: rgba(0, 0, 0, 0.7);
 }
 
 /* ID */

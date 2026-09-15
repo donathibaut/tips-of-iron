@@ -28,11 +28,7 @@ export default function MyTopics() {
           <SuccessMessage></SuccessMessage>
 
           <div className="table-container">
-            <table className="myTopics-table">
-              <tbody className="myTopics-tbody">
-                <ListMyTopics array={topics} loading={loading}></ListMyTopics>
-              </tbody>
-            </table>
+            <ListMyTopics array={topics} loading={loading}></ListMyTopics>
           </div>
         </section>
       </main>
