@@ -14,4 +14,5 @@
 
 .norms-theme section {
   background-color: rgba(55, 94, 134, 0.8);
+  gap: 0;
 }
