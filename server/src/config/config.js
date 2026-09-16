@@ -17,7 +17,7 @@ const sequelize = new Sequelize(
   process.env.USER_PASSWORD,
   {
     host: process.env.HOST,
-    port: parseInt(process.env.DB_PORT) || 3307,
+    port: parseInt(process.env.DB_PORT) || 3306,
     dialect: "mysql",
     logging: false,
     dialectOptions: isEnvProduction
