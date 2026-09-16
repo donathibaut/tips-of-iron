@@ -93,7 +93,7 @@ export default function Nav({ decodedToken }) {
                   </ul>
                 </div>
               ) : (
-                <ul>
+                <ul className="connect-ul">
                   <li>
                     <Link className="connect-link" to="/login">
                       Sign in
