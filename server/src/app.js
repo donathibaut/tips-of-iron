@@ -27,6 +27,8 @@ app.use(cors(corsSettings));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.get("/health", (req, res) => res.status(200).json({ status: "ok" }));
+
 // routes
 app.use("/api/login", authRoutes); // auth
 app.use("/api/user", userRoutes);
