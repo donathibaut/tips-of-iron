@@ -30,6 +30,8 @@ This project uses the following resources:
 
 4. .env.example:
 
+- NODE_ENV="production" (only for production test, if that's not your case, remove this key)
+
 - URL="url" - (public website URL)
 - PORT=port - (8888 -> our example with Docker config below)
 - DB_PORT=db_port - (port associated with the database)
