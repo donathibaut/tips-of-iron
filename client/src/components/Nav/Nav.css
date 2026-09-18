@@ -42,13 +42,13 @@ nav li {
 
 .navbar__list {
   display: flex;
-  gap: 20px;
+  gap: 5px;
 }
 
 /* RESPONSIVE */
 @media all and (min-width: 1440px) {
   .connect-ul {
-    padding-left: 10px;
+    padding-left: 5px;
 
     border-left: 1px white solid;
   }
@@ -59,9 +59,13 @@ nav li {
 
   .desktop-li__ul {
     display: flex;
-    gap: 20px;
 
-    padding-right: 10px;
+    padding-right: 5px;
+  }
+
+  .desktop-li__ul,
+  .navbar__list {
+    gap: 5px;
   }
 
   .navbar__list {

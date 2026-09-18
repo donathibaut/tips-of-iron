@@ -54,7 +54,7 @@ fieldset {
 }
 
 h1 {
-  font-size: 2em;
+  font-size: 1.5em;
   text-align: center;
   font-weight: 700;
 }
@@ -71,7 +71,7 @@ h1,
 
 h2 {
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 
 html {
@@ -97,7 +97,7 @@ main {
 
   min-height: 100vh;
   max-height: 100%;
-  padding: 20px;
+  padding: 20px 10px;
   background-image: url(./assets/img/blueprint.png);
 }
 
@@ -109,7 +109,6 @@ section,
   gap: 20px;
 
   border-radius: 20px;
-  padding: 30px;
 }
 
 ul {
@@ -137,7 +136,7 @@ ul {
 .btn-group {
   display: flex;
   justify-content: center;
-  gap: 60px;
+  gap: 30px;
 }
 
 .btn-section {
@@ -166,7 +165,7 @@ ul {
 
 .form-btn {
   width: fit-content;
-  padding: 10px 40px;
+  padding: 10px 30px;
   border-radius: 50px;
   border: 2px rgba(0, 0, 0, 0) solid;
 
@@ -198,6 +197,8 @@ ul {
 
 .search-section {
   gap: 10px;
+
+  padding: 20px;
 }
 
 .validate-btn {
@@ -208,5 +209,23 @@ ul {
 @media all and (min-width: 1440px) {
   main {
     padding: 20px 150px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  /* CLASS */
+
+  .btn-group {
+    gap: 60px;
+  }
+
+  .form-btn {
+    padding: 10px 40px;
   }
 }

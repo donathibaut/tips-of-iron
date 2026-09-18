@@ -18,7 +18,12 @@
 .delete-btn {
   text-decoration: underline;
   border-radius: 20px;
-  padding: 30px;
+}
+
+.delete-btn,
+.neutral-btn,
+.profile-h1 {
+  padding: 20px 30px;
 }
 
 .delete-btn:hover,
@@ -35,11 +40,19 @@
 .profile-h1 {
   background-color: rgba(77, 77, 77, 0.8);
   border-radius: 20px;
-  padding: 30px;
 }
 
 .neutral-btn:hover,
 .neutral-btn:focus {
   border-radius: 20px;
   background-color: rgba(77, 77, 77, 0.8);
+}
+
+/* RESPONSIVE */
+@media all and (min-width: 1440px) {
+  .delete-btn,
+  .neutral-btn,
+  .profile-h1 {
+    padding: 30px;
+  }
 }

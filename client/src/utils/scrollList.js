@@ -12,7 +12,7 @@
  */
 export default function scrollList(listClass, direction) {
   const list = document.querySelector(listClass);
-  const scollPx = 250;
+  const scollPx = 300;
   list.scrollBy({
     left: direction * scollPx,
     behavior: "smooth",

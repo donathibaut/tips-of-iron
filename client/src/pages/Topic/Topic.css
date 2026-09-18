@@ -2,13 +2,17 @@ section[class*="section-"] {
   border-radius: 0;
   border-top: 1px solid black;
   border-bottom: 1px solid black;
-  padding: 20px 100px;
+  padding: 20px 5px;
 }
 
 /* CLASS */
 
+.intro-section h1 {
+  margin-bottom: 10px;
+}
+
 .topic-theme {
-  gap: 10px;
+  gap: 20px;
 
   background-image: none;
   background-color: #dee9f4;
@@ -28,7 +32,7 @@ section[class*="section-"] {
 }
 
 .topic-section {
-  gap: 20px;
+  gap: 10px;
   background-color: unset;
 }
 
@@ -37,4 +41,15 @@ section[class*="section-"] {
 
   max-height: 200px;
   min-height: 50px;
+}
+
+/* RESPONSIVE */
+@media all and (min-width: 1440px) {
+  section[class*="section-"] {
+    padding: 20px 100px;
+  }
+
+  .topic-section {
+    gap: 20px;
+  }
 }
