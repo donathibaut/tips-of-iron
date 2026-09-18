@@ -3,7 +3,7 @@
 .update-form {
   background-color: rgba(77, 77, 77, 0.8);
   border-radius: 20px;
-  padding: 30px;
+  padding: 20px 30px;
 }
 
 .update-form input {
@@ -17,4 +17,11 @@
 
 .update-section .update-form {
   gap: 0;
+}
+
+/* RESPONSIVE */
+@media all and (min-width: 1440px) {
+  .update-form {
+    padding: 30px;
+  }
 }
