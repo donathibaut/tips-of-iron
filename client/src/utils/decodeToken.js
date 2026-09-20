@@ -10,11 +10,26 @@ import { jwtDecode } from "jwt-decode";
  * @description DECODE Base64 token
  */
 export default function decodeToken() {
-  const token = localStorage.getItem("token");
-  if (token) {
+  const localToken = localStorage.getItem("token");
+  if (!localToken) {
+    console.log("There is no token...");
+    return null;
+  }
+
+  if (localToken) {
     try {
-      return jwtDecode(token);
+      const token = jwtDecode(localToken);
+
+      // is token expired
+      if (token.exp && token.exp * 1000 < Date.now()) {
+        localStorage.removeItem("token");
+        console.log("EXPIRED TOKEN");
+        return null;
+      }
+
+      return token;
     } catch (e) {
+      localStorage.removeItem("token");
       console.error("Token Issue", e);
       return null;
     }
