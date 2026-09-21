@@ -67,6 +67,19 @@ export default function LegalNotice() {
             the game remain the exclusive property of their respective owners.
           </p>
         </section>
+        <section>
+          <h2>Special Thanks:</h2>
+          <p>
+            Blueprint background:
+            <a
+              href="https://pixabay.com/fr/users/decster1-25688242/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              By&nbsp;Decster1
+            </a>
+          </p>
+        </section>
       </main>
     </>
   );

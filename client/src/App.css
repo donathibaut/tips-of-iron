@@ -90,6 +90,10 @@ input {
   padding: 0;
 }
 
+label:has(span.label-span) {
+  line-height: 0.8rem;
+}
+
 main {
   display: flex;
   flex-direction: column;
@@ -177,6 +181,12 @@ ul {
 .form-btn:focus {
   border-radius: 50px;
   border: #ffffff 2px solid;
+}
+
+.label-span {
+  font-family: sans-serif;
+  font-style: italic;
+  font-size: 0.5rem;
 }
 
 .message-banner {
