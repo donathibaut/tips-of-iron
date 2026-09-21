@@ -58,7 +58,13 @@ export default function UserCreate() {
             </fieldset>
 
             <fieldset>
-              <label htmlFor="password">Password:</label>
+              <label htmlFor="password">
+                Password:
+                <br />
+                <span className="label-span">
+                  (Min. 8 characters: lowercase, UPPERCASE, number, !@#$%^)
+                </span>
+              </label>
               <input
                 type="password"
                 id="password"

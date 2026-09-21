@@ -113,7 +113,13 @@ export default function UserUpdate() {
               autoComplete="current-password"
             />
 
-            <label htmlFor="newPassword">New Password:</label>
+            <label htmlFor="newPassword">
+              New Password:
+              <br />
+              <span className="label-span">
+                (Min. 8 characters: lowercase, UPPERCASE, number, !@#$%^)
+              </span>
+            </label>
             <input
               type="password"
               id="newPassword"
