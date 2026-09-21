@@ -70,13 +70,13 @@ export default function LegalNotice() {
         <section>
           <h2>Special Thanks:</h2>
           <p>
-            Blueprint background-image:
+            Blueprint background:
             <a
               href="https://pixabay.com/fr/users/decster1-25688242/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              By Decster1
+              By&nbsp;Decster1
             </a>
           </p>
         </section>
